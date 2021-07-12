@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title data-bind="text :title">OctoBlock </title>
+
+    <meta charset="utf-8">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/tentacle-32x32.png') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='img/mask.svg') }}" color="#56BE37">
+    <link rel="mask-icon-theme" href="{{ url_for('static', filename='img/mask-theme.svg') }}" color="#56BE37">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='img/apple-touch-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='img/apple-touch-icon-144x144.png') }}">
+    <!--
+      full client library or all individual files, depending
+      on the server mode - should be the preferred variant
+    -->
+    {% assets "js_client" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+
+    <!--
+      full client library
+    -->
+    <script type="text/javascript" src="{{ url_for("static", filename="webassets/packed_client.js") }}"></script>
+
+    <!--
+      individual components (do not forget base!)
+      can add individualy any javascript file
+    -->
+    <!--
+    <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/connection.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/login/login.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/app/main.js") }}"></script>
+    -->
+    <script src="{{ url_for("static", filename="js/lib/jquery/jquery.min.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/lib/lodash.min.js") }}"></script>
+    >
+
+  </head>
+  <body>
+    <noscript>
+        <style type="text/css">
+            #page-container-main,
+            #page-container-loading {
+                display:none;
+            }
+        </style>
+        <div id="page-container-noscript">
+            <div class="wrapper">
+                <div class="outer">
+                    <div class="inner">
+                        <div class="content">
+                            <h1 class="text-error">{{ _('You don\'t seem to have JavaScript enabled') }}</h1>
+                            {{ _('OctoPrint\'s UI requires JavaScript to work. Please enable JavaScript and reload.') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+    {% if enableLoadingAnimation %}
+    <div id="page-container-loading" style="display: none" data-bind="visible: loading">
+        <div class="wrapper">
+            <div class="outer">
+                <div class="inner">
+                    <div class="content">
+                        <h1 id="page-container-loading-header">{{ _('Connecting to OctoPrint\'s server...') }}</h1>
+                        <i id="page-container-loading-spinner" class="fas fa-spinner fa-spin fa-4x"></i>
+                        <p id="page-container-loading-error" style="display: none"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!--Main container for the ui-->
+
+    <div class="page-container" id="page-container-main" {%if enableLoadingAnimation%}style="display: none"{% endif %} data-bind="visible: visible"}>
+      <div id="navbar" class="navbar navbar-static-top">
+          <div class="navbar-inner" data-bind="css: appearanceClasses">
+              <div class="container">
+                  <a class="brand" href="javascript:void(0)" data-bind="attr: {title: appearance.fullbrand}"><span data-bind="text: appearance.brand">OctoBlock</span></a>
+                  <div class="nav-collapse">
+                      <!-- Navbar -->
+                      <ul class="nav pull-right">
+                          {% for key in templates.navbar.order %}
+                              {% set data = templates.navbar.entries[key] %}
+                              {% if "custom_bindings" not in data or data["custom_bindings"] %}<!-- ko allowBindings: false -->{% endif %}
+                              <li id="{{ data._div }}"
+                                  {% if "data_bind" in data %}data-bind="{{ data.data_bind }}"{% endif %}
+                                  {% if "classes" in data %}class="{{ data.classes|join(' ') }}"{% endif %}
+                                  {% if "styles" in data %}style="{{ data.styles|join(', ') }}"{% endif %}
+                                      >
+                                  {% try "There was an error with the template {filename} at line number {lineno}: {exception}" %}{% include data.template ignore missing %}{% endtry %}
+                              </li>
+                              {% if "custom_bindings" not in data or data["custom_bindings"] %}<!-- /ko -->{% endif %}
+                          {% endfor %}
+                      </ul>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dialogs -->
+      {% include 'dialogs/settings.jinja2' %}
+      {% include 'dialogs/slicing.jinja2' %}
+      {% include 'dialogs/usersettings.jinja2' %}
+      {% include 'dialogs/wizard.jinja2' %}
+      {% include 'dialogs/about.jinja2' %}
+      {% include 'dialogs/files.jinja2' %}
+      {% include 'dialogs/temperature.jinja2' %}
+      {% include 'dialogs/timelapse.jinja2' %}
+
+      <!--Overlays-->
+      {% include 'overlays/offline.jinja2' %}
+      {% include 'overlays/reloadui.jinja2' %}
+      <!-- End of overlays -->
+
+      {% include 'stylesheets.jinja2' %}
+      {% include 'javascripts.jinja2' %}
+      <!-- Generic plugin template files -->
+      {% for key in templates.generic.order %}
+          {% set data = templates.generic.entries[key] %}
+          {% try "<!-- There was an error with the template {filename} at line number {lineno}: {exception} -->" %}{% include data.template ignore missing %}{% endtry %}
+      {% endfor %}
+      <!-- End of generic plugin template files -->
+    </div>
+
+
+
+  </body>
+</html>

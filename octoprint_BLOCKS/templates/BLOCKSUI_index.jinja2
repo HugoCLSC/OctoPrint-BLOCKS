@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      full client library or all individual files, depending
+      on the server mode - should be the preferred variant
+    -->
+    {% assets "js_client" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+
+    <!--
+      full client library
+    -->
+    <script type="text/javascript" src="{{ url_for("static", filename="webassets/packed_client.js") }}"></script>
+
+    <!--
+      individual components (do not forget base!)
+    -->
+    <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/<component>.js") }}"></script>
+    <!--Regardless of which way you use to include the library, you’ll also need
+        to make sure you included jQuery and lodash, because the library depends
+        on those to be available (as $ and _).
+      -->
+    <script src="{{ url_for("static", filename="js/lib/jquery/jquery.min.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/lib/lodash.min.js") }}"></script>

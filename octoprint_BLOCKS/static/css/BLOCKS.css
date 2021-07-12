@@ -1,0 +1,62 @@
+/*For Mobile*/
+/*
+@media screen and(max-width: 540px) {
+  .view {
+    width: 400px;
+  }
+}
+*/
+
+/*For Tablets*/
+/*
+@media screen and (min-width: 540px) and (max-width: 780px){
+  .view {
+    width: 600px;
+  }
+}
+/*Big Screens */
+/*
+@media (min-width: 980px){
+
+}
+*/
+
+/* With this @media, while i'm on desktop the navbar and the rest the page won't be on
+   top of eachother
+
+   Tudo o que eu quero para os ecrãs grandes tenho que por dentro deste @media
+*/
+/* Big Screens */
+@media (min-width: 980px){
+
+	.clearfix::after{
+		content:"";
+		clear: both;
+		widthdisplay: table;
+	}
+	body.BLOCKSUIfixedHeader{
+		margin-top: 50px;
+	}
+
+	.TopRow{
+		display: flex ;
+		align-items: stretch;
+
+	}
+
+	.BotRow{
+		display: flex ;
+		align-items: stretch;
+	}
+
+	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3 {
+		margin: 5px;
+		
+		position: static;
+		display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+	}
+
+}
