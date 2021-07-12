@@ -19,8 +19,6 @@ $(function() {
         // self.loginStateViewModel = parameters[0];
         self.settings = parameters[0];
 
-
-
         // TODO: Implement your plugin's view model here.
 
         //max column width
@@ -39,7 +37,7 @@ $(function() {
           //~~ Set names
 
           //Html can have mulitple classes so
-          $('#tabs').parent().addClass('BLOCKUImainTabs').wrap('<div class="BLOCKSUICol2></div>"');
+          $('#tabs').parent().addClass('BLOCKSMainTabs');
 
           //Adds a class name for the class="container octoprint-container BLOCKSUICol1"
           //On the side bar i add another class name
@@ -47,10 +45,7 @@ $(function() {
           $('#sidebar').addClass('BLOCKSUICol1');
 
           //adds another class name for the octoprint-container i can now calle it BLOCKSUIMainContainer
-          $('div.octoprint-container').addClass('BLOCKSUIMainContainer');
-
-
-
+          $('div.octoprint-container').addClass('BLOCKSMainContainer');
 
 
           // Load custom layout
@@ -59,11 +54,11 @@ $(function() {
           if (typeof OctoPrint.coreui.viewmodels.settingsViewModel.settings.plugins.consolidate_temp_control !== "undefined"){
               $('div.page-container').css({'min-width':''});
               $('div.footer').css({'padding-left':'','padding-right':''});
-              $('div.BLOCKSUIMainContainer > div:first').css({'margin-left':'','padding-right':''});
-              $('div.BLOCKSUIMainContainer').removeClass('row-fluid');
-              $('div.BLOCKUImainTabs').removeClass('span10');
-              $('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") > div > div.span6').unwrap();
-              $('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") > div.span6').children().unwrap();
+              $('div.BLOCKSMainContainer > div:first').css({'margin-left':'','padding-right':''});
+              //$('div.BLOCKSMainContainer').removeClass('row-fluid');
+              //$('div.BLOCKSMainTabs').removeClass('span10');
+              //$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") > div > div.span6').unwrap();
+              //$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") > div.span6').children().unwrap();
           }
 
 
@@ -118,7 +113,7 @@ $(function() {
           self.logToConsole('Updating layout');
 
           $('#sidebar').removeClass('span4');
-          $('div.BLOCKSmainTabs').removeClass('span8');
+        //  $('div.BLOCKSMainTabs').removeClass('span8');
 
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
@@ -163,7 +158,7 @@ $(function() {
         //-------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin){
-          var TempCols= [...settingsPlugin.rows()];
+  /*        var TempCols= [...settingsPlugin.rows()];
 
 
           // Remove empty right cols and bit of magic
@@ -183,27 +178,27 @@ $(function() {
           });
           cols.reverse();
           self.logToConsole('Building '+cols.length+ ' columns layouts:' + JSON.stringify(cols));
+*/
 
-
-          $('div.BLOCKSUIMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
+          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
 
           //add another row after the TopRow
           $('<div class= "row-fluid BotRow" ></div>').insertBefore('div.footer');
           //add an id to both rows
-          $('div.BLOCKSUIMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
-          $('div.BLOCKSUIMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
+          $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
+          $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
 
 
           //Now i need to build all the collumns I NEED 3
 
-          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol1" id="BTC1">1</div>');
-          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol2" id="BTC2">2</div>');
-          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol3" id="BTC3">3</div>');
+          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol1" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol2" id="BTC2"></div>');
+          $('#BLOCKSRowTop').append('<div class="col accordion span4 BLOCKCol3" id="BTC3"></div>');
 
 
-          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol1" id="BBC1">1</div>');
-          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol2" id="BBC2">2</div>');
-          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol3" id="BBC3">3</div>');
+          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol1" id="BBC1"></div>');
+          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol2" id="BBC2"></div>');
+          $('#BLOCKSRowBot').append('<div class="col accordion span4 BLOCKCol3" id="BBC3"></div>');
 
           //grid that i made, it's a  3x3 matrix
           //Clone the state_wrapper and places it on my grid [1,3]
@@ -223,7 +218,7 @@ $(function() {
 
           $('#sidebar').remove();
           $('div.tabbable').removeClass('span8');
-          $('div.TopRow > div.tabbable').remove();
+          $('div.TopRow > div.BLOCKSMainTabs').remove();
 
         }
 
@@ -233,11 +228,11 @@ $(function() {
         self.set_fluidLayout = function(enabled){
             if (enabled){
                 $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
-                $('div.BLOCKSUIMainContainer').removeClass("container").addClass("container-fluid");
+                $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
 
             }else{
                 $('#navbar > div.navbar-inner > div:first').removeClass("container-fluid").addClass("container");
-                $('div.BLOCKSUIMainContainer').removeClass("container-fluid").addClass("container");
+                $('div.BLOCKSMainContainer').removeClass("container-fluid").addClass("container");
 
             }
         }
@@ -262,8 +257,8 @@ $(function() {
         construct: BlocksViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         dependencies: [
-                      "loginStateViewModel",
                       "settingsViewModel",
+                      "loginStateViewModel",
                       "printerProfilesViewModel",
                       "accessViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
