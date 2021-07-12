@@ -29,18 +29,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_after_startup(self):
         self._logger.info("Blocks theme initialized...")
-    """
-    ##~~ octoprint.ui.web.templatetypes hook
 
-        ##I can now implement my own templatetypes to be used
-
-    def add_templatetype(self, current_order, current_rules, *args, **kwargs):
-        return[
-            ("LeftCol", dict(), dict(template=lambda x: x + "_LeftCol.jinja2")),
-            ("CenterCol", dict(), dict(template=lambda x: x + "_CenterCol.jinja2")),
-            ("RightCol", dict(), dict(tempalte=lambda x: x + "_RightCol.jinja2"))
-        ]
-    """
 
     ##~~ SettingsPlugin mixin
 
@@ -103,6 +92,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         return dict(
             js= ["js/BLOCKS.js"],
+            img= ["img/Blocks_Logo.png"],
             css= ["css/BLOCKS.css"],
             less= ["less/BLOCKS.less"]
         )
@@ -124,31 +114,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         return[
             dict(type="settings", custom_bindings=False)
-            #dict(type="BTemplate", template="ui_BTemplate.jinja2", custom_bindings=True),
-            #dict(type="generic", template="customcssBLOCKS.jinja2", custom_bindings=False)
+        
         ]
-    """
-    ##~~ UiPlugin mixin
 
-    def will_handle_ui(self,request):
-        #returns true if the User Agent sent by the client matches one of
-        #the User Agent strings known for any of the platforms "windows",
-        #"linux", etc
-        # Can make a different ui for different platforms.
-        #Returns TRUE if the request.user_agent.platform finds the platforms.
-
-        #Tenho de encontrar uma forma de dar para todas as plataformas
-        #tanto como para computadores com windows, osx, linux ,etc..
-        #Como para smartphones.
-        return request.user_agent and \
-               request.user_agent.platform in ("windows","android")
-
-    def on_ui_render(self, now, request, render_kwargs):
-        #Tells the system what template to render and use.
-        from flask import make_response, render_template
-        return make_response(render_template("ui_BTemplate.jinja2",**render_kwargs))
-
-    """
     ##~~ Softwareupdate hook
 
     def get_update_information(self):
