@@ -50,20 +50,28 @@
 		flex-wrap:nowrap;
 
 	}
-/*
-	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3 {
+/*	#control_wrapper > .accordion-heading{
 
 		border: 1px solid #e5e5e5;
-		border-radius: 4px;
-		position: static;
-		display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    	align-items: stretch;
-		float:left;
+	*/}
+	#control_wrapper > .accordion-heading > .accordion-toggle {
+
+		display: inline-block;
+		cursor: pointer;
+		padding:8px 15px;
 
 	}
-	*/
+	#control_wrapper > .accordion-heading > .a {
+
+		color: #333;
+
+	}
+	#control > .accordion-inner >.accordion-body{
+		position: relative;
+		overflow: hidden;
+		transition: height .35s ease;
+	}
+
 
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
 

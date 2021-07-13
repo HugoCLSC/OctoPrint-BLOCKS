@@ -92,7 +92,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         return dict(
             js= ["js/BLOCKS.js","js/jqyery-ui.min.js"],
-            img= ["img/Blocks_Logo.png"],
+            img= ["img/Blocks_Logo.png","img/settings.png"],
             css= ["css/BLOCKS.css","css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
         )

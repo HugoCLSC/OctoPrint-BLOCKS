@@ -50,24 +50,6 @@ $(function() {
           // Load custom layout
           self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
 
-          //Make each square draggable
-/*
-          $(function(){
-            $('sortable').sortable({
-                tolerance: 'touch',
-                drop: function() {
-                  alert('delete');
-                }
-            });
-            $('#BC1').sortable();
-            $('#BC2').sortable();
-            $('#BC3').sortable();
-            $('#BC4').sortable();
-            $('#BC5').sortable();
-            $('#BC6').sortable();
-          });
-*/
-
           // Refresh all
           window.setTimeout(function() {
               $(window).trigger('resize');
@@ -121,22 +103,18 @@ $(function() {
         //-------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin){
-          //What i want to do here is just create a matrix 2x3
-
-          //$('div.BLOCKSMainContainer  > div.row').replaceWith("<ul class='row-fluid TopRow'></ul>");
+          //What i want to do here is just create a matrix 3x3
           $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
 
           //add another row after the TopRow
-
           $('<div class= "row-fluid BotRow" ></div>').insertBefore('div.footer');
+
           //add an id to both rows
-          //$('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
 
 
-          //Now i need to build all the collumns I NEED 3
-
+          //Now i need to build all the collumns I NEED already with an ID
           $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol1" id="BTC1"></div>');
           $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol2" id="BTC2"></div>');
           $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol3" id="BTC3"></div>');
@@ -144,22 +122,28 @@ $(function() {
           $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol2" id="BBC2"></div>');
           $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol3" id="BBC3"></div>');
 
-          //grid that i made, it's a  3x3 matrix
-          //In these set of instruction i set what each container on my grid has
 
+          //In these set of instructions i set what each container on my grid has
           $('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BTC1'));
           $('#state_wrapper').appendTo($('#BTC2'));
-          $('#control').appendTo($('#BTC3'));
+          // ~~The function where i create the Controls wrapper.
+          self.set_ControlWrapper(settingsPlugin);
           $('#connection_wrapper').appendTo($('#BBC1'));
           $('div.tabbable.span8').appendTo($('#BBC2'));
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
           $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BBC1'));
           $('#files_wrapper').appendTo($('#BBC3'));
 
-
+          // I don't need the sidebar anymore
           $('#sidebar').remove();
+
           $('div.tabbable').removeClass('span8');
+
+          // The tabs does not need the Control tab because the Control module is
+          // on my grid
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
+
+          // Neither do i need the old tabbable
           $('.TopRow > div.BLOCKSMainTabs').remove();
 
         }
@@ -180,7 +164,31 @@ $(function() {
         }
         // ------------------------------------------------------------------------------------------------------------------------
 
+        self.set_ControlWrapper = function(settingsPlugin){
 
+          // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
+          $('#control').wrap('<div id="control_wrapper" class="accordion-group" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
+
+          // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
+          $('#control').removeClass('tab-pane').addClass('accordion-body');
+
+          // This is for the heading, also gives it  the possibility to collapse.
+          $('<a class="accordion-toggle" data-toggle="collapse" data-target="#control"></a>').insertBefore('#control');
+
+          // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
+          $('#control').wrapInner('<div class="accordion-inner"></div>');
+
+          // Needed to wrap my header
+          $('#control_wrapper > a').wrap('<div class="accordion-heading"></div>');
+
+          // Adds the gamepad icon in black and also adds the text "Controls" to the header
+          $('#control_wrapper > div.accordion-heading > a').append('<i class=" fas icon-black fa-gamepad"></i>');
+          $('#control_wrapper > div.accordion-heading > a').append(' Controls ');
+
+          // Finally i place my new control wrapper in my grid
+          $('#control_wrapper').appendTo($('#BTC3'));
+
+        }
 
 
 
