@@ -91,9 +91,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##stores its static assets
 
         return dict(
-            js= ["js/BLOCKS.js"],
+            js= ["js/BLOCKS.js","js/jqyery-ui.min.js"],
             img= ["img/Blocks_Logo.png"],
-            css= ["css/BLOCKS.css"],
+            css= ["css/BLOCKS.css","css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
         )
 
@@ -114,7 +114,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         return[
             dict(type="settings", custom_bindings=False)
-        
+
         ]
 
     ##~~ Softwareupdate hook
