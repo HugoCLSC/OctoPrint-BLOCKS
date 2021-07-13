@@ -40,13 +40,15 @@
 
 	.TopRow{
 		display: flex ;
-		align-items: stretch;
-
+		align-items: flex-start;
+		flex-wrap:nowrap;
 	}
 
 	.BotRow{
 		display: flex ;
-		align-items: stretch;
+		align-items: flex-start;
+		flex-wrap:nowrap;
+
 	}
 /*
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3 {
@@ -62,19 +64,19 @@
 
 	}
 	*/
-	#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
- #sortable div { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
- #sortable div span4 { position: absolute; margin-left: -1.3em; }
-	.BLOCKC1, .BLOCKC2, .BLOCKC3,.BLOCKC4,.BLOCKC5,.BLOCKC6  {
+
+	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
 
 		border: 1px solid #e5e5e5;
 		border-radius: 4px;
 		position: static;
 		display: flex;
-    flex-direction: column;
+/*    flex-direction: column;*/
+		flex-basis: 100%;
     justify-content: flex-start;
-    	align-items: stretch;
-		float:left;
+    align-items: flex-start;
+
+
 
 	}
 	#navbar .navbar-inner .brand span{

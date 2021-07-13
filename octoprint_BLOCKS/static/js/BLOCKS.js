@@ -137,54 +137,29 @@ $(function() {
 
           //Now i need to build all the collumns I NEED 3
 
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol1 " id="BTC1"></div>');
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol2 " id="BTC2"></div>');
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol3 " id="BTC3"></div>');
-
-
+          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol1" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol2" id="BTC2"></div>');
+          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol3" id="BTC3"></div>');
           $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol1" id="BBC1"></div>');
           $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol2" id="BBC2"></div>');
           $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol3" id="BBC3"></div>');
-          /*
-          $('#sortable').append('<div class="col span4 BLOCKC1 " id="BC1"></div>');
-          $('#sortable').append('<div class="col span4 BLOCKC2 " id="BC2"></div>');
-          $('#sortable').append('<div class="col span4 BLOCKC3 " id="BC3"></div>');
-          $('#sortable').append('<div class="col span4 BLOCKC4 " id="BC4"></div>');
-          $('#sortable').append('<div class="col span4 BLOCKC5 " id="BC5"></div>');
-          $('#sortable').append('<div class="col span4 BLOCKC6 " id="BC6"></div>');
-          */
+
           //grid that i made, it's a  3x3 matrix
-          //Clone the state_wrapper and places it on my grid [1,3]
-        //  $('#state_wrapper').appendTo($('#BTC1'));
-          $('#state_wrapper').appendTo($('#BTC1'));
+          //In these set of instruction i set what each container on my grid has
 
-          //Clone tabs
-          //$('div.tabbable.span8').appendTo($('#BTC2'));
-          $('div.tabbable.span8').appendTo($('#BTC2'));
-
-          //Clones the connection_wrapper and places it in my grid [1,1]
-
-//          $('#connection_wrapper').appendTo($('#BTC3'));
-          $('#connection_wrapper').appendTo($('#BTC3'));
-
-          //Clone the files_wrapper  [1,2]
-      //    $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC3'));
-          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC3'));
-
-//          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC3'));
-          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC3'));
-
-          // clone sidebar_plugin_action_command_notification_wrapper
-          // Eu adiconei isto aqui porque no UICuatumizer também têm mas eu tenho que ver isso porque pode não estar a fazer nada.)
-          //$('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BBC1'));
-          $('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BBC1'));
-
-          //Clones the files_wrapper and clones it to the node with the id of "BBC3"
-          //$('#files_wrapper').appendTo($('#BBC3'));
+          $('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BTC1'));
+          $('#state_wrapper').appendTo($('#BTC2'));
+          $('#control').appendTo($('#BTC3'));
+          $('#connection_wrapper').appendTo($('#BBC1'));
+          $('div.tabbable.span8').appendTo($('#BBC2'));
+          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
+          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BBC1'));
           $('#files_wrapper').appendTo($('#BBC3'));
+
 
           $('#sidebar').remove();
           $('div.tabbable').removeClass('span8');
+          $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
           $('.TopRow > div.BLOCKSMainTabs').remove();
 
         }
