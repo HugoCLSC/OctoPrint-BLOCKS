@@ -42,10 +42,12 @@
 		display: flex ;
 		align-items: flex-start;
 		flex-wrap:nowrap;
+
 	}
 
 	.BotRow{
 		display: flex ;
+		margin-top: 10px;
 		align-items: flex-start;
 		flex-wrap:nowrap;
 
@@ -75,7 +77,7 @@
 
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
 
-		border: 1px solid #e5e5e5;
+/*		border: 1px solid #e5e5e5;*/
 		border-radius: 4px;
 		position: static;
 		display: flex;
@@ -90,6 +92,12 @@
 	#navbar .navbar-inner .brand span{
 		background-image: url(../img/Blocks_Logo.png);
 		background-size: 100%;
+	}
+
+	#tabs{
+		border-radius: 4px;
+		border: 1px solid #e5e5e5;
+		
 	}
 	#temperature-graph{
 		background-image: url(../img/Blocks_Logo.png);

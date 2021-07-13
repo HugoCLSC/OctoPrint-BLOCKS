@@ -15,13 +15,9 @@ $(function() {
         self.debug = false;
 
         // assign the injected parameters, e.g.:
-        // self.loginStateViewModel = parameters[0];
         self.settings = parameters[0];
-        self.connection = parameters[0];
         // TODO: Implement your plugin's view model here.
 
-        //max column width
-        self.maxCWidth = 12;
         // Quick debug
         self.logToConsole = function(msg){
             if (!self.debug){
@@ -33,17 +29,12 @@ $(function() {
         }
         //~~----------------------------------------------------
         self.onAllBound = function(){
-          //~~ Set names
 
-          //Html can have mulitple classes so
+          //Html can have mulitple classes
           $('#tabs').parent().addClass('BLOCKSMainTabs');
 
-          //Adds a class name for the class="container octoprint-container BLOCKSUICol1"
-          //On the side bar i add another class name
 
-          $('#sidebar').addClass('BLOCKSUICol1');
-
-          //adds another class name for the octoprint-container i can now calle it BLOCKSUIMainContainer
+          //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
 
 
@@ -64,14 +55,11 @@ $(function() {
 
           self.logToConsole('Updating layout');
 
-          $('#sidebar').removeClass('span4');
-
-
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
           self.set_fluidLayout(settingsPlugin.fluidLayout());
 
-          self.set_hideGraphBackground(settingsPlugin.hideGraphBackground());
+          self.set_blocksFooterInfo(settingsPlugin.blocksFooterInfo());
           //Builds the main layout
           self.set_mainLayout(settingsPlugin);
 
@@ -79,7 +67,8 @@ $(function() {
 
 
         //---------------------------------------------------
-        self.set_fixedHeader = function(enable){
+        // Took from UICustumizer
+        self.set_fixedHeader = function(enable) {
           if(enable){
             $('body').addClass('BLOCKSUIfixedHeader');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
@@ -91,18 +80,22 @@ $(function() {
           }
         }
 
-        //--------------------------------------------------
-        self.set_hideGraphBackground = function(enable){
+        //-------------------------------------------------
+        self.set_fixedFooter = function(enable) {
           if(enable){
-            $('#temperature-graph').addClass('BLOCKSnoBackground');
-          }else{
-            $('#temperature-graph').removeClass('BLOCKSUInoBackground');
+
+          }
+        }
+        //------------------------------------------------
+        self.set_blocksFooterInfo = function(enable) {
+          if(enable){
+            $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" target="_blank" rel="noreferrer noopener"> BLOCKS </a></li>');
           }
         }
 
         //-------------------------------------------------
         // In this function where i can change the layout of the main container
-        self.set_mainLayout = function(settingsPlugin){
+        self.set_mainLayout = function(settingsPlugin) {
           //What i want to do here is just create a matrix 3x3
           $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
 
@@ -151,6 +144,7 @@ $(function() {
 
         //------------------------------------------------------------
         // Fix fluid layout
+        // Took from UICustomizer
         self.set_fluidLayout = function(enabled){
             if (enabled){
                 $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
@@ -193,9 +187,6 @@ $(function() {
 
 
 
-
-
-
       }
 
 
@@ -206,7 +197,7 @@ $(function() {
     OCTOPRINT_VIEWMODELS.push({
         construct: BlocksViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
-        dependencies: ["settingsViewModel","connectionViewModel"],
+        dependencies: ["settingsViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: []
     });

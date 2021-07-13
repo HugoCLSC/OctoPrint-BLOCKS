@@ -45,29 +45,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def get_settings_defaults(self):
         return {
             # put your plugin's default settings here
-            "rows" : [
-                {
-                    "#sidebar_plugin_firmware_check_wrapper": True,
-                    "#files_wrapper": True,
-                    "#connection_wrapper": True
 
-                },
-
-                {
-                    "div.BLOCKSUImainTabs": True
-                },
-                {
-                    "#state_wrapper": True,
-                    "#connection_wrapper": True,
-                    "#sidebar_plugin_action_command_notification_wrapper": True
-                }
-
-            ],
-            "widths" : [3,6,3],
             "fluidLayout" : True,
 
             "fixedHeader" : True,
-            "hideGraphBackground" : True
+
+            "blocksFooterInfo" : True
         }
 
 
@@ -114,7 +97,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         return[
             dict(type="settings", custom_bindings=False)
-
         ]
 
     ##~~ Softwareupdate hook
