@@ -45,9 +45,10 @@
 		margin-top: 50px;
 	}
 	.BLOCKSMainContainer{
-		padding-right: 20px;
-		padding-left:20px;
+		padding-right: 10px;
+		padding-left: 10px;
 	}
+
 
 	.TopRow{
 		display: flex ;
@@ -81,7 +82,22 @@
     padding: 8px 15px;
     display: flex;
 	}
-
+	#temp_wrapper > .container-fluid.heading > a.container-fluid {
+		display: inline-block;
+		padding: 8px 15px;
+	}
+	#temp_wrapper > .container-fluid.heading {
+		border-bottom: 1px solid #e5e5e5;
+		position: relative;
+	}
+	#temp_wrapper {
+		border: 1px solid #e5e5e5;
+		border-radius: 4px;
+	}
+	#temp {
+		padding: 8px 15px;
+		display: flex;
+	}
 	#state_wrapper > .container-fluid.heading > a.container-fluid {
     display: inline-block;
     padding: 8px 15px;
@@ -157,13 +173,9 @@
 		border-radius: 4px;
 		position: static;
 		display: flex;
-/*    flex-direction: column;*/
 		flex-basis: 100%;
     justify-content: flex-start;
     align-items: flex-start;
-
-
-
 	}
 	#navbar .navbar-inner .brand span{
 		background-image: url(../img/Blocks_Logo.png);
@@ -175,12 +187,17 @@
 		border: 1px solid #e5e5e5;
 
 	}
+	.table th, .table td {
+    padding: 4px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+	}
 	#temperature-graph{
 		background-image: url(../img/Blocks_Logo.png);
 		background-position: center;
-
 		background-size: 50%;
-
 	}
 
 }

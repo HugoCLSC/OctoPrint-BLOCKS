@@ -48,7 +48,11 @@ $(function() {
 
         }
         //                    onAllBound END
+        //---------------------------------------------------
+        self.onEventConnected = function() {
 
+        //  OctoPrint.coreui.viewmodels.connectionViewModel.openOrCloseOnStateChange();
+        }
 
         // --------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
@@ -123,12 +127,13 @@ $(function() {
 
 
           //In these set of instructions i set what each container on my grid has
-          $('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BTC1'));
+          //$('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BBC1'));
           $('#state_wrapper').appendTo($('#BTC2'));
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
-          $('#connection_wrapper').appendTo($('#BBC1'));
+          $('#connection_wrapper').appendTo($('#BTC1'));
           $('div.tabbable.span8').appendTo($('#BBC2'));
+          self.set_TemperatureWrapper(settingsPlugin);
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
           $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BBC1'));
           $('#files_wrapper').appendTo($('#BBC3'));
@@ -141,7 +146,7 @@ $(function() {
           // The tabs does not need the Control tab because the Control module is
           // on my grid
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
-
+          $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
           $('.TopRow > div.BLOCKSMainTabs').remove();
 
@@ -190,12 +195,32 @@ $(function() {
 
         }
 
+        self.set_TemperatureWrapper = function(settingsPlugin) {
+          $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)() && visible()"></div>');
+          
+          $('#temp').removeClass('tab-pane').addClass('body');
+
+          $('<a class="container-fluid" ></a>').insertBefore("#temp");
+
+          $('#temp').wrapInner('<div class="container-fluid accordion-inner"></div>');
+          //get the temperature graph in there
+          //$('#temperature-graph').appendTo($('#temp > div.container-fluid > div.row-fluid '));
+
+          $('#temp_wrapper > a').wrap('<div class="container-fluid heading"></div>');
+          $('#temp_wrapper > div > a').append('<i class="fas icon-black fa-thermometer-quarter"></i>');
+          $('#temp_wrapper > div > a').append(' Temperature ');
+
+          $('#temp_wrapper').appendTo($('#BBC1'));
+        }
+
+        //I don't want my elements to be collapsible
         self.set_removeCollapsible = function(enable){
           if(enable){
 
-
-
             $('#control_wrapper > div ').each( function() {
+              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
+            });
+            $('#temp_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
             $('#state_wrapper > div ').each( function() {
@@ -224,10 +249,14 @@ $(function() {
             $('#files').removeClass('in').removeClass('collapse').addClass('container-fluid body');
             $('#files_wrapper > div.heading > a').removeAttr('data-toggle');
 
+            $('#connection_wrapper > div.heading > a').removeAttr('data-target').removeAttr('data-test-id');
+            $('#connection > div.accordion-inner').removeAttr('data-target').removeAttr('data-test-id');
+
           }else{
 
           }
         }
+
 
 
       }
