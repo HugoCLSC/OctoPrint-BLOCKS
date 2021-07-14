@@ -176,7 +176,7 @@ $(function() {
           $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
 
           // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
-          $('#control').wrapInner('<div class="container-fluid"></div>');
+          $('#control').wrapInner('<div class="container-fluid accordion-inner"></div>');
 
           // Needed to wrap my header
           $('#control_wrapper > a').wrap('<div class="container-fluid heading"></div>');
