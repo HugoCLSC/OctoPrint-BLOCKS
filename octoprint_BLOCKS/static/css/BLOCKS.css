@@ -34,14 +34,26 @@
 		clear: both;
 		widthdisplay: table;
 	}
+	/* i really don0t need this container to have padding*/
+	.container-fluid {
+	     padding-right: 0px;
+	     padding-left: 0px;
+	    *zoom: 1;
+	}
+
 	body.BLOCKSUIfixedHeader{
 		margin-top: 50px;
+	}
+	.BLOCKSMainContainer{
+		padding-right: 20px;
+		padding-left:20px;
 	}
 
 	.TopRow{
 		display: flex ;
 		align-items: flex-start;
 		flex-wrap:nowrap;
+
 
 	}
 
@@ -52,28 +64,92 @@
 		flex-wrap:nowrap;
 
 	}
-/*	#control_wrapper > .accordion-heading{
 
-		border: 1px solid #e5e5e5;
-	*/}
-	#control_wrapper > .accordion-heading > .accordion-toggle {
-
-		display: inline-block;
-		cursor: pointer;
-		padding:8px 15px;
-
+	#control_wrapper > .container-fluid.heading > a.container-fluid {
+    display: inline-block;
+    padding: 8px 15px;
 	}
-	#control_wrapper > .accordion-heading > .a {
-
-		color: #333;
-
+	#control_wrapper > .container-fluid.heading {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
 	}
-	#control > .accordion-inner >.accordion-body{
-		position: relative;
-		overflow: hidden;
-		transition: height .35s ease;
+	#control_wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+	}
+	#control {
+    padding: 8px 15px;
+    display: flex;
 	}
 
+	#state_wrapper > .container-fluid.heading > a.container-fluid {
+    display: inline-block;
+    padding: 8px 15px;
+	}
+	#state_wrapper > .container-fluid.heading {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+	}
+	#state_wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+	}
+	#state {
+    padding: 8px 15px;
+    display: flex;
+		flex-direction: column;
+	}
+	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
+    display: inline-block;
+    padding: 8px 15px;
+	}
+	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+	}
+	#sidebar_plugin_action_command_notification_wrapper{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+	}
+	#sidebar_plugin_action_command_notification{
+    padding: 8px 15px;
+    display: flex;
+		flex-direction: column;
+	}
+	#connection_wrapper > .container-fluid.heading > a.container-fluid {
+    display: inline-block;
+    padding: 8px 15px;
+	}
+	#connection_wrapper > .container-fluid.heading {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+	}
+	#connection_wrapper{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+	}
+	#connection{
+    padding: 8px 15px;
+    display: flex;
+		flex-direction: column;
+	}
+	#files_wrapper > .container-fluid.heading > a.container-fluid {
+    display: inline-block;
+    padding: 8px 15px;
+	}
+	#files_wrapper > .container-fluid.heading {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+	}
+	#files_wrapper{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+	}
+	#files{
+    padding: 8px 15px;
+    display: flex;
+		flex-direction: column;
+	}
 
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
 
@@ -97,7 +173,7 @@
 	#tabs{
 		border-radius: 4px;
 		border: 1px solid #e5e5e5;
-		
+
 	}
 	#temperature-graph{
 		background-image: url(../img/Blocks_Logo.png);

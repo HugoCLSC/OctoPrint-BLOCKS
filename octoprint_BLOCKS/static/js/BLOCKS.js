@@ -63,6 +63,7 @@ $(function() {
           //Builds the main layout
           self.set_mainLayout(settingsPlugin);
 
+          self.set_removeCollapsible(settingsPlugin.removeCollapsible());
         }
 
 
@@ -97,6 +98,11 @@ $(function() {
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
           //What i want to do here is just create a matrix 3x3
+
+
+
+
+
           $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
 
           //add another row after the TopRow
@@ -161,30 +167,67 @@ $(function() {
         self.set_ControlWrapper = function(settingsPlugin){
 
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
-          $('#control').wrap('<div id="control_wrapper" class="accordion-group" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
+          $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
 
           // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
-          $('#control').removeClass('tab-pane').addClass('accordion-body');
+          $('#control').removeClass('tab-pane').addClass('body');
 
           // This is for the heading, also gives it  the possibility to collapse.
-          $('<a class="accordion-toggle" data-toggle="collapse" data-target="#control"></a>').insertBefore('#control');
+          $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
 
           // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
-          $('#control').wrapInner('<div class="accordion-inner"></div>');
+          $('#control').wrapInner('<div class="container-fluid"></div>');
 
           // Needed to wrap my header
-          $('#control_wrapper > a').wrap('<div class="accordion-heading"></div>');
+          $('#control_wrapper > a').wrap('<div class="container-fluid heading"></div>');
 
           // Adds the gamepad icon in black and also adds the text "Controls" to the header
-          $('#control_wrapper > div.accordion-heading > a').append('<i class=" fas icon-black fa-gamepad"></i>');
-          $('#control_wrapper > div.accordion-heading > a').append(' Controls ');
+          $('#control_wrapper > div > a').append('<i class=" fas icon-black fa-gamepad"></i>');
+          $('#control_wrapper > div > a').append(' Controls ');
 
           // Finally i place my new control wrapper in my grid
           $('#control_wrapper').appendTo($('#BTC3'));
 
         }
 
+        self.set_removeCollapsible = function(enable){
+          if(enable){
 
+
+
+            $('#control_wrapper > div ').each( function() {
+              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
+            });
+            $('#state_wrapper > div ').each( function() {
+              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
+            });
+            $('#sidebar_plugin_action_command_notification_wrapper > div ').each( function() {
+              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
+            });
+            $('#connection_wrapper > div ').each( function() {
+              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
+            });
+            $('div.col.span4 > div').removeClass('accordion-group').addClass('container-fluid');
+            $('div.col.span4 > div > div').removeClass('accordion-heading').removeClass('accordion-body');
+            $('div.col.span4 > div > div > a').parent().addClass('container-fluid heading');
+            $('div.col.span4 > div > div > a').removeClass('accordion-toggle').addClass('container-fluid heading');
+
+            $('#state').removeClass('in').removeClass('collapse').addClass('container-fluid body');
+            $('#state_wrapper > div.heading > a').removeAttr('data-toggle');
+
+            $('#sidebar_plugin_action_command_notification').removeClass('in').removeClass('collapse').addClass('container-fluid body');
+            $('#sidebar_plugin_action_command_notification_wrapper > div.heading > a ').removeAttr('data-toggle');
+
+            $('#connection').removeClass('in').removeClass('collapse').addClass('container-fluid body');
+            $('#connection_wrapper > div.heading > a').removeAttr('data-toggle');
+
+            $('#files').removeClass('in').removeClass('collapse').addClass('container-fluid body');
+            $('#files_wrapper > div.heading > a').removeAttr('data-toggle');
+
+          }else{
+
+          }
+        }
 
 
       }

@@ -50,7 +50,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             "fixedHeader" : True,
 
-            "blocksFooterInfo" : True
+            "blocksFooterInfo" : True,
+
+            "removeCollapsible" : True
+
         }
 
 
