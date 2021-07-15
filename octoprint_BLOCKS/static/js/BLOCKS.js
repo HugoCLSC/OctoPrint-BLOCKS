@@ -51,7 +51,13 @@ $(function() {
         //---------------------------------------------------
         self.onEventConnected = function() {
 
-        //  OctoPrint.coreui.viewmodels.connectionViewModel.openOrCloseOnStateChange();
+
+
+        }
+        // --------------------------------------------------
+        self.onStartupComplete = function() {
+
+
         }
 
         // --------------------------------------------------
@@ -102,15 +108,10 @@ $(function() {
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
           //What i want to do here is just create a matrix 3x3
-
-
-
-
-
-          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
+          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('no-gutters');
 
           //add another row after the TopRow
-          $('<div class= "row-fluid BotRow" ></div>').insertBefore('div.footer');
+          $('<div class= "row-fluid no-gutters BotRow" ></div>').insertBefore('div.footer');
 
           //add an id to both rows
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
@@ -118,12 +119,12 @@ $(function() {
 
 
           //Now i need to build all the collumns I NEED already with an ID
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol1" id="BTC1"></div>');
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol2" id="BTC2"></div>');
-          $('#BLOCKSRowTop').append('<div class="col span4 BLOCKCol3" id="BTC3"></div>');
-          $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol1" id="BBC1"></div>');
-          $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol2" id="BBC2"></div>');
-          $('#BLOCKSRowBot').append('<div class="col span4 BLOCKCol3" id="BBC3"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md  BLOCKCol1" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" id="BTC3"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
 
 
           //In these set of instructions i set what each container on my grid has
@@ -150,6 +151,9 @@ $(function() {
           // Neither do i need the old tabbable
           $('.TopRow > div.BLOCKSMainTabs').remove();
 
+//          $('#state_wrapper').height($('#control_wrapper').height($('#connection_wrapper').height()));
+          //var topRowMaxHeight = $('#control_wrapper').height();
+
         }
 
 
@@ -160,11 +164,9 @@ $(function() {
             if (enabled){
                 $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
                 $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
-
             }else{
                 $('#navbar > div.navbar-inner > div:first').removeClass("container-fluid").addClass("container");
                 $('div.BLOCKSMainContainer').removeClass("container-fluid").addClass("container");
-
             }
         }
         // ------------------------------------------------------------------------------------------------------------------------
@@ -175,7 +177,7 @@ $(function() {
           $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
 
           // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
-          $('#control').removeClass('tab-pane').addClass('body');
+          $('#control').removeClass('tab-pane').removeClass('container-fluid').addClass('container-fluid body');
 
           // This is for the heading, also gives it  the possibility to collapse.
           $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
@@ -193,24 +195,32 @@ $(function() {
           // Finally i place my new control wrapper in my grid
           $('#control_wrapper').appendTo($('#BTC3'));
 
+
         }
 
         self.set_TemperatureWrapper = function(settingsPlugin) {
-          $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)() && visible()"></div>');
-          
+          $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)"></div>');
+
           $('#temp').removeClass('tab-pane').addClass('body');
 
           $('<a class="container-fluid" ></a>').insertBefore("#temp");
 
-          $('#temp').wrapInner('<div class="container-fluid accordion-inner"></div>');
-          //get the temperature graph in there
-          //$('#temperature-graph').appendTo($('#temp > div.container-fluid > div.row-fluid '));
+          $('#temp').wrapInner('<div class="container-fluid accordion-inner" ></div>');
 
           $('#temp_wrapper > a').wrap('<div class="container-fluid heading"></div>');
           $('#temp_wrapper > div > a').append('<i class="fas icon-black fa-thermometer-quarter"></i>');
           $('#temp_wrapper > div > a').append(' Temperature ');
-
+          //Place the wrapper in my grid
           $('#temp_wrapper').appendTo($('#BBC1'));
+
+          // Just a little hack so i can use the temperatureViewModel graph
+          // Basically it presses the button on the tabs to create the grid
+          // After the grid is created the tab is deleted from the tab container
+          // because i don't need that tab there anymore
+          $('#temp_link > a').trigger('click');
+
+
+
         }
 
         //I don't want my elements to be collapsible
@@ -232,10 +242,10 @@ $(function() {
             $('#connection_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
-            $('div.col.span4 > div').removeClass('accordion-group').addClass('container-fluid');
-            $('div.col.span4 > div > div').removeClass('accordion-heading').removeClass('accordion-body');
-            $('div.col.span4 > div > div > a').parent().addClass('container-fluid heading');
-            $('div.col.span4 > div > div > a').removeClass('accordion-toggle').addClass('container-fluid heading');
+            $('div.col-4-md > div').removeClass('accordion-group').addClass('container-fluid');
+            $('div.col-4-md > div > div').removeClass('accordion-heading').removeClass('accordion-body');
+            $('div.col-4-md > div > div > a').parent().addClass('container-fluid heading');
+            $('div.col-4-md > div > div > a').removeClass('accordion-toggle').addClass('container-fluid heading');
 
             $('#state').removeClass('in').removeClass('collapse').addClass('container-fluid body');
             $('#state_wrapper > div.heading > a').removeAttr('data-toggle');

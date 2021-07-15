@@ -27,19 +27,13 @@
    Tudo o que eu quero para os ecrãs grandes tenho que por dentro deste @media
 */
 /* Big Screens */
-@media (min-width: 980px){
+/*@media (min-width: 980px){*/
 
-	.clearfix::after{
+	/*.clearfix::after{
 		content:"";
 		clear: both;
 		widthdisplay: table;
-	}
-	/* i really don0t need this container to have padding*/
-	.container-fluid {
-	     padding-right: 0px;
-	     padding-left: 0px;
-	    *zoom: 1;
-	}
+	}*/
 
 	body.BLOCKSUIfixedHeader{
 		margin-top: 50px;
@@ -48,16 +42,16 @@
 		padding-right: 10px;
 		padding-left: 10px;
 	}
-
+	.BLOCKSMainTabs.container-fluid{
+		padding-left: 0px;
+		padding-right: 0px;
+	}
 
 	.TopRow{
 		display: flex ;
 		align-items: flex-start;
 		flex-wrap:nowrap;
-
-
 	}
-
 	.BotRow{
 		display: flex ;
 		margin-top: 10px;
@@ -65,7 +59,6 @@
 		flex-wrap:nowrap;
 
 	}
-
 	#control_wrapper > .container-fluid.heading > a.container-fluid {
     display: inline-block;
     padding: 8px 15px;
@@ -77,10 +70,25 @@
 	#control_wrapper {
     border: 1px solid #e5e5e5;
     border-radius: 4px;
+		flex-wrap: nowrap;
 	}
 	#control {
     padding: 8px 15px;
     display: flex;
+		flex-direction: column;
+
+	}
+	#control .jog-panel {
+    float: left;
+		text-align-last: center;
+		margin-right: 10px;
+	}
+	#control > .container-fluid.accordion-inner {
+    display: flex;
+    justify-content: center;
+	}
+	#control > .container-fluid.accordion-inner > .jog-panel {
+    margin-left: 10px;
 	}
 	#temp_wrapper > .container-fluid.heading > a.container-fluid {
 		display: inline-block;
@@ -168,14 +176,14 @@
 	}
 
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
-
-/*		border: 1px solid #e5e5e5;*/
-		border-radius: 4px;
 		position: static;
-		display: flex;
 		flex-basis: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
+		padding: 4px;
+	}
+	.container-fluid {
+		align-content: baseline;
+		padding-left: 0px;
+		padding-right: 0px;
 	}
 	#navbar .navbar-inner .brand span{
 		background-image: url(../img/Blocks_Logo.png);
@@ -198,6 +206,10 @@
 		background-image: url(../img/Blocks_Logo.png);
 		background-position: center;
 		background-size: 50%;
+		width: 100%;
 	}
-
-}
+	.container-fluid.body {
+		/*display : contents;*/
+		min-height: 350px;
+	}
+/*}*/
