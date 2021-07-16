@@ -56,7 +56,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         }
 
-
+    def add_templatetype ( self, current_order, current_rules, *args, **kwargs):
+        return [
+            ("connectionWrapper", dict(), dict(template=lambda x: x + "_connectionWrapper.jinja2"))
+        ]
     ##Vou precisar de adicionar as definições de on_settings_save e ainda
     ##on_after_startup para salvar as definições que tenhamos
 
@@ -77,7 +80,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##stores its static assets
 
         return dict(
-            js= ["js/BLOCKS.js","js/jqyery-ui.min.js"],
+            js= ["js/BLOCKS.js","js/jqyery-ui.min.js","js/connectionBlocks.js"],
             img= ["img/Blocks_Logo.png","img/settings.png"],
             css= ["css/BLOCKS.css","css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
@@ -97,10 +100,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##is represented by a dictionary which may contain the following keys:
             ##type|name|template|suffix|div |replaces|custom_bindings|data_bind|
             ##classes|styles
-
-        return[
-            dict(type="settings", custom_bindings=False)
-        ]
+        if "blocks" not in self._plugin_manager.enabled_plugins:
+            return[
+                dict(type="settings", custom_bindings=False),
+                dict(type="connectionWrapper", template ="blocks_connectionWrapper.jinja2")
+            ]
+        else :
+            return []
 
     ##~~ Softwareupdate hook
 
@@ -144,5 +150,5 @@ def __plugin_load__():
     global __plugin_hooks__
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-        #"octoprint.ui.web.templatetypes":__plugin_implementation__.add_templatetype
+        "octoprint.ui.web.templatetypes":__plugin_implementation__.add_templatetype
     }

@@ -27,6 +27,11 @@ $(function() {
                 console.log('BLOCKS:',msg)
             }
         }
+        // Change the text of the connection button when it's connected or disconnected
+        self.buttonText = ko.pureComputed ( function (){
+          if(OctoPrint.connection.isErrorOrClosed()) return gettext("CONNECTED");
+          else return gettext("DISCONNECTED");
+        });
         //~~----------------------------------------------------
         self.onAllBound = function(){
 
@@ -50,13 +55,23 @@ $(function() {
         //                    onAllBound END
         //---------------------------------------------------
         self.onEventConnected = function() {
+          self.changeButtonColor();
+        }
 
-
-
+        // ------------------------------------------------
+        self.changeButtonColor = function () {
+          var buttonConnection = ('#blocks_printer_connect');
+          //função que muda o texto de connected para disconnected e ao contrário
+          if(OctoPrint.connection.isOperational()  ){
+            $(buttonConnection).css("color","green");
+          }else{
+            $(buttonConnection).css("color","black");
+          }
         }
         // --------------------------------------------------
         self.onStartupComplete = function() {
-
+          //I'm going to automatically connect to the printer when everything has started
+          //OctoPrint.connection.connect();
 
         }
 
@@ -119,7 +134,7 @@ $(function() {
 
 
           //Now i need to build all the collumns I NEED already with an ID
-          $('#BLOCKSRowTop').append('<div class="col-4-md  BLOCKCol1" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
           $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
           $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" id="BTC3"></div>');
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
@@ -132,7 +147,8 @@ $(function() {
           $('#state_wrapper').appendTo($('#BTC2'));
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
-          $('#connection_wrapper').appendTo($('#BTC1'));
+//          $('#connection_wrapper').appendTo($('#BTC1'));
+          $('#blocks_connection_wrapper').appendTo($('#BTC1'));
           $('div.tabbable.span8').appendTo($('#BBC2'));
           self.set_TemperatureWrapper(settingsPlugin);
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));

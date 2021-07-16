@@ -1,0 +1,12 @@
+<!--Connection wrapper -->
+{% if templates.order %}
+  <div id = "blocks_connection_wrapper" class = "container-fluid">
+    {% for key in templates.plugin_BLOCKS_connectionWrapper.order %}
+      {% set heading, body = templates.plugin_BLOCKS_connectionWrapper.entries[key] %}
+      <div id = "blocks_connection_wrapper" class = "container-fluid" data-bind = "visible: loginState.hasPermissionKo(access.permissions.CONNECTION)">
+        {% include "blocks_connection_heading.jinja2" ignore missing %}
+        {% include "blocks_connection_body.jinja2" ignore missing %}
+        {% include body.template ignore missing %}
+    {% endfor%}
+  </div>
+{% endif %}
