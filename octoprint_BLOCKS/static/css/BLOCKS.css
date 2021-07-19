@@ -189,7 +189,7 @@
 		background-image: url(../img/Blocks_Logo.png);
 		background-size: 100%;
 	}
-	
+
 
 	#tabs{
 		border-radius: 4px;
@@ -215,3 +215,19 @@
 	}
 
 /*}*/
+#blocksWrapper {
+
+
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+}
+#blocksWrapper > .container-fluid.heading {
+    /* align-self: center; */
+    position: relative;
+    border-bottom: 1px solid #e5e5e5;
+
+}
+.form-switch {
+    /* padding-left: 2.5em; */
+    padding: 7px 3px 2px 50px;
+}

@@ -135,33 +135,17 @@ $(function() {
         //-------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
-          //What i want to do here is just create a matrix 3x3
-          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('no-gutters');
 
-          //add another row after the TopRow
-          $('<div class= "row-fluid no-gutters BotRow" ></div>').insertBefore('div.footer');
-
-          //add an id to both rows
-          $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
-          $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
-
-
-          //Now i need to build all the collumns I NEED already with an ID
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" id="BTC3"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
-
+          self.buildGrid(settingsPlugin);
 
           //In these set of instructions i set what each container on my grid has
-          //$('#sidebar_plugin_action_command_notification_wrapper').appendTo($('#BBC1'));
+          self.set_blocksWrapper(settingsPlugin);
+
           $('#state_wrapper').appendTo($('#BTC2'));
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
-//          $('#connection_wrapper').appendTo($('#BTC1'));
-          $('#blocks_connectionWrapper').appendTo($('#BTC1'));
+
+
           $('div.tabbable.span8').appendTo($('#BBC2'));
           self.set_TemperatureWrapper(settingsPlugin);
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
@@ -185,7 +169,27 @@ $(function() {
 
         };
 
+        // ------------------------------------------------------------------------------------------------------------------------
+        self.buildGrid = function (settingsPlugin) {
+          //What i want to do here is just create a matrix 3x3
+          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('no-gutters');
 
+          //add another row after the TopRow
+          $('<div class= "row-fluid no-gutters BotRow" ></div>').insertBefore('div.footer');
+
+          //add an id to both rows
+          $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
+          $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
+
+
+          // All that is left to do is just create my collumns.
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" id="BTC3"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
+        }
         //------------------------------------------------------------
         // Fix fluid layout
         // Took from UICustomizer
@@ -199,6 +203,14 @@ $(function() {
             }
         };
         // ------------------------------------------------------------------------------------------------------------------------
+        self.set_blocksWrapper = function(settingsPlugin){
+          // The idea od this wrapper is to have the button for the connection and all the printer notifications
+          // on the same space.
+          $('#blocksWrapper').appendTo($('#BTC1'));
+          // I want the printer notifications and be able to connect to the printer in the same space
+          $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
+        }
+        // -------------------------------------------------------------------------------------------------------------------------
 
         self.set_ControlWrapper = function(settingsPlugin){
 
@@ -226,7 +238,7 @@ $(function() {
 
 
         };
-
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
           $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)"></div>');
 
@@ -247,9 +259,6 @@ $(function() {
           // After the grid is created the tab is deleted from the tab container
           // because i don't need that tab there anymore
           $('#temp_link > a').trigger('click');
-
-
-
         };
 
         //I don't want my elements to be collapsible
@@ -268,9 +277,7 @@ $(function() {
             $('#sidebar_plugin_action_command_notification_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
-          /*  $('#connection_wrapper > div ').each( function() {
-              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
-            });*/
+
             $('div.col-4-md > div').removeClass('accordion-group').addClass('container-fluid');
             $('div.col-4-md > div > div').removeClass('accordion-heading').removeClass('accordion-body');
             $('div.col-4-md > div > div > a').parent().addClass('container-fluid heading');
@@ -282,14 +289,8 @@ $(function() {
             $('#sidebar_plugin_action_command_notification').removeClass('in').removeClass('collapse').addClass('container-fluid body');
             $('#sidebar_plugin_action_command_notification_wrapper > div.heading > a ').removeAttr('data-toggle');
 
-            $('#connection').removeClass('in').removeClass('collapse').addClass('container-fluid body');
-            $('#connection_wrapper > div.heading > a').removeAttr('data-toggle');
-
             $('#files').removeClass('in').removeClass('collapse').addClass('container-fluid body');
             $('#files_wrapper > div.heading > a').removeAttr('data-toggle');
-
-            $('#connection_wrapper > div.heading > a').removeAttr('data-target').removeAttr('data-test-id');
-            $('#connection > div.accordion-inner').removeAttr('data-target').removeAttr('data-test-id');
 
           }else{
 
@@ -316,6 +317,6 @@ $(function() {
             ],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
-          "#blocks_connectionWrapper"]
+          "#blocksWrapper"]
     });
 });
