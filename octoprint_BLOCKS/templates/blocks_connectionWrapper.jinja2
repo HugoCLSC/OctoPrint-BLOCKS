@@ -1,6 +1,13 @@
 <!--Connection wrapper -->
-  <div id = "blocks_connection_wrapper" class = "container-fluid">
-        {% include "blocks_connection_header.jinja2" ignore missing %}
-        {% include "blocks_connection_body.jinja2" ignore missing %}
+  <div id = "blocks_connectionWrapper" class = "container-fluid" >
+
+        <div class="container-fluid heading">
+          <div class = "form-check form-switch" >
+            <input type="checkbox" class="form-check-input" id="blocks_printer_connect" data-bind="checked: trythis ">
+            <label  class="form-check-text" for="blocks_printer_connect" data-bind="text: connection.buttonText "> {{_('Connect')}} </label>
+          </div>
+        </div>
+        <div class = "container-fluid body" >
+        </div>
   </div>
 |

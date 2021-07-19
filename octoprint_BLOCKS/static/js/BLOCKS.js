@@ -8,6 +8,7 @@
 $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 //$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 //$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -17,8 +18,13 @@ $(function() {
         self.debug = false;
 
         // assign the injected parameters, e.g.:
+
         self.settings = parameters[0];
+        self.connection = parameters[1];
+        self.loginState = parameters[2];
         // TODO: Implement your plugin's view model here.
+
+
 
         // Quick debug
         self.logToConsole = function(msg){
@@ -32,8 +38,6 @@ $(function() {
 
 
 
-        self.isErrorOrClosed = ko.observable(undefined);
-        self.isOperational = ko.observable(undefined);
 
         //~~----------------------------------------------------
         self.onAllBound = function(){
@@ -60,13 +64,17 @@ $(function() {
 
 
         // ------------------------------------------------
+        self.connectIt = ko.observable(undefined);
+        self.trythis= ko.pureComputed ( function() {
 
-        self.trythis= function() {
-          if(self.isErrorOrClosed()){
             OctoPrint.connection.connect();
-          }
-        }
+            console.log('YOOOOOO');
+        });
 
+        self.labelText = ko.pureComputed( function () {
+          if(self.connection.isErrorOrClosed()) return gettext("Connect");
+          else return gettext("Disconnect");
+        });
 
 
         // --------------------------------------------------
@@ -148,7 +156,7 @@ $(function() {
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
 //          $('#connection_wrapper').appendTo($('#BTC1'));
-          $('#blocks_connection_wrapper').appendTo($('#BTC1'));
+          $('#blocks_connectionWrapper').appendTo($('#BTC1'));
           $('div.tabbable.span8').appendTo($('#BBC2'));
           self.set_TemperatureWrapper(settingsPlugin);
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
@@ -295,8 +303,14 @@ $(function() {
     OCTOPRINT_VIEWMODELS.push({
         construct: BlocksViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
-        dependencies: ["settingsViewModel"],
+        dependencies: [
+            "settingsViewModel",
+            "connectionViewModel",
+            "loginStateViewModel",
+            "accessViewModel"
+            ],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
-        elements: []
+        elements: [
+          "#blocks_connectionWrapper"]
     });
 });

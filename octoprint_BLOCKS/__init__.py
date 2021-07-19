@@ -81,7 +81,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##stores its static assets
 
         return dict(
-            js= ["js/BLOCKS.js","js/jqyery-ui.min.js","js/connectionBlocks.js"],
+            js= ["js/BLOCKS.js","js/jqyery-ui.min.js","js/loadash.min.js"],
             img= ["img/Blocks_Logo.png","img/settings.png"],
             css= ["css/BLOCKS.css","css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
@@ -101,7 +101,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##is represented by a dictionary which may contain the following keys:
             ##type|name|template|suffix|div |replaces|custom_bindings|data_bind|
             ##classes|styles
-            
+
             return[
                 dict(type="settings", custom_bindings=False),
                 # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
