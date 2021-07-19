@@ -189,6 +189,7 @@
 		background-image: url(../img/Blocks_Logo.png);
 		background-size: 100%;
 	}
+	
 
 	#tabs{
 		border-radius: 4px;
@@ -212,4 +213,5 @@
 		/*display : contents;*/
 		min-height: 350px;
 	}
+
 /*}*/

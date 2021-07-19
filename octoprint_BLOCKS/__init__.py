@@ -55,11 +55,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "removeCollapsible" : True
 
         }
-
+        """
     def add_templatetype ( self, current_order, current_rules, *args, **kwargs):
         return [
             ("connectionWrapper", dict(), dict(template=lambda x: x + "_connectionWrapper.jinja2"))
         ]
+        """
     ##Vou precisar de adicionar as definições de on_settings_save e ainda
     ##on_after_startup para salvar as definições que tenhamos
 
@@ -100,13 +101,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##is represented by a dictionary which may contain the following keys:
             ##type|name|template|suffix|div |replaces|custom_bindings|data_bind|
             ##classes|styles
-        if "blocks" not in self._plugin_manager.enabled_plugins:
+            
             return[
                 dict(type="settings", custom_bindings=False),
-                dict(type="connectionWrapper", template ="blocks_connectionWrapper.jinja2")
+                # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
+                # ou criar meu próprio type de template...
+                dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False)
             ]
-        else :
-            return []
 
     ##~~ Softwareupdate hook
 
@@ -149,6 +150,6 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-        "octoprint.ui.web.templatetypes":__plugin_implementation__.add_templatetype
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+        #"octoprint.ui.web.templatetypes":__plugin_implementation__.add_templatetype
     }

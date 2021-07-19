@@ -6,6 +6,8 @@
  */
 
 $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+//$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+//$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -26,12 +28,13 @@ $(function() {
             if (typeof console.log == "function"){
                 console.log('BLOCKS:',msg)
             }
-        }
-        // Change the text of the connection button when it's connected or disconnected
-        self.buttonText = ko.pureComputed ( function (){
-          if(OctoPrint.connection.isErrorOrClosed()) return gettext("CONNECTED");
-          else return gettext("DISCONNECTED");
-        });
+        };
+
+
+
+        self.isErrorOrClosed = ko.observable(undefined);
+        self.isOperational = ko.observable(undefined);
+
         //~~----------------------------------------------------
         self.onAllBound = function(){
 
@@ -51,29 +54,24 @@ $(function() {
               $(window).trigger('resize');
           },500);
 
-        }
+        };
         //                    onAllBound END
         //---------------------------------------------------
-        self.onEventConnected = function() {
-          self.changeButtonColor();
-        }
+
 
         // ------------------------------------------------
-        self.changeButtonColor = function () {
-          var buttonConnection = ('#blocks_printer_connect');
-          //função que muda o texto de connected para disconnected e ao contrário
-          if(OctoPrint.connection.isOperational()  ){
-            $(buttonConnection).css("color","green");
-          }else{
-            $(buttonConnection).css("color","black");
+
+        self.trythis= function() {
+          if(self.isErrorOrClosed()){
+            OctoPrint.connection.connect();
           }
         }
-        // --------------------------------------------------
-        self.onStartupComplete = function() {
-          //I'm going to automatically connect to the printer when everything has started
-          //OctoPrint.connection.connect();
 
-        }
+
+
+        // --------------------------------------------------
+
+
 
         // --------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
@@ -89,7 +87,7 @@ $(function() {
           self.set_mainLayout(settingsPlugin);
 
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
-        }
+        };
 
 
         //---------------------------------------------------
@@ -98,26 +96,28 @@ $(function() {
           if(enable){
             $('body').addClass('BLOCKSUIfixedHeader');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            $('#navbar').css('overflow','visible');
+            $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
+
+
           }else{
             $('body').removeClass('BLOCKSUIfixedHeader');
             $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
             $('#navbar').css('overflow','');
           }
-        }
+        };
 
         //-------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
 
           }
-        }
+        };
         //------------------------------------------------
         self.set_blocksFooterInfo = function(enable) {
           if(enable){
             $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" target="_blank" rel="noreferrer noopener"> BLOCKS </a></li>');
           }
-        }
+        };
 
         //-------------------------------------------------
         // In this function where i can change the layout of the main container
@@ -170,7 +170,7 @@ $(function() {
 //          $('#state_wrapper').height($('#control_wrapper').height($('#connection_wrapper').height()));
           //var topRowMaxHeight = $('#control_wrapper').height();
 
-        }
+        };
 
 
         //------------------------------------------------------------
@@ -184,7 +184,7 @@ $(function() {
                 $('#navbar > div.navbar-inner > div:first').removeClass("container-fluid").addClass("container");
                 $('div.BLOCKSMainContainer').removeClass("container-fluid").addClass("container");
             }
-        }
+        };
         // ------------------------------------------------------------------------------------------------------------------------
 
         self.set_ControlWrapper = function(settingsPlugin){
@@ -212,7 +212,7 @@ $(function() {
           $('#control_wrapper').appendTo($('#BTC3'));
 
 
-        }
+        };
 
         self.set_TemperatureWrapper = function(settingsPlugin) {
           $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)"></div>');
@@ -237,7 +237,7 @@ $(function() {
 
 
 
-        }
+        };
 
         //I don't want my elements to be collapsible
         self.set_removeCollapsible = function(enable){
@@ -255,9 +255,9 @@ $(function() {
             $('#sidebar_plugin_action_command_notification_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
-            $('#connection_wrapper > div ').each( function() {
+          /*  $('#connection_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
-            });
+            });*/
             $('div.col-4-md > div').removeClass('accordion-group').addClass('container-fluid');
             $('div.col-4-md > div > div').removeClass('accordion-heading').removeClass('accordion-body');
             $('div.col-4-md > div > div > a').parent().addClass('container-fluid heading');
@@ -281,7 +281,7 @@ $(function() {
           }else{
 
           }
-        }
+        };
 
 
 
