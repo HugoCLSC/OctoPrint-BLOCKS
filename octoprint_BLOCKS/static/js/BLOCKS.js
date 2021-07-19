@@ -7,7 +7,7 @@
 
 $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 //$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
-//$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 
 $(function() {
     function BlocksViewModel(parameters) {
@@ -64,31 +64,24 @@ $(function() {
 
 
         // ------------------------------------------------
+        // ~~ observable so i know if my toggle switch is on or off
         self.connectIt = ko.observable(undefined);
-
-        self.trythis= ko.pureComputed ( function() {
-          if(self.connectIt()){
-            OctoPrint.connection.connect();
-            console.log('YOOOOOO');
-          }else
-            console.log('SADDDD YOOO');
-        });
-
-        self.labelText = ko.pureComputed( function () {
-          if(self.connection.isErrorOrClosed()) return gettext("Connect");
-          else return gettext("Disconnect");
-        });
-
+        // ~~ subscribes my switch to a funcion, this function will always run when the
+        // ~~ switch state changes (When it's pressed or not)
         self.connectIt.subscribe(function(newVal){
           if(newVal){
             OctoPrint.connection.connect();
-            console.log("RIGHT PLACE ");
+            console.log("Printer connecting.... ");
           }else{
             OctoPrint.connection.disconnect();
-            console.log("WRONG PLACE");
+            console.log("Printer disconnecting....");
           }
         });
-
+        // ~~ Change the text on my connection trigger switch
+        self.connection_labelText = ko.pureComputed(function () {
+            if (self.connection.isErrorOrClosed()) return gettext("Disconnected");
+            else return gettext("Connected");
+        });
         // --------------------------------------------------
 
 
