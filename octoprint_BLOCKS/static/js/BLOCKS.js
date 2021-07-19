@@ -65,10 +65,13 @@ $(function() {
 
         // ------------------------------------------------
         self.connectIt = ko.observable(undefined);
-        self.trythis= ko.pureComputed ( function() {
 
+        self.trythis= ko.pureComputed ( function() {
+          if(self.connectIt()){
             OctoPrint.connection.connect();
             console.log('YOOOOOO');
+          }else
+            console.log('SADDDD YOOO');
         });
 
         self.labelText = ko.pureComputed( function () {
@@ -76,6 +79,15 @@ $(function() {
           else return gettext("Disconnect");
         });
 
+        self.connectIt.subscribe(function(newVal){
+          if(newVal){
+            OctoPrint.connection.connect();
+            console.log("RIGHT PLACE ");
+          }else{
+            OctoPrint.connection.disconnect();
+            console.log("WRONG PLACE");
+          }
+        });
 
         // --------------------------------------------------
 
