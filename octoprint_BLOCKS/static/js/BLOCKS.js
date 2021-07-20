@@ -6,9 +6,8 @@
  */
 
 $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
-//$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+//~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
-
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -61,8 +60,10 @@ $(function() {
         };
         //                    onAllBound END
         //---------------------------------------------------
-
-
+        //
+        // Connection switch trigger functionality, this set of instructions is what
+        // make the switch work
+        //
         // ------------------------------------------------
         // ~~ observable so i know if my toggle switch is on or off
         self.connectIt = ko.observable(undefined);
@@ -100,10 +101,12 @@ $(function() {
           self.set_mainLayout(settingsPlugin);
 
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
+
+          self.correctFilesWrapper(settingsPlugin);
         };
 
 
-        //---------------------------------------------------
+        //-------------------------------------------------------------------------------------------------
         // Took from UICustumizer
         self.set_fixedHeader = function(enable) {
           if(enable){
@@ -119,20 +122,20 @@ $(function() {
           }
         };
 
-        //-------------------------------------------------
+        //------------------------------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
 
           }
         };
-        //------------------------------------------------
+        //------------------------------------------------------------------------------------------------
         self.set_blocksFooterInfo = function(enable) {
           if(enable){
             $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" target="_blank" rel="noreferrer noopener"> BLOCKS </a></li>');
           }
         };
 
-        //-------------------------------------------------
+        //-----------------------------------------------------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
 
@@ -148,24 +151,19 @@ $(function() {
 
           $('div.tabbable.span8').appendTo($('#BBC2'));
           self.set_TemperatureWrapper(settingsPlugin);
-          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BBC1'));
-          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BBC1'));
+          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
+          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
           $('#files_wrapper').appendTo($('#BBC3'));
 
           // I don't need the sidebar anymore
           $('#sidebar').remove();
-
           $('div.tabbable').removeClass('span8');
-
           // The tabs does not need the Control tab because the Control module is
           // on my grid
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
           $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
           $('.TopRow > div.BLOCKSMainTabs').remove();
-
-//          $('#state_wrapper').height($('#control_wrapper').height($('#connection_wrapper').height()));
-          //var topRowMaxHeight = $('#control_wrapper').height();
 
         };
 
@@ -180,7 +178,6 @@ $(function() {
           //add an id to both rows
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
-
 
           // All that is left to do is just create my collumns.
           $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
@@ -203,12 +200,22 @@ $(function() {
             }
         };
         // ------------------------------------------------------------------------------------------------------------------------
+        // ~~ This wrapper is a simplified version of the connection and notifications wrappers
+        // ~~ It's function is to just have a simple way to connect to the printer and receive
+        // ~~ the notifications from that printer
         self.set_blocksWrapper = function(settingsPlugin){
           // The idea od this wrapper is to have the button for the connection and all the printer notifications
-          // on the same space.
+          // on the same space. So i'll just append the wrappers to the correct place
           $('#blocksWrapper').appendTo($('#BTC1'));
           // I want the printer notifications and be able to connect to the printer in the same space
           $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
+        }
+
+        // ------------------------------------------------------------------------
+        self.correctFilesWrapper = function(settingsPlugin){
+          $('#files_wrapper > div.container-fluid.heading').addClass('btn-group').attr('role','group');
+          $('#files_wrapper > div.container-fluid.heading').children().addClass('btn').removeClass('btn-group');
+          $('#files_wrapper > div.container-fluid.heading > a').removeClass('btn');
         }
         // -------------------------------------------------------------------------------------------------------------------------
 
@@ -235,8 +242,6 @@ $(function() {
 
           // Finally i place my new control wrapper in my grid
           $('#control_wrapper').appendTo($('#BTC3'));
-
-
         };
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
@@ -277,7 +282,6 @@ $(function() {
             $('#sidebar_plugin_action_command_notification_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
-
             $('div.col-4-md > div').removeClass('accordion-group').addClass('container-fluid');
             $('div.col-4-md > div > div').removeClass('accordion-heading').removeClass('accordion-body');
             $('div.col-4-md > div > div > a').parent().addClass('container-fluid heading');
@@ -293,7 +297,7 @@ $(function() {
             $('#files_wrapper > div.heading > a').removeAttr('data-toggle');
 
           }else{
-
+            // Maybe implement when we want the collapsible feature
           }
         };
 

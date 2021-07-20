@@ -81,7 +81,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##stores its static assets
 
         return dict(
-            js= ["js/BLOCKS.js","js/jqyery-ui.min.js","js/loadash.min.js"],
+            js= ["js/BLOCKS.js","js/jquery-ui.min.js"],
             img= ["img/Blocks_Logo.png","img/settings.png"],
             css= ["css/BLOCKS.css","css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]

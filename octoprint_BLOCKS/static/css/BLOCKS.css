@@ -164,6 +164,7 @@
 	#files_wrapper > .container-fluid.heading {
     border-bottom: 1px solid #e5e5e5;
     position: relative;
+		display : flex;
 	}
 	#files_wrapper{
     border: 1px solid #e5e5e5;
@@ -216,18 +217,26 @@
 
 /*}*/
 #blocksWrapper {
-
-
 	border: 1px solid #e5e5e5;
 	border-radius: 4px;
 }
 #blocksWrapper > .container-fluid.heading {
-    /* align-self: center; */
     position: relative;
     border-bottom: 1px solid #e5e5e5;
-
 }
 .form-switch {
-    /* padding-left: 2.5em; */
     padding: 7px 3px 2px 50px;
+}
+input[type=number] {
+    text-align: right;
+    box-sizing: content-box;
+}
+span.add-on {
+    box-sizing: content-box;
+}
+.input-append input, .input-append select, .input-append .uneditable-input {
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+    box-sizing: content-box;
 }
