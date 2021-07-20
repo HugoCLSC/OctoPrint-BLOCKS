@@ -245,6 +245,7 @@
 #blocks_printer_connect{
 	border: 2px solid;
 }
+
 .form-switch {
     padding: 7px 3px 2px 50px;
 }
@@ -270,9 +271,10 @@ input[type="search"], input[type="tel"], input[type="color"], .uneditable-input 
     display: contents;
 }
 
-#refreshButton {
-    display: inline-flex;
-    margin-inline-start: 100px;
+#refreshButton.refresh-trigger{
+  
+		position: static;
+		left: 100px;
 }
 label.form-check-text {
 	font-weight: bold;
