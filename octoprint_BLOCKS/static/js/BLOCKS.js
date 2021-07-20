@@ -5,7 +5,7 @@
  * License: AGPLv3
  */
 
-$('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+ $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 $(function() {
@@ -60,11 +60,13 @@ $(function() {
         };
         //                    onAllBound END
         //---------------------------------------------------
-        //
+
+
+        // --------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work
         //
-        // ------------------------------------------------
+        // --------------------------------------------------------------------------
         // ~~ observable so i know if my toggle switch is on or off
         self.connectIt = ko.observable(undefined);
         // ~~ subscribes my switch to a funcion, this function will always run when the
@@ -83,11 +85,11 @@ $(function() {
             if (self.connection.isErrorOrClosed()) return gettext("Disconnected");
             else return gettext("Connected");
         });
-        // --------------------------------------------------
+        // ------------------------------------------------------------------------
 
 
 
-        // --------------------------------------------------
+        // ------------------------------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
 
           self.logToConsole('Updating layout');
@@ -103,10 +105,12 @@ $(function() {
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
 
           self.correctFilesWrapper(settingsPlugin);
+
+
         };
 
 
-        //-------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------
         // Took from UICustumizer
         self.set_fixedHeader = function(enable) {
           if(enable){
@@ -209,14 +213,24 @@ $(function() {
           $('#blocksWrapper').appendTo($('#BTC1'));
           // I want the printer notifications and be able to connect to the printer in the same space
           $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
+
+          // Add a refresh button to the connection/warnings wrapper
+          // I now have a refresh button next to my connection slider 
+          $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
         }
 
         // ------------------------------------------------------------------------
         self.correctFilesWrapper = function(settingsPlugin){
-          $('#files_wrapper > div.container-fluid.heading').addClass('btn-group').attr('role','group');
-          $('#files_wrapper > div.container-fluid.heading').children().addClass('btn').removeClass('btn-group');
-          $('#files_wrapper > div.container-fluid.heading > a').removeClass('btn');
+          $('#files_wrapper > div.container-fluid.heading').attr('role','group');
+          $('.btn-group').css({'font-size': ''});
+          $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
+        //  $('#files_wrapper > div.container-fluid.heading > a').removeClass('btn');
+          self.fixFilesTriggers(settingsPlugin);
         }
+        self.fixFilesTriggers = function(settingsPlugin) {
+          //i'm going to wrap the three files triggers inside a container
+          $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid "></div>')
+        };
         // -------------------------------------------------------------------------------------------------------------------------
 
         self.set_ControlWrapper = function(settingsPlugin){
@@ -300,6 +314,7 @@ $(function() {
             // Maybe implement when we want the collapsible feature
           }
         };
+
 
 
 

@@ -106,7 +106,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 dict(type="settings", custom_bindings=False),
                 # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
                 # ou criar meu próprio type de template...
-                dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False)
+                dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
+                dict(type="generic", template="refreshButton.jinja2", custom_bindings=False)
             ]
 
     ##~~ Softwareupdate hook
