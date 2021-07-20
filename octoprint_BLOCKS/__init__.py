@@ -50,6 +50,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             "fixedHeader" : True,
 
+            "fixedFooter" : True,
+            
             "blocksFooterInfo" : True,
 
             "removeCollapsible" : True
@@ -152,5 +154,5 @@ def __plugin_load__():
     global __plugin_hooks__
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
-        #"octoprint.ui.web.templatetypes":__plugin_implementation__.add_templatetype
+
     }

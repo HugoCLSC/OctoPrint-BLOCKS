@@ -4,11 +4,16 @@
  * Author: Hugo C. Lopes Santos Costa
  * License: AGPLv3
  */
-//~~ Gets me the jquey-ui libraries 
+//~~ Gets me the jquey-ui libraries
  $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+//$('head').prepend('<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>');
+//$('head').prepend('<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>');
+
+//$('body').append('<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>');
+
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -82,9 +87,20 @@ $(function() {
           }
         });
         // ~~ Change the text on my connection trigger switch
+        // ~~ it also changes the color of the connection trigger
         self.connection_labelText = ko.pureComputed(function () {
-            if (self.connection.isErrorOrClosed()) return gettext("Disconnected");
-            else return gettext("Connected");
+            if (self.connection.isErrorOrClosed()){
+
+              $('#blocks_printer_connect').css("border-color", "rgb(255, 59, 59)");
+              $('.form-check-input').css("background-color","rgb(255, 59, 59)");
+              return gettext("Disconnected");
+            }
+            else{
+              $('#blocks_printer_connect').css("border-color", "rgb(85, 247, 92)");
+              $('.form-check-input:checked').css("background-color", "rgb(85, 247, 92)");
+              return gettext("Connected");
+
+            }
         });
         // ------------------------------------------------------------------------
 
@@ -96,6 +112,8 @@ $(function() {
           self.logToConsole('Updating layout');
 
           self.set_fixedHeader(settingsPlugin.fixedHeader());
+
+          self.set_fixedFooter(settingsPlugin.fixedFooter());
 
           self.set_fluidLayout(settingsPlugin.fluidLayout());
 
@@ -125,11 +143,22 @@ $(function() {
             $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
             $('#navbar').css('overflow','');
           }
+
+
+
+
         };
 
         //------------------------------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
+            $('.footer').css("position", "fixed");
+            $('.footer').css("display", "inline-flex");
+            $('.footer').css("justify-content","space-between");
+            $('.footer').css("background-color", "rgb(233,233,233)");
+            $('.footer').css("left","0px");
+            $('.footer').css("bottom","0px");
+            $('.footer').css("right","0px");
 
           }
         };
@@ -218,6 +247,10 @@ $(function() {
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
+
+
+          // I'll need to introduce, at least a sentence saying that this container has the Notifications
+          $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"> Notifications </div>');
         }
 
         // ------------------------------------------------------------------------
@@ -255,6 +288,10 @@ $(function() {
           $('#control_wrapper > div > a').append('<i class=" fas icon-black fa-gamepad"></i>');
           $('#control_wrapper > div > a').append(' Controls ');
 
+          // Need to create a row-fluid
+          $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
+          // Fix the size of the controll wrapper letters.
+          $('h1').css("font-size","30px");
           // Finally i place my new control wrapper in my grid
           $('#control_wrapper').appendTo($('#BTC3'));
         };
@@ -273,7 +310,7 @@ $(function() {
           $('#temp_wrapper > div > a').append(' Temperature ');
           //Place the wrapper in my grid
           $('#temp_wrapper').appendTo($('#BBC1'));
-
+          $('#temperature-table').css("margin-top","");
           // Just a little hack so i can use the temperatureViewModel graph
           // Basically it presses the button on the tabs to create the grid
           // After the grid is created the tab is deleted from the tab container
