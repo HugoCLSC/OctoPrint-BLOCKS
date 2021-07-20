@@ -4,8 +4,9 @@
  * Author: Hugo C. Lopes Santos Costa
  * License: AGPLv3
  */
-
+//~~ Gets me the jquey-ui libraries 
  $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 $(function() {
@@ -215,7 +216,7 @@ $(function() {
           $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
 
           // Add a refresh button to the connection/warnings wrapper
-          // I now have a refresh button next to my connection slider 
+          // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
         }
 
