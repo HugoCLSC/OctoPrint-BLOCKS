@@ -33,15 +33,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     ##~~ SettingsPlugin mixin
 
-        ##Plugins including the mixing will get injected an additional property
-        ##self._settings which is an instance of PluginSettingsManager already properly
-        ##initialized for use by the plugin. In order for the manager to know about the
-        ##available settings structure and default values upon initialization,
-        ##implementing plugins will need to provide a dictionary with the plugin’s
-        ##default settings through overriding the method get_settings_defaults().
-        ##The defined structure will then be available to access through the
-        ##settings manager available as self._settings.
-
     def get_settings_defaults(self):
         return {
             # put your plugin's default settings here
@@ -51,7 +42,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "fixedHeader" : True,
 
             "fixedFooter" : True,
-            
+
             "blocksFooterInfo" : True,
 
             "removeCollapsible" : True
@@ -63,25 +54,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             ("connectionWrapper", dict(), dict(template=lambda x: x + "_connectionWrapper.jinja2"))
         ]
         """
-    ##Vou precisar de adicionar as definições de on_settings_save e ainda
-    ##on_after_startup para salvar as definições que tenhamos
-
 
     ##~~ AssetPlugin mixi
-
-        ##Allows me to define additional static assets such as JavaScript or class
-        ##files to be automatically embedded into the pages delivered by the server
-        ##to be used within the client sided part of the plugin
 
     def get_assets(self):
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
-
-        ##Defines the folder where the plugin stores its static assets
-        ##as defined in
-        #~Return string: the absolute path to the folder where the plugin
-        ##stores its static assets
-
         return dict(
             js= ["js/BLOCKS.js","js/jquery-ui.min.js"],
             img= ["img/Blocks_Logo.png","img/settings.png"],
@@ -95,20 +73,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         ##web interface.
 
     def get_template_configs(self):
-        ##Allow configuration of injected navbar,sidebar,tab and settings
-        ##templates(and also additional templates of types specified by plugins
-        ##through hte octoprint.ui.web.templateytpes hook).
-        ##Basically i can allows me to configure Should be a list containing one
-        ##configuration object per template to inject. Each configuration object
-        ##is represented by a dictionary which may contain the following keys:
-            ##type|name|template|suffix|div |replaces|custom_bindings|data_bind|
-            ##classes|styles
 
             return[
                 dict(type="settings", custom_bindings=False),
                 # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
                 # ou criar meu próprio type de template...
                 dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
+                # My refresh button for my connection wrapper
                 dict(type="generic", template="refreshButton.jinja2", custom_bindings=False)
             ]
 

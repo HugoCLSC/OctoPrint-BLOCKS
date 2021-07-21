@@ -35,15 +35,12 @@
 	}*/
 	/* -------------------------*/
 	body.BLOCKSUIfixedHeader{
-		margin-top: 50px;
+		/*margin-top: 50px;*/
 	}
 	.BLOCKSMainContainer{
-		padding-right: 10px;
-		padding-left: 10px;
-	}
-	.BLOCKSMainTabs.container-fluid{
 		padding-left: 0px;
 		padding-right: 0px;
+		padding-top: 25px;
 	}
 
 
@@ -81,8 +78,15 @@
     margin-left: 10px;
 	}
 	#control > .container-fluid > .row-fluid {
-		margin-inline-start: 70px;
+		position: relative;
+		left: 70px;
 	}
+	#control .jog-panel>div.distance {
+    text-align: left;
+    position: relative;
+    top: 0px;
+    left: -5px;
+}
 	/* ----------------------------*/
 
 	/* Temperature wrapper properties */
@@ -97,6 +101,7 @@
 	#temp_wrapper {
 		border: 1px solid #e5e5e5;
 		border-radius: 4px;
+		height : 577px;
 	}
 	#temp {
 		padding: 8px 15px;
@@ -186,8 +191,15 @@
     display: flex;
 		flex-direction: column;
 	}
+/* To fix the button settings on the files */
+	.open>.dropdown-menu {
+	    display: block;
+	    position: absolute;
+	    top: auto;
+			left:auto;
+	    right:auto;
 
-
+	}
 	/* Grid properties */
 
 	.TopRow{
@@ -197,7 +209,7 @@
 	}
 	.BotRow{
 		display: flex ;
-		margin-top: 10px;
+		/*margin-top: 10px;*/
 		align-items: flex-start;
 		flex-wrap:nowrap;
 
@@ -272,9 +284,9 @@ input[type="search"], input[type="tel"], input[type="color"], .uneditable-input 
 }
 
 #refreshButton.refresh-trigger{
-  
-		position: static;
-		left: 100px;
+
+		position: relative;
+		left: 40px;
 }
 label.form-check-text {
 	font-weight: bold;

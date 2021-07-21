@@ -18,20 +18,17 @@ $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
 
-
         //Run in debug/verbose mode
         self.debug = false;
 
         // assign the injected parameters, e.g.:
-
         self.settings = parameters[0];
         self.connection = parameters[1];
         self.loginState = parameters[2];
         // TODO: Implement your plugin's view model here.
 
-
-
         // Quick debug
+        // Taken from UICustomizer plugin
         self.logToConsole = function(msg){
             if (!self.debug){
                 return true;
@@ -41,15 +38,11 @@ $(function() {
             }
         };
 
-
-
-
-        //~~----------------------------------------------------
+        //---------------------------------------------------------------------------
         self.onAllBound = function(){
 
           //Html can have mulitple classes
           $('#tabs').parent().addClass('BLOCKSMainTabs');
-
 
           //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
@@ -65,15 +58,17 @@ $(function() {
 
         };
         //                    onAllBound END
-        //---------------------------------------------------
+        //---------------------------------------------------------------------------
 
 
-        // --------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work
         //
-        // --------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         // ~~ observable so i know if my toggle switch is on or off
+        // ~~ My observable trigger, lets me know if the connection switch is
+        // ~~ on or off
         self.connectIt = ko.observable(undefined);
         // ~~ subscribes my switch to a funcion, this function will always run when the
         // ~~ switch state changes (When it's pressed or not)
@@ -87,40 +82,40 @@ $(function() {
           }
         });
         // ~~ Change the text on my connection trigger switch
+        // ~~ Will display Connected/Disconnected
+
         // ~~ it also changes the color of the connection trigger
+        // ~~ Conected =:= Green
+        // ~~ Disconnected =:= Red
         self.connection_labelText = ko.pureComputed(function () {
             if (self.connection.isErrorOrClosed()){
-
               $('#blocks_printer_connect').css("border-color", "rgb(255, 59, 59)");
               $('.form-check-input').css("background-color","rgb(255, 59, 59)");
               return gettext("Disconnected");
-            }
-            else{
+            }else{
               $('#blocks_printer_connect').css("border-color", "rgb(85, 247, 92)");
               $('.form-check-input:checked').css("background-color", "rgb(85, 247, 92)");
               return gettext("Connected");
-
             }
         });
-        // ------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
 
-
-
-        // ------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
 
           self.logToConsole('Updating layout');
 
+
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
-          self.set_fixedFooter(settingsPlugin.fixedFooter());
+          //self.set_fixedFooter(settingsPlugin.fixedFooter());
 
           self.set_fluidLayout(settingsPlugin.fluidLayout());
 
           self.set_blocksFooterInfo(settingsPlugin.blocksFooterInfo());
           //Builds the main layout
           self.set_mainLayout(settingsPlugin);
-
+          // Remove the collapsible feature
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
 
           self.correctFilesWrapper(settingsPlugin);
@@ -129,27 +124,21 @@ $(function() {
         };
 
 
-        //-------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         // Took from UICustumizer
         self.set_fixedHeader = function(enable) {
           if(enable){
             $('body').addClass('BLOCKSUIfixedHeader');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
             $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
-
-
           }else{
             $('body').removeClass('BLOCKSUIfixedHeader');
             $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
             $('#navbar').css('overflow','');
           }
-
-
-
-
         };
 
-        //------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
             $('.footer').css("position", "fixed");
@@ -159,37 +148,29 @@ $(function() {
             $('.footer').css("left","0px");
             $('.footer').css("bottom","0px");
             $('.footer').css("right","0px");
-
           }
         };
-        //------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.set_blocksFooterInfo = function(enable) {
           if(enable){
             $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" target="_blank" rel="noreferrer noopener"> BLOCKS </a></li>');
           }
         };
-
-        //-----------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
-
           self.buildGrid(settingsPlugin);
-
           //In these set of instructions i set what each container on my grid has
           self.set_blocksWrapper(settingsPlugin);
-
-          $('#state_wrapper').appendTo($('#BTC2'));
+          // ~~ Bind the remaining wrappers to the grid
+          self.bindWrappers(settingsPlugin);
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
-
-
-          $('div.tabbable.span8').appendTo($('#BBC2'));
           self.set_TemperatureWrapper(settingsPlugin);
-          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
-          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
-          $('#files_wrapper').appendTo($('#BBC3'));
 
-          // I don't need the sidebar anymore
+
+
+          // ~~ Remove the sidebar, i don't need it anymore
           $('#sidebar').remove();
           $('div.tabbable').removeClass('span8');
           // The tabs does not need the Control tab because the Control module is
@@ -201,18 +182,15 @@ $(function() {
 
         };
 
-        // ------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.buildGrid = function (settingsPlugin) {
           //What i want to do here is just create a matrix 3x3
           $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('no-gutters');
-
           //add another row after the TopRow
           $('<div class= "row-fluid no-gutters BotRow" ></div>').insertBefore('div.footer');
-
           //add an id to both rows
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
-
           // All that is left to do is just create my collumns.
           $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
           $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
@@ -221,22 +199,15 @@ $(function() {
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
         }
-        //------------------------------------------------------------
-        // Fix fluid layout
-        // Took from UICustomizer
-        self.set_fluidLayout = function(enabled){
-            if (enabled){
-                $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
-                $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
-            }else{
-                $('#navbar > div.navbar-inner > div:first').removeClass("container-fluid").addClass("container");
-                $('div.BLOCKSMainContainer').removeClass("container-fluid").addClass("container");
-            }
+        //---------------------------------------------------------------------------
+        self.bindWrappers = function(settingsPlugin){
+          $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
+          $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
+          $('#state_wrapper').appendTo($('#BTC2'));
+          $('div.tabbable.span8').appendTo($('#BBC2'));
+          $('#files_wrapper').appendTo($('#BBC3'));
         };
-        // ------------------------------------------------------------------------------------------------------------------------
-        // ~~ This wrapper is a simplified version of the connection and notifications wrappers
-        // ~~ It's function is to just have a simple way to connect to the printer and receive
-        // ~~ the notifications from that printer
+        //---------------------------------------------------------------------------
         self.set_blocksWrapper = function(settingsPlugin){
           // The idea od this wrapper is to have the button for the connection and all the printer notifications
           // on the same space. So i'll just append the wrappers to the correct place
@@ -247,55 +218,47 @@ $(function() {
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
-
-
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"> Notifications </div>');
-        }
+        };
 
-        // ------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.correctFilesWrapper = function(settingsPlugin){
           $('#files_wrapper > div.container-fluid.heading').attr('role','group');
           $('.btn-group').css({'font-size': ''});
           $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
         //  $('#files_wrapper > div.container-fluid.heading > a').removeClass('btn');
           self.fixFilesTriggers(settingsPlugin);
-        }
+        };
         self.fixFilesTriggers = function(settingsPlugin) {
           //i'm going to wrap the three files triggers inside a container
           $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid "></div>')
+
+          $('.dropdown-menu').addClass("dropdown-menu-right");
         };
-        // -------------------------------------------------------------------------------------------------------------------------
-
+        //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
-
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
           $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
-
           // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
           $('#control').removeClass('tab-pane').removeClass('container-fluid').addClass('container-fluid body');
-
           // This is for the heading, also gives it  the possibility to collapse.
           $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
-
           // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
           $('#control').wrapInner('<div class="container-fluid accordion-inner"></div>');
-
           // Needed to wrap my header
           $('#control_wrapper > a').wrap('<div class="container-fluid heading"></div>');
-
           // Adds the gamepad icon in black and also adds the text "Controls" to the header
           $('#control_wrapper > div > a').append('<i class=" fas icon-black fa-gamepad"></i>');
           $('#control_wrapper > div > a').append(' Controls ');
-
           // Need to create a row-fluid
           $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
-          // Fix the size of the controll wrapper letters.
+          // Fix the size of the control wrapper letters.
           $('h1').css("font-size","30px");
           // Finally i place my new control wrapper in my grid
           $('#control_wrapper').appendTo($('#BTC3'));
         };
-        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
           $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)"></div>');
 
@@ -310,14 +273,14 @@ $(function() {
           $('#temp_wrapper > div > a').append(' Temperature ');
           //Place the wrapper in my grid
           $('#temp_wrapper').appendTo($('#BBC1'));
-          $('#temperature-table').css("margin-top","");
+          $('#temperature-table').css("margin-top","0px");
           // Just a little hack so i can use the temperatureViewModel graph
           // Basically it presses the button on the tabs to create the grid
           // After the grid is created the tab is deleted from the tab container
           // because i don't need that tab there anymore
           $('#temp_link > a').trigger('click');
         };
-
+        //---------------------------------------------------------------------------
         //I don't want my elements to be collapsible
         self.set_removeCollapsible = function(enable){
           if(enable){
@@ -352,12 +315,28 @@ $(function() {
             // Maybe implement when we want the collapsible feature
           }
         };
+        //---------------------------------------------------------------------------
 
 
+        // Fix fluid layout
+        // Took from UICustomizer
+        self.set_fluidLayout = function(enabled){
+            if (enabled){
+                $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
+                $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
+            }else{
+                $('#navbar > div.navbar-inner > div:first').removeClass("container-fluid").addClass("container");
+                $('div.BLOCKSMainContainer').removeClass("container-fluid").addClass("container");
+            }
+        };
 
 
       }
-
+      //---------------------------------------------------------------------------
+      //---------------------------------------------------------------------------
+      //                            BlocksViewModel END
+      //---------------------------------------------------------------------------
+      //---------------------------------------------------------------------------
 
     /* view model class, parameters for constructor, container to bind to
      * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
