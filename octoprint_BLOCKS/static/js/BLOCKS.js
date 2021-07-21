@@ -5,14 +5,10 @@
  * License: AGPLv3
  */
 //~~ Gets me the jquey-ui libraries
- $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+$('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
-//$('head').prepend('<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>');
-//$('head').prepend('<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>');
-
-//$('body').append('<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>');
 
 $(function() {
     function BlocksViewModel(parameters) {
@@ -105,7 +101,6 @@ $(function() {
 
           self.logToConsole('Updating layout');
 
-
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
           //self.set_fixedFooter(settingsPlugin.fixedFooter());
@@ -119,8 +114,6 @@ $(function() {
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
 
           self.correctFilesWrapper(settingsPlugin);
-
-
         };
 
 
@@ -168,8 +161,6 @@ $(function() {
           self.set_ControlWrapper(settingsPlugin);
           self.set_TemperatureWrapper(settingsPlugin);
 
-
-
           // ~~ Remove the sidebar, i don't need it anymore
           $('#sidebar').remove();
           $('div.tabbable').removeClass('span8');
@@ -179,7 +170,6 @@ $(function() {
           $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
           $('.TopRow > div.BLOCKSMainTabs').remove();
-
         };
 
         //---------------------------------------------------------------------------
@@ -198,7 +188,7 @@ $(function() {
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
           $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
-        }
+        };
         //---------------------------------------------------------------------------
         self.bindWrappers = function(settingsPlugin){
           $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
@@ -214,7 +204,6 @@ $(function() {
           $('#blocksWrapper').appendTo($('#BTC1'));
           // I want the printer notifications and be able to connect to the printer in the same space
           $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
-
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));

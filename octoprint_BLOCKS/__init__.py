@@ -15,11 +15,7 @@ import octoprint.util
 import octoprint.environment
 import os
 import sys
-import flask
 
-
-from flask import send_file
-from flask import url_for
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 octoprint.plugin.UiPlugin,
@@ -48,12 +44,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "removeCollapsible" : True
 
         }
-        """
-    def add_templatetype ( self, current_order, current_rules, *args, **kwargs):
-        return [
-            ("connectionWrapper", dict(), dict(template=lambda x: x + "_connectionWrapper.jinja2"))
-        ]
-        """
 
     ##~~ AssetPlugin mixi
 
@@ -61,9 +51,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
         return dict(
-            js= ["js/BLOCKS.js","js/jquery-ui.min.js"],
-            img= ["img/Blocks_Logo.png","img/settings.png"],
-            css= ["css/BLOCKS.css","css/jquery-ui.css"],
+            js= ["js/BLOCKS.js", "js/jquery-ui.min.js"],
+            img= ["img/Blocks_Logo.png", "img/settings.png"],
+            css= ["css/BLOCKS.css", "css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
         )
 
@@ -117,6 +107,7 @@ __plugin_pythoncompat__ = ">=2.7,<4"
 #__plugin_pythoncompat__ = ">=2.7,<3" # only python 2
 #__plugin_pythoncompat__ = ">=3,<4" # only python 3
 #__plugin_pythoncompat__ = ">=2.7,<4" # python 2 and 3
+
 
 def __plugin_load__():
     global __plugin_implementation__

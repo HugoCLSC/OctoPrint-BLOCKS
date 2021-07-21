@@ -29,6 +29,10 @@
 	#navbar > .navbar-inner > .container-fluid{
 		background-color: rgb(233, 233, 233);
 	}
+
+	#navbar .navbar-inner .brand {
+    padding: 10px 30px 6px;
+	}
 	/*#navbar .navbar-inner .brand span{
 		background-image: url(../img/Blocks_Logo.png);
 		background-size: 100%;
