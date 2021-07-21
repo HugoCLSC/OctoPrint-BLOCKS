@@ -13,8 +13,7 @@ import octoprint.plugin
 import octoprint.settings
 import octoprint.util
 import octoprint.environment
-import os
-import sys
+
 
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
@@ -99,6 +98,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
+
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
 # Starting with OctoPrint 1.4.0 OctoPrint will also support to run under Python 3 in addition to the deprecated
@@ -115,6 +115,6 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
-
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
+        
     }
