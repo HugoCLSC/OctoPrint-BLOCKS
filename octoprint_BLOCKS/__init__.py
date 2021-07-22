@@ -62,7 +62,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # ou criar meu próprio type de template...
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
             # My refresh button for my connection wrapper
-            dict(type="generic", template="refreshButton.jinja2", custom_bindings=False)
+            dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
+            # My webcam link
+            dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False)
         ]
 
     ##~~ Softwareupdate hook

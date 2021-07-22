@@ -20,7 +20,8 @@ $(function() {
         // assign the injected parameters, e.g.:
         self.settings = parameters[0];
         self.connection = parameters[1];
-        self.temperature = parameters[2];
+        self.control = parameters[2]
+        self.temperature = parameters[3];
         // TODO: Implement your plugin's view model here.
 
         // Quick debug
@@ -166,6 +167,8 @@ $(function() {
           $('div.tabbable').removeClass('span8');
           // The tabs does not need the Control tab because the Control module is
           // on my grid
+
+
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
           $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
@@ -244,8 +247,20 @@ $(function() {
           $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
           // Fix the size of the control wrapper letters.
           $('h1').css("font-size","30px");
-          // Finally i place my new control wrapper in my grid
+          // Finally i place my new control wrapper in my grid and correct the webcam
           $('#control_wrapper').appendTo($('#BTC3'));
+          self.set_tabWebStream(settingsPlugin);
+        };
+        self.set_tabWebStream = function (settingsPlugin){
+          $('#webcam_container').appendTo($('#tabs_content'));
+          $('#webcam_container').addClass('tab-pane');
+
+          // Add a Webcam  tab to the tabbable
+          $('#webcam_link').appendTo($('#tabs'));
+          $('div.tabbable > ul.nav.nav-tabs > #control_link > a').trigger('click');
+
+
+
         };
         //---------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
@@ -343,6 +358,7 @@ $(function() {
         dependencies: [
             "settingsViewModel",
             "connectionViewModel",
+            "controlViewModel",
             "temperatureViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
