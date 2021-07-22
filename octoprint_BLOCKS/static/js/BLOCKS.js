@@ -20,7 +20,7 @@ $(function() {
         // assign the injected parameters, e.g.:
         self.settings = parameters[0];
         self.connection = parameters[1];
-        self.loginState = parameters[2];
+        self.temperature = parameters[2];
         // TODO: Implement your plugin's view model here.
 
         // Quick debug
@@ -129,7 +129,7 @@ $(function() {
             $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
             $('#navbar').css('overflow','');
           }
-        };
+        }
 
         //---------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
@@ -267,7 +267,9 @@ $(function() {
           // Basically it presses the button on the tabs to create the grid
           // After the grid is created the tab is deleted from the tab container
           // because i don't need that tab there anymore
+
           $('#temp_link > a').trigger('click');
+
         };
         //---------------------------------------------------------------------------
         //I don't want my elements to be collapsible
@@ -334,12 +336,14 @@ $(function() {
     OCTOPRINT_VIEWMODELS.push({
         construct: BlocksViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
+
+        // This is a list of dependencies to inject into the plugin, the order which you request here is the order
+        // in which the dependencies will be injected into your view model upon instantiation via the parameters
+        // argument
         dependencies: [
             "settingsViewModel",
             "connectionViewModel",
-            "loginStateViewModel",
-            "accessViewModel"
-            ],
+            "temperatureViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
           "#blocksWrapper"]
