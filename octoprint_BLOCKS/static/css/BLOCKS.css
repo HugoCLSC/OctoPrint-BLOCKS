@@ -314,3 +314,11 @@ select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="c
     outline: 0px auto -webkit-focus-ring-color;
     /* outline-offset: -2px; */
 }
+
+/* Fan Slider */
+#fanRange{
+		width: 255px;
+    position: relative;
+    top: -50px;
+    left: 275px;
+}

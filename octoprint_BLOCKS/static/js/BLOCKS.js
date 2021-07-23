@@ -264,7 +264,10 @@ $(function() {
           var fanCommand = 'M106 S'+fanSpeed;
           self.control.sendCustomCommand({type:'command', command: fanCommand});
         });
-
+        self.fanText = ko.pureComputed( function() {
+          var fanSpeed = self.fanControl;
+          return gettext(fanSpeed);
+        });
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
           $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
