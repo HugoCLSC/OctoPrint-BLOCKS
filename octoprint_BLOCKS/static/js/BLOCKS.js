@@ -20,7 +20,7 @@ $(function() {
         // assign the injected parameters, e.g.:
         self.settings = parameters[0];
         self.connection = parameters[1];
-        self.control = parameters[2]
+        self.control = parameters[2];
         self.temperature = parameters[3];
         // TODO: Implement your plugin's view model here.
 
@@ -53,11 +53,36 @@ $(function() {
               $(window).trigger('resize');
           },500);
 
+          if(self.connection.isOperational()){
+            $('#blocks_printer_connect').prop('checked', 'checked');
+          }
         };
         //                    onAllBound END
         //---------------------------------------------------------------------------
+        self.onEventConnecting = function () {
 
+          $('#blocks_printer_connect').prop('disabled','disabled');
+          if(!self.connectIt()){
+            $('#blocks_printer_connect').prop('checked', 'checked');
+          }
+        };
 
+        self.onEventConnected = function () {
+          $('#blocks_printer_connect').removeAttr('disabled');
+          console.log('Connected');
+        };
+
+        self.onEventDisconnecting = function () {
+          $('#blocks_printer_connect').prop('disabled','disabled');
+          if(self.connectIt()){
+            $('#blocks_printer_connect').removeAttr('checked');
+          }
+        }
+
+        self.onEventDisconnected = function () {
+          $('#blocks_printer_connect').removeAttr('disabled');
+          console.log('Disconnected');
+        }
         //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work
@@ -72,12 +97,13 @@ $(function() {
         self.connectIt.subscribe(function(newVal){
           if(newVal){
             OctoPrint.connection.connect();
-            console.log("Printer connecting.... ");
+            console.log("Printer connecting....");
           }else{
             OctoPrint.connection.disconnect();
             console.log("Printer disconnecting....");
           }
         });
+
         // ~~ Change the text on my connection trigger switch
         // ~~ Will display Connected/Disconnected
 
@@ -85,7 +111,7 @@ $(function() {
         // ~~ Conected =:= Green
         // ~~ Disconnected =:= Red
         self.connection_labelText = ko.pureComputed(function () {
-            if (self.connection.isErrorOrClosed()){
+          if (self.connection.isErrorOrClosed()){
               $('#blocks_printer_connect').css("border-color", "rgb(255, 59, 59)");
               $('.form-check-input').css("background-color","rgb(255, 59, 59)");
               return gettext("Disconnected");
@@ -231,7 +257,7 @@ $(function() {
         //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
-          $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL)"></div>');
+          $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
           // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
           $('#control').removeClass('tab-pane').removeClass('container-fluid').addClass('container-fluid body');
           // This is for the heading, also gives it  the possibility to collapse.
@@ -249,18 +275,25 @@ $(function() {
           $('h1').css("font-size","30px");
           // Finally i place my new control wrapper in my grid and correct the webcam
           $('#control_wrapper').appendTo($('#BTC3'));
+
           self.set_tabWebStream(settingsPlugin);
         };
+
+
         self.set_tabWebStream = function (settingsPlugin){
-          $('#webcam_container').appendTo($('#tabs_content'));
-          $('#webcam_container').addClass('tab-pane');
+          $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAntPermissionKo(access.permissions.WEBCAM)"></div>');
+
+          $('#webcam_container').appendTo($('#webCam'));
+
+          $('#webCam').appendTo($('#tabs_content'));
+
+          $('#webCam').append('<div data-bind="visible: keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)() &amp;&amp; loginState.hasPermissionKo(access.permissions.CONTROL)()" style=""><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>/');
+
 
           // Add a Webcam  tab to the tabbable
           $('#webcam_link').appendTo($('#tabs'));
-          $('div.tabbable > ul.nav.nav-tabs > #control_link > a').trigger('click');
-
-
-
+          self.control._enableWebcam();
+          //$('div.tabbable > ul.nav.nav-tabs > #control_link > a').trigger('click');
         };
         //---------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
@@ -362,6 +395,7 @@ $(function() {
             "temperatureViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
-          "#blocksWrapper"]
+          "#blocksWrapper",
+          "#blocksControlWrapper"]
     });
 });

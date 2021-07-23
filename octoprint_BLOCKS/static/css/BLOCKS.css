@@ -9,22 +9,23 @@
 		min-width: 550px;
 		position: relative;
 	}
-	.modal-open.page-overflow .page-container, .modal-open.page-overflow .page-container .navbar-fixed-top, .modal-open.page-overflow .page-container .navbar-fixed-bottom, .modal-open.page-overflow .modal-scrollable {
-	     overflow-y: hidden;
-	}
 
 
-/* Change the navbar aspect */
+
+/* Change the navbar/settings aspect */
 #settings_dialog_menu > .nav {
 	flex-direction: column;
 }
-.modal-scrollable {
-    position: absolute;
-    top: 40px;
-    bottom: 25px;
-    left: 0;
-    right: 0;
-    overflow: initial;
+#settings_dialog{
+	position: relative;
+	DISPLAY: inline-block;
+	left: 980px;
+	top: 10px;
+}
+
+}
+.modal-header{
+	display: block;
 }
 	#navbar > .navbar-inner > .container-fluid{
 		background-color: rgb(233, 233, 233);
