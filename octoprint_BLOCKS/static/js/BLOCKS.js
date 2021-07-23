@@ -270,7 +270,7 @@ $(function() {
         self.fanControl = ko.observable(0);
 
         self.fanControl.subscribe(function(rangeVal){
-          var fanSpeed = 25.5*rangeVal;
+          var fanSpeed = 2.55*rangeVal;
           var fanCommand = 'M106 S'+fanSpeed;
           self.control.sendCustomCommand({type:'command', command: fanCommand});
         });
@@ -334,7 +334,7 @@ $(function() {
           // The webCam only initializes if the control tab is clicked.
           // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
           // Literally the same thing has the temperature graph problem i had
-        
+
           $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
         };
         //---------------------------------------------------------------------------
