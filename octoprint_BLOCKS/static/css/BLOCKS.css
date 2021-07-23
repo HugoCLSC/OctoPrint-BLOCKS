@@ -313,6 +313,8 @@ select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="c
 /* Fan Slider */
 #fanRange{
 		width: 255px;
+		padding: 15px;
+    border-radius: 16px;
 }
 #fanSlider{
 	display: inline-flex;
