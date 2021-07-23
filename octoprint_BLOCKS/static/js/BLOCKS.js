@@ -333,8 +333,8 @@ $(function() {
           $('#webcam_link').appendTo($('#tabs'));
           // The webCam only initializes if the control tab is clicked.
           // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
-          // Literally the same thing has the temperature graph problem i had 
-          });
+          // Literally the same thing has the temperature graph problem i had
+        
           $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
         };
         //---------------------------------------------------------------------------
