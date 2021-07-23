@@ -66,7 +66,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # My webcam link
             dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
             # Fan slider
-            dict(type = "generic", template = "fanSlider.jinja2", custom_bindings = False)
+            dict(type="generic", template="fanSlider.jinja2", custom_bindings=False)
         ]
 
     ##~~ Softwareupdate hook

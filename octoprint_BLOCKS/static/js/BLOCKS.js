@@ -56,6 +56,8 @@ $(function() {
           if(self.connection.isOperational()){
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
+
+
         };
         //                    onAllBound END
         //---------------------------------------------------------------------------
@@ -83,6 +85,14 @@ $(function() {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Disconnected');
         }
+
+        //This shit don't work
+        self.onTabChange = function (current, previous){
+          if(current == "#webCam"){
+            self.control._enableWebcam();
+          }
+
+        };
         //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work
@@ -256,7 +266,7 @@ $(function() {
           $('.dropdown-menu').addClass("dropdown-menu-right");
         };
         //---------------------------------------------------------------------------
-
+        // This is for my fan slider, i can increment the fan speed by 10%
         self.fanControl = ko.observable(0);
 
         self.fanControl.subscribe(function(rangeVal){
@@ -265,9 +275,19 @@ $(function() {
           self.control.sendCustomCommand({type:'command', command: fanCommand});
         });
         self.fanText = ko.pureComputed( function() {
-          var fanSpeed = BlocksViewModel.fanControl();
-          return gettext(fanSpeed);
+          var fanSpeed = self.fanControl();
+          fanSpeed *= 10;
+          return gettext(fanSpeed +'%');
         });
+
+        self.motorDisable = ko.observable(undefined);
+
+        self.motorDisable.subscribe(function(Val){
+          if(Val){
+            self.control.sendCustomCommand({type: 'command', command:'M18'});
+          }
+        });
+        //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
           $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
@@ -289,25 +309,31 @@ $(function() {
           // Finally i place my new control wrapper in my grid and correct the webcam
           $('#control_wrapper').appendTo($('#BTC3'));
 
-          $('#fanSlider').appendTo($('#BTC3'));
+          $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
+
           self.set_tabWebStream(settingsPlugin);
+          $('#control > div > div > div:first-child').remove();
+          $('#control > div > div > div:last-child').remove();
+
+
+          // I have a slider so i don't need this one
+          $('#control-jog-general').remove();
+          // Now that i have this fna slider i really don't need the general tab.
+          $('#fanSlider').appendTo($('#control'));
+
+
         };
 
 
         self.set_tabWebStream = function (settingsPlugin){
-          $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAntPermissionKo(access.permissions.WEBCAM)"></div>');
-
+          $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAnyPermissionKo(access.permissions.WEBCAM)"></div>');
           $('#webcam_container').appendTo($('#webCam'));
-
           $('#webCam').appendTo($('#tabs_content'));
-
-          $('#webCam').append('<div data-bind="visible: keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)() &amp;&amp; loginState.hasPermissionKo(access.permissions.CONTROL)()" style=""><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>/');
-
-
+          $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM, access.permissions.CONTROL)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
           // Add a Webcam  tab to the tabbable
           $('#webcam_link').appendTo($('#tabs'));
-          self.control._enableWebcam();
-          //$('div.tabbable > ul.nav.nav-tabs > #control_link > a').trigger('click');
+
+          $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
         };
         //---------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
