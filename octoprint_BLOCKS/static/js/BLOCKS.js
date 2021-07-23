@@ -88,6 +88,7 @@ $(function() {
         // make the switch work
         //
         //---------------------------------------------------------------------------
+
         // ~~ observable so i know if my toggle switch is on or off
         // ~~ My observable trigger, lets me know if the connection switch is
         // ~~ on or off
@@ -255,6 +256,15 @@ $(function() {
           $('.dropdown-menu').addClass("dropdown-menu-right");
         };
         //---------------------------------------------------------------------------
+
+        self.fanControl = ko.observable(0);
+
+        self.fanControl.subscribe(function(rangeVal){
+          var fanSpeed = 25.5*rangeVal;
+          var fanCommand = 'M106 S'+fanSpeed;
+          self.control.sendCustomCommand({type:'command', command: fanCommand});
+        });
+
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
           $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
@@ -276,6 +286,7 @@ $(function() {
           // Finally i place my new control wrapper in my grid and correct the webcam
           $('#control_wrapper').appendTo($('#BTC3'));
 
+          $('#fanSlider').appendTo($('#BTC3'));
           self.set_tabWebStream(settingsPlugin);
         };
 
@@ -396,6 +407,7 @@ $(function() {
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
           "#blocksWrapper",
+          "#fanSlider",
           "#blocksControlWrapper"]
     });
 });
