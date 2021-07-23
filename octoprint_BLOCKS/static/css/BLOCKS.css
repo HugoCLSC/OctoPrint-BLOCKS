@@ -16,7 +16,10 @@
 #settings_dialog_menu > .nav {
 	flex-direction: column;
 }
-
+#settings {
+	display: flex;
+  flex-direction: column;
+}
 
 .modal-header{
 	display: block;

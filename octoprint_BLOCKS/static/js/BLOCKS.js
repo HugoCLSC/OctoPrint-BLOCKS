@@ -57,6 +57,10 @@ $(function() {
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
 
+          // Executes when the window is loaded  
+          window.onload = function(){
+
+          };
 
         };
         //                    onAllBound END
