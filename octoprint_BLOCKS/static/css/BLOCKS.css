@@ -28,7 +28,7 @@
 	#navbar .navbar-inner .brand {
     padding: 10px 30px 6px;
 	}
-	
+
 	/* -------------------------*/
 	body.BLOCKSUIfixedHeader{
 		/*margin-top: 50px;*/
@@ -106,6 +106,8 @@
 
 	#temperature-graph{
 		background-image: url(../img/Blocks_Logo.png);
+		background-size: cover;
+		opacity: 0.6;
 		background-position: center;
 		background-size: 50%;
 		width: 100%;
@@ -215,12 +217,15 @@
 		position: static;
 		flex-basis: 100%;
 		padding: 4px;
-		border-left: 1px solid #e5e5e5;
-		border-right: 1px solid #e5e5e5;
 	}
 
-
-
+	.BLOCKCol2 {
+		border-left: 2px solid #e5e5e5;
+		border-right: 2px solid #e5e5e5;
+	}
+	.BotRow > .BLOCKCol2 {
+		min-height: 585px;
+	}
 
 	.container-fluid {
 		align-content: baseline;
@@ -239,7 +244,7 @@
 
 	.container-fluid.body {
 		/*display : contents;*/
-		min-height: 350px;
+		min-height: 380px;
 	}
 
 	/* Blocks properties */
@@ -292,7 +297,7 @@ label.form-check-text {
 }
 
 
- a{
+a{
 	/*color: rgba(11, 10, 10, 0.91);*/
 	color: rgb(60, 64, 67);
 	font-family: "Lexend Deca", sans-serif;

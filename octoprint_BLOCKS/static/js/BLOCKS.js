@@ -316,12 +316,11 @@ $(function() {
           $('#control > div > div > div:last-child').remove();
 
 
-          // I have a slider so i don't need this one
-          $('#control-jog-general').remove();
+
           // Now that i have this fna slider i really don't need the general tab.
           $('#fanSlider').appendTo($('#control'));
 
-
+          $('#control-jog-general').remove();
         };
 
 
@@ -332,7 +331,10 @@ $(function() {
           $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM, access.permissions.CONTROL)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
           // Add a Webcam  tab to the tabbable
           $('#webcam_link').appendTo($('#tabs'));
-
+          // The webCam only initializes if the control tab is clicked.
+          // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
+          // Literally the same thing has the temperature graph problem i had 
+          });
           $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
         };
         //---------------------------------------------------------------------------
