@@ -265,7 +265,7 @@ $(function() {
           self.control.sendCustomCommand({type:'command', command: fanCommand});
         });
         self.fanText = ko.pureComputed( function() {
-          var fanSpeed = self.fanControl;
+          var fanSpeed = BlocksViewModel.fanControl();
           return gettext(fanSpeed);
         });
         self.set_ControlWrapper = function(settingsPlugin){
