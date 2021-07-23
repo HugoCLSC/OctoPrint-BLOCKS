@@ -276,7 +276,7 @@ $(function() {
         });
         self.fanText = ko.pureComputed( function() {
           var fanSpeed = self.fanControl();
-          fanSpeed *= 10;
+          
           return gettext(fanSpeed +'%');
         });
 
