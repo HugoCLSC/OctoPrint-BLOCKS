@@ -270,13 +270,13 @@ $(function() {
         self.fanControl = ko.observable(0);
 
         self.fanControl.subscribe(function(rangeVal){
-          var fanSpeed = 2.55*rangeVal;
+          var fanSpeed = 2.6*rangeVal;
           var fanCommand = 'M106 S'+fanSpeed;
           self.control.sendCustomCommand({type:'command', command: fanCommand});
         });
         self.fanText = ko.pureComputed( function() {
           var fanSpeed = self.fanControl();
-          
+
           return gettext(fanSpeed +'%');
         });
 
