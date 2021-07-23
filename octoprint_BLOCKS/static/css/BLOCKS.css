@@ -191,11 +191,10 @@
 	}
 /* To fix the button settings on the files */
 	.open>.dropdown-menu {
-	    display: block;
+	    display: table;
 	    position: absolute;
 	    top: auto;
-			left:auto;
-	    right:auto;
+
 
 	}
 	/* Grid properties */
