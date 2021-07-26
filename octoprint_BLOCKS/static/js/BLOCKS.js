@@ -22,6 +22,9 @@ $(function() {
         self.connection = parameters[1];
         self.control = parameters[2];
         self.temperature = parameters[3];
+        self.appearance = parameters[4];
+
+
         // TODO: Implement your plugin's view model here.
 
         // Quick debug
@@ -57,14 +60,18 @@ $(function() {
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
 
-          // Executes when the window is loaded  
-          window.onload = function(){
-
-          };
+          // Executes when the window is loaded
+          // window.onload = function(){
+          //
+          // };
 
         };
         //                    onAllBound END
         //---------------------------------------------------------------------------
+        self.onStartupComplete = function () {
+          $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
+
+        }
         self.onEventConnecting = function () {
 
           $('#blocks_printer_connect').prop('disabled','disabled');
@@ -76,6 +83,7 @@ $(function() {
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Connected');
+        
         };
 
         self.onEventDisconnecting = function () {
@@ -95,7 +103,6 @@ $(function() {
           if(current == "#webCam"){
             self.control._enableWebcam();
           }
-
         };
         //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
@@ -252,7 +259,8 @@ $(function() {
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
-          $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"> Notifications </div>');
+          $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
+
         };
 
         //---------------------------------------------------------------------------
@@ -438,7 +446,8 @@ $(function() {
             "settingsViewModel",
             "connectionViewModel",
             "controlViewModel",
-            "temperatureViewModel"],
+            "temperatureViewModel",
+            "appearanceViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
           "#blocksWrapper",

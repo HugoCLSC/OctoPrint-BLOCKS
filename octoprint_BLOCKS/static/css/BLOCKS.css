@@ -24,230 +24,249 @@
 .modal-header{
 	display: block;
 }
-	#navbar > .navbar-inner > .container-fluid{
-		background-color: rgb(233, 233, 233);
-	}
-
-	#navbar .navbar-inner .brand {
-    padding: 10px 30px 6px;
-	}
-
-	/* -------------------------*/
-	body.BLOCKSUIfixedHeader{
-		/*margin-top: 50px;*/
-	}
-	.BLOCKSMainContainer{
-		padding-left: 0px;
-		padding-right: 0px;
-		padding-top: 20px;
-		display: inline-grid;
-	}
-
-
-	/* Control wrapper properties */
-	#control_wrapper > .container-fluid.heading > a.container-fluid {
-    display: inline-block;
-    padding: 8px 15px;
-	}
-	#control_wrapper > .container-fluid.heading {
-    border-bottom: 1px solid #e5e5e5;
-    position: relative;
-	}
-	#control_wrapper {
-  /*  border: 1px solid #e5e5e5; */
-    border-radius: 4px;
-
-	}
-	#control {
-    padding: 8px 15px;
-    display: flex;
-		flex-direction: column;
-
-	}
-
-	#control > .container-fluid.accordion-inner {
-    display: block;
-    justify-content: center;
-		position:relative;
-	}
-
-	#control > .container-fluid > .row-fluid {
-
-		display: inline-flex;
-    flex-direction: row;
-    align-content: stretch;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-	}
-	#control .jog-panel>div.distance {
-    text-align: left;
-    position: relative;
-    top: 0px;
-    left: -5px;
+#navbar > .navbar-inner > .container-fluid{
+	background-color: #ffffff;
 }
-	/* ----------------------------*/
 
-	/* Temperature wrapper properties */
-	#temp_wrapper > .container-fluid.heading > a.container-fluid {
-		display: inline-block;
-		padding: 8px 15px;
-	}
-	#temp_wrapper > .container-fluid.heading {
-		border-bottom: 1px solid #e5e5e5;
-		position: relative;
-	}
-	#temp_wrapper {
-		/*border: 1px solid #e5e5e5; */
-		border-radius: 4px;
-		height : 577px;
-	}
-	#temp {
-		padding: 8px 15px;
-		display: block;
-	}
+#navbar .navbar-inner .brand {
+  padding: 10px 30px 6px;
+}
+#navbar .navbar-inner .nav>li>a:hover{
+background: rgb(231, 231, 231);
+}
 
-	#temperature-graph{
-		background-image: url(../img/Blocks_Logo.png);
-		background-size: cover;
-		opacity: 0.6;
-		background-position: center;
-		background-size: 50%;
-		width: 100%;
-	}
-	.table th, .table td {
-    padding: 4px;
-    line-height: 20px;
-    text-align: left;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-	}
+/* -------------------------*/
+body.BLOCKSUIfixedHeader{
+	/*margin-top: 50px;*/
+}
+.BLOCKSMainContainer{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 20px;
+	display: inline-grid;
+}
 
-	/* ----------------------------- */
 
-	/* State wrapper properties */
-	#state_wrapper > .container-fluid.heading > a.container-fluid {
-    display: inline-block;
-    padding: 8px 15px;
-	}
-	#state_wrapper > .container-fluid.heading {
-    border-bottom: 1px solid #e5e5e5;
-    position: relative;
-	}
-	#state_wrapper {
-    /*border: 1px solid #e5e5e5;*/
-    border-radius: 4px;
-	}
-	#state {
-    padding: 8px 15px;
-    display: flex;
-		flex-direction: column;
-	}
+/* Control wrapper properties */
+#control_wrapper > .container-fluid.heading > a.container-fluid {
+  display: inline-block;
+  padding: 8px 15px;
+}
+#control_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+#control_wrapper {
+/*  border: 1px solid #e5e5e5; */
+  border-radius: 4px;
 
-	/* ----------------------------- */
+}
+#control {
+  padding: 8px 15px;
+  display: flex;
+	flex-direction: column;
 
-	/* notification properties */
-	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
-    display: inline-block;
-    padding: 8px 15px;
-	}
-	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
-    border-bottom: 1px solid #e5e5e5;
-    position: relative;
-	}
-	#sidebar_plugin_action_command_notification_wrapper{
-    /*border: 1px solid #e5e5e5;*/
-    border-radius: 4px;
-	}
-	#sidebar_plugin_action_command_notification{
-    padding: 8px 15px;
-    display: flex;
-		flex-direction: column;
-	}
+}
 
-	/* ----------------------------- */
+#control > .container-fluid.accordion-inner {
+  display: block;
+  justify-content: center;
+	position:relative;
+}
 
-	/* Files wrapper css styles */
-	#files_wrapper > .container-fluid > .container-fluid {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-	}
-	#files_wrapper > .container-fluid.heading > a.container-fluid {
-    display: inline-block;
-    padding: 8px 15px;
+#control > .container-fluid > .row-fluid {
 
-	}
-	#files_wrapper > .container-fluid.heading {
-    /*border-bottom: 1px solid #e5e5e5;*/
-    position: relative;
-		display : flex;
-	}
-	#files_wrapper{
-    /*border: 1px solid #e5e5e5;*/
-    border-radius: 4px;
-	}
-	#files{
-    /*padding: 8px 15px;*/
-    display: flex;
-		flex-direction: column;
-	}
+	display: inline-flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#control .jog-panel>div.distance {
+  text-align: left;
+  position: relative;
+  top: 0px;
+  left: -5px;
+}
+/* ----------------------------*/
+
+/* Temperature wrapper properties */
+#temp_wrapper > .container-fluid.heading > a.container-fluid {
+	display: inline-block;
+	padding: 8px 15px;
+}
+#temp_wrapper > .container-fluid.heading {
+	border-bottom: 1px solid #e5e5e5;
+	position: relative;
+}
+#temp_wrapper {
+	/*border: 1px solid #e5e5e5; */
+	border-radius: 4px;
+	height : 577px;
+}
+#temp {
+	padding: 8px 15px;
+	display: block;
+}
+
+#temperature-graph{
+	background-image: url(../img/Blocks_Logo.png);
+	background-size: cover;
+	opacity: 0.6;
+	background-position: center;
+	background-size: 50%;
+	width: 100%;
+}
+.table th, .table td {
+  padding: 4px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+/* ----------------------------- */
+
+/* State wrapper properties */
+#state_wrapper > .container-fluid.heading > a.container-fluid {
+  display: inline-block;
+  padding: 8px 15px;
+}
+#state_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+#state_wrapper {
+  border-radius: 4px;
+}
+#state {
+  padding: 8px 15px;
+  display: flex;
+	flex-direction: column;
+}
+
+/* ----------------------------- */
+
+/* notification properties */
+#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
+  display: inline-block;
+  padding: 8px 15px;
+}
+#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+#sidebar_plugin_action_command_notification_wrapper{
+  /*border: 1px solid #e5e5e5;*/
+  border-radius: 4px;
+}
+#sidebar_plugin_action_command_notification{
+  padding: 8px 15px;
+  display: flex;
+	flex-direction: column;
+}
+#sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  /*max-height: 306px;*/
+}
+/* Fixes the problem of the notifications making the grid all wonky when there are alot of notifications*/
+#sidebar_plugin_action_command_notification > .accordion-inner{
+	max-height: 344px;
+}
+/* ----------------------------- */
+
+/* Files wrapper css styles */
+#files_wrapper > .container-fluid > .container-fluid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#files_wrapper > .container-fluid.heading > a.container-fluid {
+  display: inline-block;
+  padding: 8px 15px;
+
+}
+#files_wrapper > .container-fluid.heading {
+  /*border-bottom: 1px solid #e5e5e5;*/
+  position: relative;
+	display : flex;
+}
+#files_wrapper{
+  /*border: 1px solid #e5e5e5;*/
+  border-radius: 4px;
+}
+#files{
+  /*padding: 8px 15px;*/
+  display: flex;
+	flex-direction: column;
+}
+/* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
+#files .gcode_files .scroll-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  /*height: 306px;*/
+  padding-right: 2px;
+}
 /* To fix the button settings on the files */
-	.open>.dropdown-menu {
-	    display: table;
-	    position: absolute;
-	    top: auto;
+.open>.dropdown-menu {
+    display: table;
+    top: auto;
+}
+ul.dropdown-menu.dropdown-menu-right {
+	position: absolute;
+  left: auto;
+}
+/* Grid properties */
+
+.TopRow{
+	display: flex ;
+	align-items: flex-start;
+	flex-wrap:nowrap;
+	max-height: 425px;
+}
+.BotRow{
+	display: flex ;
+	border-top : 2px solid rgb(185, 185, 185);
+	border-bottom : 2px solid rgb(185, 185, 185);
+	align-items: flex-start;
+	flex-wrap:nowrap;
+
+}
+.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
+	position: static;
+	flex-basis: 100%;
+	padding: 4px;
+}
+
+.BLOCKCol2 {
+	border-left: 2px solid rgb(185, 185, 185);
+	border-right: 2px solid rgb(185, 185, 185);
+}
+.BotRow > .BLOCKCol2 {
+	min-height: 585px;
+}
+
+.container-fluid {
+	align-content: baseline;
+	padding-left: 0px;
+	padding-right: 0px;
+}
 
 
-	}
-	/* Grid properties */
-
-	.TopRow{
-		display: flex ;
-		align-items: flex-start;
-		flex-wrap:nowrap;
-	}
-	.BotRow{
-		display: flex ;
-		border-top : 5px solid #e5e5e5;
-		border-bottom : 5px solid #e5e5e5;
-		align-items: flex-start;
-		flex-wrap:nowrap;
-
-	}
-	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
-		position: static;
-		flex-basis: 100%;
-		padding: 4px;
-	}
-
-	.BLOCKCol2 {
-		border-left: 2px solid #e5e5e5;
-		border-right: 2px solid #e5e5e5;
-	}
-	.BotRow > .BLOCKCol2 {
-		min-height: 585px;
-	}
-
-	.container-fluid {
-		align-content: baseline;
-		padding-left: 0px;
-		padding-right: 0px;
-	}
+/* Tabs properties */
+#tabs{
+	border-radius: 4px;
+	/*border: 1px solid #e5e5e5;*/
+}
+/* ------------------ */
 
 
-	/* Tabs properties */
-	#tabs{
-		border-radius: 4px;
-		/*border: 1px solid #e5e5e5;*/
-	}
-	/* ------------------ */
-
-
-	.container-fluid.body {
-		/*display : contents;*/
-		min-height: 380px;
-	}
+.container-fluid.body {
+	/*display : contents;*/
+	min-height: 380px;
+}
 
 	/* Blocks properties */
 #blocksWrapper {
@@ -300,8 +319,8 @@ label.form-check-text {
 
 
 a{
-	/*color: rgba(11, 10, 10, 0.91);*/
-	color: rgb(60, 64, 67);
+
+	color: /*rgb(60, 64, 67)*/rgb(22, 33, 96);
 	font-family: "Lexend Deca", sans-serif;
 }
 
@@ -323,4 +342,19 @@ select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="c
 	align-content: center;
   justify-content: space-between;
   align-items: center;
+}
+
+#settings_dialog{
+	display: grid;
+}
+
+/* All Popovers about warnings will have the correct size */
+.modal.hide.fade.modal-overflow.in{
+	height: fit-content;
+}
+
+/* Changes the background color of the buttons when i hover over them */
+a:hover {
+	color: rgb(0, 0, 0);
+	text-decoration: none;
 }
