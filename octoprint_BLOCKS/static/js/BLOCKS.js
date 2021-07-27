@@ -83,7 +83,11 @@ $(function() {
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Connected');
-        
+
+          // This shit also does not work
+          // fanCommand = "//action_custom notification Helll";
+          // self.control.sendCustomCommand({type:'command', command: fanCommand});
+
         };
 
         self.onEventDisconnecting = function () {
@@ -104,6 +108,8 @@ $(function() {
             self.control._enableWebcam();
           }
         };
+
+
         //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work

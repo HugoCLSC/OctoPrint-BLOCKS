@@ -206,8 +206,8 @@ body.BLOCKSUIfixedHeader{
 #files .gcode_files .scroll-wrapper {
   overflow-x: hidden;
   overflow-y: auto;
+	padding-right: 2px;
   /*height: 306px;*/
-  padding-right: 2px;
 }
 /* To fix the button settings on the files */
 .open>.dropdown-menu {

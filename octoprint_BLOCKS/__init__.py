@@ -3,16 +3,24 @@ from __future__ import absolute_import
 
 
 import octoprint.plugin
+import octoprint.events
+from octoprint.access import USER_GROUP
+from octoprint.access.permissions import Permissions
+from octoprint.events import Events
+import flask
+import os
 
 
 
 
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
-                octoprint.plugin.UiPlugin,
-                octoprint.plugin.AssetPlugin,
-                octoprint.plugin.TemplatePlugin,
-                octoprint.plugin.StartupPlugin):
+                   octoprint.plugin.UiPlugin,
+                   octoprint.plugin.AssetPlugin,
+                   octoprint.plugin.TemplatePlugin,
+                   octoprint.plugin.StartupPlugin,
+                   octoprint.plugin.SimpleApiPlugin,
+                   octoprint.plugin.EventHandlerPlugin):
 
     def on_after_startup(self):
         self._logger.info("Blocks theme initialized...")
@@ -45,9 +53,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             "removeCollapsible" : True
 
+
         }
-
-
 
     ##~~ TemplatePlugin mixin
 
@@ -90,9 +97,22 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 pip= "https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
             )
         )
+    """
+    def on_event(self, event, payload):
+        if event == "Connected":
+            self._logger.info("dhhdhdh")
+            r = os.system("//action_custom notification Helllll")
 
+    def custom_action_handler(self, comm, line, action, *args, **kwargs):
+        if not  action == "notification":
+            return
 
+    ## TODO make more notifications for when the printer is conecting disconnecting etc 
 
+        self._logger.info("blebleble")
+        r = os.system("//action_custom notification Helllll")
+
+    """
 
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
@@ -105,6 +125,5 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
     }
