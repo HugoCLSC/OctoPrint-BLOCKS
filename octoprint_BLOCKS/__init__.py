@@ -4,11 +4,11 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 import octoprint.events
-from octoprint.access import USER_GROUP
+import octoprint.plugin.core
+
+from octoprint.access import ADMIN_GROUP
 from octoprint.access.permissions import Permissions
 from octoprint.events import Events
-import flask
-import os
 
 
 
@@ -20,6 +20,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.StartupPlugin,
                    octoprint.plugin.SimpleApiPlugin,
+                   octoprint.plugin.ProgressPlugin,
                    octoprint.plugin.EventHandlerPlugin):
 
     def on_after_startup(self):
@@ -64,6 +65,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def get_template_configs(self):
 
         return[
+
             dict(type="settings", custom_bindings=False),
             # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
             # ou criar meu próprio type de template...
@@ -97,22 +99,26 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 pip= "https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
             )
         )
-    """
-    def on_event(self, event, payload):
-        if event == "Connected":
-            self._logger.info("dhhdhdh")
-            r = os.system("//action_custom notification Helllll")
 
+    def on_event(self, event, payload):
+        # Everytime an event takes place we will send a message to any message listeners that exist 
+        self._plugin_manager.send_plugin_message(self._identifier, dict(action="popup", type="info", text= event))
+
+        self._logger.info("Notification : {}".format(event))
+
+
+    """
     def custom_action_handler(self, comm, line, action, *args, **kwargs):
         if not  action == "notification":
             return
 
-    ## TODO make more notifications for when the printer is conecting disconnecting etc 
+    ## TODO make more notifications for when the printer is conecting disconnecting etc
 
         self._logger.info("blebleble")
         r = os.system("//action_custom notification Helllll")
 
     """
+
 
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"

@@ -23,7 +23,7 @@ $(function() {
         self.control = parameters[2];
         self.temperature = parameters[3];
         self.appearance = parameters[4];
-
+        self.access = parameters[5];
 
         // TODO: Implement your plugin's view model here.
 
@@ -88,7 +88,44 @@ $(function() {
           // fanCommand = "//action_custom notification Helll";
           // self.control.sendCustomCommand({type:'command', command: fanCommand});
 
+          // This shit lets me make a popup on the interface
+          // It actually says that the printer is connected
+          // new PNotify({
+          //   title: gettext("Printer Notification"),
+          //   text: "Connected my bitch",
+          //   icon: "fa fa-bell-o",
+          //   buttons: {
+          //     closer: true
+          //   }
+          // });
+
+          // self.plugins.action_command_notification.notifications.push(PNotify);
+          //self.plugins.action_command_notification.onDataUpdaterPluginMessage("action_command_notification","connected");
+
+          //  self.plugin.plugin_manager.send_plugin_message(self,"Hellooooo");
+
+
+
         };
+
+        self.notifications = ko.observableArray([]);
+        // With this i can make a popup appear everytime an event happens 
+        self.onDataUpdaterPluginMessage = function(plugin, data){
+          self.access.permissions.PLUGIN_ACTION_COMMAND_NOTIFICATION_SHOW
+
+          notifications.push(data);
+
+          if (data.action == "popup"){
+            new PNotify({
+              title: "Notification",
+              icon: "fa fa-bell-o",
+              text: data.text,
+              type: data.type,
+              hide: true
+            });
+          }
+        };
+
 
         self.onEventDisconnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
@@ -453,7 +490,8 @@ $(function() {
             "connectionViewModel",
             "controlViewModel",
             "temperatureViewModel",
-            "appearanceViewModel"],
+            "appearanceViewModel",
+            "accessViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
           "#blocksWrapper",
