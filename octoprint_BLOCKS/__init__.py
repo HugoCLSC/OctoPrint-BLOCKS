@@ -1,6 +1,8 @@
 # coding=utf-8
 from __future__ import absolute_import
 
+import time
+import flask
 
 import octoprint.plugin
 import octoprint.events
@@ -23,6 +25,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.ProgressPlugin,
                    octoprint.plugin.EventHandlerPlugin):
 
+
+
+    def __init__(self):
+        self._blocksNotifications = []
+
     def on_after_startup(self):
         self._logger.info("Blocks theme initialized...")
 
@@ -32,7 +39,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
         return dict(
-            js= ["js/BLOCKS.js", "js/jquery-ui.min.js"],
+            js= ["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js"],
             img= ["img/Blocks_Logo.png", "img/settings.png"],
             css= ["css/BLOCKS.css", "css/jquery-ui.css"],
             less= ["less/BLOCKS.less"]
@@ -75,7 +82,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # My webcam link
             dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
             # Fan slider
-            dict(type="generic", template="fanSlider.jinja2", custom_bindings=False)
+            dict(type="generic", template="fanSlider.jinja2", custom_bindings=False),
+            # Custom Notifications
+            dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=True)
         ]
 
     ##~~ Softwareupdate hook
@@ -100,24 +109,45 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             )
         )
 
+    ## ~~ EventHandlerPlugin mixin
+
     def on_event(self, event, payload):
-        # Everytime an event takes place we will send a message to any message listeners that exist 
-        self._plugin_manager.send_plugin_message(self._identifier, dict(action="popup", type="info", text= event))
+        # Everytime an event takes place we will send a message to any message listeners that exist
+
+        if event == Events.CONNECTED:
+            self._plugin_manager.send_plugin_message(self._identifier, dict(action="popup", type="info", text= event))
+            self._blocksNotifications.append((time.time(), event))
+
+            # self.plugins.action_command_notification._notifications.append("")
+            # This way the system Will make the popup appear but the wrapper with the notifications still is wonky
+            # self._plugin_manager.send_plugin_message("action_command_notification", {"message": "JO MAMA"})
 
         self._logger.info("Notification : {}".format(event))
 
 
-    """
-    def custom_action_handler(self, comm, line, action, *args, **kwargs):
-        if not  action == "notification":
-            return
+    ## ~~ SimpleApiPlugin mixin
 
-    ## TODO make more notifications for when the printer is conecting disconnecting etc
+    # def on_api_get (self, request):
+    #
+    # def get_api_commands(self):
+    #
+    # def on_api_command(self, command, data):
 
-        self._logger.info("blebleble")
-        r = os.system("//action_custom notification Helllll")
+    ## ~~ ProgressPlugin mixin
 
-    """
+    def on_print_progress(storage, path, progress):
+        if progress == 25:
+            # The message i want to display
+            message = dict(
+                # Still do not know what type of action i should place in here
+                action = "notification",
+                type = "info",
+                text = "Printing progress at {}%".format(progress)
+            )
+            # Adds the message to the Notifications
+            self._notification.append(time.time(), message)
+            # Sends a message to any message listeners
+            self._plugin_manager.send_plugin_message(plugin._identifier, {"message": message})
 
 
 __plugin_name__ = "Blocks Plugin"
@@ -131,5 +161,6 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
+
     }

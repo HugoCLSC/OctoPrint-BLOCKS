@@ -108,23 +108,22 @@ $(function() {
 
         };
 
-        self.notifications = ko.observableArray([]);
-        // With this i can make a popup appear everytime an event happens 
-        self.onDataUpdaterPluginMessage = function(plugin, data){
-          self.access.permissions.PLUGIN_ACTION_COMMAND_NOTIFICATION_SHOW
 
-          notifications.push(data);
-
-          if (data.action == "popup"){
-            new PNotify({
-              title: "Notification",
-              icon: "fa fa-bell-o",
-              text: data.text,
-              type: data.type,
-              hide: true
-            });
-          }
-        };
+        // With this i can make a popup appear everytime an event happens
+        // self.onDataUpdaterPluginMessage = function(plugin, data){
+        //   self.access.permissions.PLUGIN_ACTION_COMMAND_NOTIFICATION_SHOW
+        //
+        //
+        //   if (data.action == "popup"){
+        //     new PNotify({
+        //       title: "Notification",
+        //       icon: "fa fa-bell-o",
+        //       text: data.text,
+        //       type: data.type,
+        //       hide: true
+        //     });
+        //   }
+        // };
 
 
         self.onEventDisconnecting = function () {
@@ -297,7 +296,9 @@ $(function() {
           // on the same space. So i'll just append the wrappers to the correct place
           $('#blocksWrapper').appendTo($('#BTC1'));
           // I want the printer notifications and be able to connect to the printer in the same space
-          $('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
+
+          //$('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
+          $('#blocks_notifications_wrapper').appendTo('#blocksWrapper');
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
