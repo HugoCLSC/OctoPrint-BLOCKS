@@ -84,7 +84,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Fan slider
             dict(type="generic", template="fanSlider.jinja2", custom_bindings=False),
             # Custom Notifications
-            dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=True)
+            dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=False)
         ]
 
     ##~~ Softwareupdate hook
@@ -116,7 +116,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         if event == Events.CONNECTED:
             self._plugin_manager.send_plugin_message(self._identifier, dict(action="popup", type="info", text= event))
-            self._blocksNotifications.append((time.time(), event))
+            # self._blocksNotifications.append((time.time(), event))
 
             # self.plugins.action_command_notification._notifications.append("")
             # This way the system Will make the popup appear but the wrapper with the notifications still is wonky

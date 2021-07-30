@@ -1,16 +1,26 @@
 <div id="blocks_notifications_wrapper" >
-  <div style="display: none" data-bind="visible: blocksNotifications().length > 0 ">
-    <div class="scroll-wrapper blocks_notifications-scrollable" data-bind="foreach: blocksNotifications">
-      <div class="blocks_notifications_entry">
-        <div class="blocks_notifications_timestamp">
-          <!-- <small class="muted" data-bind="text: $root.toDateTimeString($data.timestamp)"></small> -->
-        </div>
-        <div class="blocks_notifications_message" data-bind="text: text"></div>
-      </div>
-      <button type="btn btn-block" data-bind="click: clear, visible: blocksNotifications().length > 0" ><i class="far fa-trash-alt"></i> {{ _('Clear') }}</button>
+  <div class="container-fluid heading">
+    <div class="header" data-bind>
+      <i class="far icon-black fa-bell"></i>
+       Notifications
     </div>
   </div>
-  <div style="display: none" data-bind="visible: blocksNotifications().length == 0">
-    {{_ ('No notifications to be displayed') }}
+  <div  class="container-fluid body">
+    <div class="accordion-inner">
+      <div style="display: none" data-bind="visible: blocksNotifications().length > 0">
+        <div class="scroll-wrapper blocks_notifications-scrollable" data-bind="foreach: blocksNotifications">
+          <div class="blocks_notifications_entry">
+            <div class="blocks_notifications_timestamp">
+              <!-- <small class="muted" data-bind="text: $root.toDateTimeString($data.timestamp)"></small> -->
+            </div>
+            <div class="blocks_notifications_message" data-bind="text: text"></div>
+          </div>
+          <button type="btn btn-block" data-bind="visible: blocksNotifications().length > 0" ><i class="far fa-trash-alt"></i> {{ _('Clear') }}</button>
+        </div>
+      </div>
+      <div style="display: none" data-bind="visible: blocksNotifications().length == 0">
+        {{_ ('No notifications to be displayed') }}
+      </div>
+    </div>
   </div>
 </div>

@@ -4,6 +4,10 @@
  * Author: Hugo C. Lopes Santos Costa
  * License: AGPLv3
  */
+
+
+ // TODO: I really need to save the array length when the system is disabled i think
+
 $(function () {
     function NotificationsViewModel(parameters){
         var self = this;
@@ -18,11 +22,23 @@ $(function () {
 
 
       // This function will automatically listen for any messages any plugin sends.
-        self.onDataUpdaterPluginMessage = function (plugin, data) {
+      self.onDataUpdaterPluginMessage = function (plugin, data) {
           if (plugin != "BLOCKS")
             return;
 
-          self.blocksNotifications.push(data);
+
+
+          // In here i should make the notifications appear on the notification wrapper
+          // It's not really doing that i do not know why
+          // It always displays an error abou the observableArray blocksNotifications
+          // saying it's not defined. Need to check into that
+
+          // The line directly below pushes the message to the container
+          // But after that it make an error appear.
+          // self.blocksNotifications.push(data);
+
+          // debugger;
+          // console.log("YOOO i'm here my man");
 
           if(data.action =="popup"){
             new PNotify({
@@ -38,7 +54,14 @@ $(function () {
             });
           }
       };
+
+      self.response = function (response){
+        var notifications = response.blocksNotifications;
+        self.blocksNotifications(notifications);
+      };
+
   }
+  // Ver qual é a diferença entre o OCTOPRINT_VIEWMODELS e o ADDITIONAL_VIEWMODELS
   OCTOPRINT_VIEWMODELS.push({
     construct: NotificationsViewModel,
     dependencies: ["loginStateViewModel", "accessViewModel", "settingsViewModel"],
