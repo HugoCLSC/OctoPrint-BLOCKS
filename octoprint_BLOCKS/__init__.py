@@ -3,7 +3,6 @@ from __future__ import absolute_import
 
 import time
 import flask
-
 import octoprint.plugin
 import octoprint.events
 import octoprint.plugin.core
@@ -26,9 +25,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.EventHandlerPlugin,):
 
 
-
     def __init__(self):
-        self._blocksNotifications = []
+        parser = argparse.ArgumentParser()
+        parser.add_argument("25ProgressFlag", action ="store_false")
 
     def on_after_startup(self):
         self._logger.info("Blocks theme initialized...")
@@ -54,8 +53,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "fluidLayout" : True,
 
             "fixedHeader" : True,
-
-            #"fixedFooter" : True,
 
             "blocksFooterInfo" : True,
 
@@ -108,65 +105,68 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 pip= "https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
             )
         )
-    # ~ SimpleApiPlugin
-
-    def on_api_get(self, request):
-        return flask.jsonify(
-            blocksNotifications=[
-                {"timestamp": blocksNotification[0], "message": blocksNotification[1]}
-                for blocksNotification in self._blocksNotifications
-            ]
-        )
-
-    def get_api_commands(self):
-        return {"clear": []}
-
-    def on_api_command(self, command, data):
-        if command == "clear":
-            self._clear_notifications()
-
 
     ## ~~ EventHandlerPlugin mixin
 
     def on_event(self, event, payload):
         # Everytime an event takes place we will send a message to any message listeners that exist
         if event == Events.CONNECTED:
-            Notification = {
+            notification = {
                 "action": "popup",
                 "type": "info",
                 "message": event,
             }
-            self._blocksNotifications.append((time.time(), Notification))
-            self._plugin_manager.send_plugin_message(self._identifier, Notification)
-        # Case event when printer disconnects 
+            self._plugin_manager.send_plugin_message(self._identifier, notification)
+
+
         if event == Events.DISCONNECTED:
-            self._clear_notifications()
+            notification = {
+                "action": "popup",
+                "type": "info",
+                "message": event,
+            }
+            self._plugin_manager.send_plugin_message(self._identifier, notification)
 
         self._logger.info("Notification : {}".format(event))
 
 
-    def _clear_notifications(self):
-        self._blocksNotifications = []
-        self._plugin_manager.send_plugin_message(self._identifier, {})
-        self._logger.info("Notifications Cleared.")
-
-
     ## ~~ ProgressPlugin mixin
 
-    def on_print_progress(storage, path, progress):
-        if progress == 25:
-            # The message i want to display
-            message = dict(
-                # Still do not know what type of action i should place in here
-                action = "notification",
-                type = "info",
-                text = "Printing progress at {}%".format(progress)
-            )
-            # Adds the message to the Notifications
-            self._notification.append(time.time(), message)
-            # Sends a message to any message listeners
-            self._plugin_manager.send_plugin_message(plugin._identifier, {"message": message})
+    def on_print_progress(self, storage, path, progress):
 
+        if progress >= 25:
+
+            notification = {
+                "action": "popup",
+                "type": "warning",
+                "message": progress
+            }
+            # Sends a message to any message listeners
+            self._plugin_manager.send_plugin_message(self._identifier, notification)
+
+
+    def gcode_received_hook(self, comm, line, *args, **kwargs):
+        try:
+            if comm == "M600":
+                notification = {
+                    "action": "popup",
+                    "type": "error",
+                    "message": "Replace filament"
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
+
+            self._logger.info("Notification : {}".format("Replace Filament"))
+
+        except Exception as e:
+            # raise
+            pass
+
+
+    def get_flag_val(flag):
+        all_flag_vals = parser.parse_args()
+        flag_val = all_flag_vals.flag
+
+        return flag_val
 
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
@@ -180,5 +180,5 @@ def __plugin_load__():
     global __plugin_hooks__
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-
+        "octoprint.comm.protocol.gcode.receive": __plugin_implementation__.gcode_received_hook,
     }

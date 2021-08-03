@@ -19,6 +19,7 @@ $(function () {
 
         self.blocksNotifications = ko.observableArray([]);
 
+
         ko.onError = function(error) {
 
             console.log("knockout error", error);
@@ -27,21 +28,29 @@ $(function () {
 
       // This function will automatically listen for any messages any plugin sends.
       self.onDataUpdaterPluginMessage = function (plugin, data) {
-
         try {
-          if (plugin != "BLOCKS")
+          if ( plugin != "BLOCKS" )
             return;
 
-          console.log(self.blocksNotifications().length);
+          console.log(data.message);
 
-          // To put data on the vector i need to place those two brackets right next to the observableArray
-          // This is the javascript way, the Knockoutjs those brackets are not meant to be there
+          if(data.message != "Disconnected" ){
+            self.blocksNotifications.push(data);
+            self.PopUpNotification(data);
+          }else{
+            self.clearNotifications();
+            self.PopUpNotification(data);
+          }
 
-          // self.blocksNotifications().push(data);
+        } catch (exception) {
+          ko.onError(exception);
 
-          self.blocksNotifications.push(data);
+        }
+      };
 
-          console.log(self.blocksNotifications().length);
+      // Lets me display a PopUp on the page about the notification
+      self.PopUpNotification = function (data){
+        try {
           if(data.action =="popup"){
             new PNotify({
                 title: gettext("Printer Notification"),
@@ -55,20 +64,22 @@ $(function () {
                 }
             });
           }
-
         } catch (e) {
           ko.onError(e);
         }
-
-
       };
 
       self.clearNotifications = function (){
+        try {
+          self.blocksNotifications.pop();
+          console.log("Notifications Cleared");
 
+        } catch (exception) {
+          ko.onError(exception);
+        }
       };
 
   }
-  // Ver qual é a diferença entre o OCTOPRINT_VIEWMODELS e o ADDITIONAL_VIEWMODELS
   OCTOPRINT_VIEWMODELS.push({
     construct: NotificationsViewModel,
     dependencies: ["loginStateViewModel", "accessViewModel", "settingsViewModel"],
