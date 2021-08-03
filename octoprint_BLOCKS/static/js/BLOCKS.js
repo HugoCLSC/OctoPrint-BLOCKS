@@ -84,46 +84,10 @@ $(function() {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Connected');
 
-          // This shit also does not work
-          // fanCommand = "//action_custom notification Helll";
-          // self.control.sendCustomCommand({type:'command', command: fanCommand});
-
-          // This shit lets me make a popup on the interface
-          // It actually says that the printer is connected
-          // new PNotify({
-          //   title: gettext("Printer Notification"),
-          //   text: "Connected my bitch",
-          //   icon: "fa fa-bell-o",
-          //   buttons: {
-          //     closer: true
-          //   }
-          // });
-
-          // self.plugins.action_command_notification.notifications.push(PNotify);
-          //self.plugins.action_command_notification.onDataUpdaterPluginMessage("action_command_notification","connected");
-
-          //  self.plugin.plugin_manager.send_plugin_message(self,"Hellooooo");
-
-
-
         };
 
 
-        // With this i can make a popup appear everytime an event happens
-        // self.onDataUpdaterPluginMessage = function(plugin, data){
-        //   self.access.permissions.PLUGIN_ACTION_COMMAND_NOTIFICATION_SHOW
-        //
-        //
-        //   if (data.action == "popup"){
-        //     new PNotify({
-        //       title: "Notification",
-        //       icon: "fa fa-bell-o",
-        //       text: data.text,
-        //       type: data.type,
-        //       hide: true
-        //     });
-        //   }
-        // };
+        
 
 
         self.onEventDisconnecting = function () {

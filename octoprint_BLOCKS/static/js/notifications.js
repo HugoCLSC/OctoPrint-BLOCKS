@@ -19,45 +19,52 @@ $(function () {
 
         self.blocksNotifications = ko.observableArray([]);
 
+        ko.onError = function(error) {
+
+            console.log("knockout error", error);
+        };
 
 
       // This function will automatically listen for any messages any plugin sends.
       self.onDataUpdaterPluginMessage = function (plugin, data) {
+
+        try {
           if (plugin != "BLOCKS")
             return;
 
+          console.log(self.blocksNotifications().length);
 
+          // To put data on the vector i need to place those two brackets right next to the observableArray
+          // This is the javascript way, the Knockoutjs those brackets are not meant to be there
 
-          // In here i should make the notifications appear on the notification wrapper
-          // It's not really doing that i do not know why
-          // It always displays an error abou the observableArray blocksNotifications
-          // saying it's not defined. Need to check into that
+          // self.blocksNotifications().push(data);
 
-          // The line directly below pushes the message to the container
-          // But after that it make an error appear.
-          // self.blocksNotifications.push(data);
+          self.blocksNotifications.push(data);
 
-          // debugger;
-          // console.log("YOOO i'm here my man");
-
+          console.log(self.blocksNotifications().length);
           if(data.action =="popup"){
             new PNotify({
                 title: gettext("Printer Notification"),
-                text: data.text,
+                text: data.message,
                 type: data.type,
                 hide: true,
                 icon: "fa fa-bell-o",
                 buttons: {
                     sticker: false,
-                    closer: false
+                    closer: true
                 }
             });
           }
+
+        } catch (e) {
+          ko.onError(e);
+        }
+
+
       };
 
-      self.response = function (response){
-        var notifications = response.blocksNotifications;
-        self.blocksNotifications(notifications);
+      self.clearNotifications = function (){
+
       };
 
   }

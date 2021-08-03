@@ -23,7 +23,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.StartupPlugin,
                    octoprint.plugin.SimpleApiPlugin,
                    octoprint.plugin.ProgressPlugin,
-                   octoprint.plugin.EventHandlerPlugin):
+                   octoprint.plugin.EventHandlerPlugin,):
 
 
 
@@ -108,30 +108,48 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 pip= "https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
             )
         )
+    # ~ SimpleApiPlugin
+
+    def on_api_get(self, request):
+        return flask.jsonify(
+            blocksNotifications=[
+                {"timestamp": blocksNotification[0], "message": blocksNotification[1]}
+                for blocksNotification in self._blocksNotifications
+            ]
+        )
+
+    def get_api_commands(self):
+        return {"clear": []}
+
+    def on_api_command(self, command, data):
+        if command == "clear":
+            self._clear_notifications()
+
 
     ## ~~ EventHandlerPlugin mixin
 
     def on_event(self, event, payload):
         # Everytime an event takes place we will send a message to any message listeners that exist
-
         if event == Events.CONNECTED:
-            self._plugin_manager.send_plugin_message(self._identifier, dict(action="popup", type="info", text= event))
-            # self._blocksNotifications.append((time.time(), event))
-
-            # self.plugins.action_command_notification._notifications.append("")
-            # This way the system Will make the popup appear but the wrapper with the notifications still is wonky
-            # self._plugin_manager.send_plugin_message("action_command_notification", {"message": "JO MAMA"})
+            Notification = {
+                "action": "popup",
+                "type": "info",
+                "message": event,
+            }
+            self._blocksNotifications.append((time.time(), Notification))
+            self._plugin_manager.send_plugin_message(self._identifier, Notification)
+        # Case event when printer disconnects 
+        if event == Events.DISCONNECTED:
+            self._clear_notifications()
 
         self._logger.info("Notification : {}".format(event))
 
 
-    ## ~~ SimpleApiPlugin mixin
+    def _clear_notifications(self):
+        self._blocksNotifications = []
+        self._plugin_manager.send_plugin_message(self._identifier, {})
+        self._logger.info("Notifications Cleared.")
 
-    # def on_api_get (self, request):
-    #
-    # def get_api_commands(self):
-    #
-    # def on_api_command(self, command, data):
 
     ## ~~ ProgressPlugin mixin
 
