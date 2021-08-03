@@ -25,9 +25,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.EventHandlerPlugin,):
 
 
-    def __init__(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("25ProgressFlag", action ="store_false")
+
 
     def on_after_startup(self):
         self._logger.info("Blocks theme initialized...")
@@ -135,15 +133,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def on_print_progress(self, storage, path, progress):
 
         if progress >= 25:
-
             notification = {
                 "action": "popup",
                 "type": "warning",
-                "message": progress
+                "message": "25"
             }
             # Sends a message to any message listeners
             self._plugin_manager.send_plugin_message(self._identifier, notification)
 
+        self._logger.info("Print Progress: {}".format(progress))
 
     def gcode_received_hook(self, comm, line, *args, **kwargs):
         try:
@@ -162,11 +160,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             pass
 
 
-    def get_flag_val(flag):
-        all_flag_vals = parser.parse_args()
-        flag_val = all_flag_vals.flag
-
-        return flag_val
 
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"

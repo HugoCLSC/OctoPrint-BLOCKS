@@ -35,8 +35,9 @@ $(function () {
           console.log(data.message);
 
           if(data.message != "Disconnected" ){
-            self.blocksNotifications.push(data);
-            self.PopUpNotification(data);
+            // self.blocksNotifications.push(data);
+            // self.PopUpNotification(data);
+            self.filter(data);
           }else{
             self.clearNotifications();
             self.PopUpNotification(data);
@@ -47,7 +48,25 @@ $(function () {
 
         }
       };
+      // Filter my notifications i do not want copies while i get warnings 
+      self.filter = function(data){
+        try {
+          var flag = false;
+          self.blocksNotifications.forEach ( function(i) {
+            if ( self.blocksNotifications([i]) == data)
+              flag = true;
 
+            i++;
+          });
+
+          if (flag == false){
+            self.blocksNotifications.push(data);
+            self.PopUpNotification(data);
+          }
+        } catch (e) {
+
+        }
+      }
       // Lets me display a PopUp on the page about the notification
       self.PopUpNotification = function (data){
         try {
@@ -78,6 +97,7 @@ $(function () {
           ko.onError(exception);
         }
       };
+
 
   }
   OCTOPRINT_VIEWMODELS.push({
