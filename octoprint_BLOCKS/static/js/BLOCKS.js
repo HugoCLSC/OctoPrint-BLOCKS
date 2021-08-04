@@ -87,7 +87,7 @@ $(function() {
         };
 
 
-        
+
 
 
         self.onEventDisconnecting = function () {
@@ -307,6 +307,36 @@ $(function() {
             self.control.sendCustomCommand({type: 'command', command:'M18'});
           }
         });
+
+        self.loadFilament = ko.observable(undefined);
+
+        self.loadFilament.subscribe(function(Val){
+          if(Val){
+            self.control.sendCustomCommand({type: 'command', command: 'M701'});
+          }
+        });
+        self.loadFilamentText = ko.pureComputed( function(){
+          if(self.loadFilament()){
+            return gettext('Loading');
+          }else{
+            return gettext('Load');
+          }
+        });
+        self.unloadFilament = ko.observable(undefined);
+
+        self.unloadFilament.subscribe(function(Val){
+          if(Val){
+            self.control.sendCustomCommand({type: 'command', command:'M702'});
+          }
+        });
+
+        self.unloadFilamentText = ko.pureComputed( function(){
+          if(self.unloadFilament()){
+            return gettext('Unloading');
+          }else{
+            return gettext('Unload');
+          }
+        });
         //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -335,7 +365,8 @@ $(function() {
           $('#control > div > div > div:first-child').remove();
           $('#control > div > div > div:last-child').remove();
 
-
+          // I'll add my control filament buttons here
+          $('#control_filament').appendTo($('#control'));
 
           // Now that i have this fna slider i really don't need the general tab.
           $('#fanSlider').appendTo($('#control'));
@@ -461,6 +492,7 @@ $(function() {
         elements: [
           "#blocksWrapper",
           "#fanSlider",
-          "#blocksControlWrapper"]
+          "#blocksControlWrapper",
+          "#control_filament"]
     });
 });

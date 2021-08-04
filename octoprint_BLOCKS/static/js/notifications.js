@@ -48,21 +48,25 @@ $(function () {
 
         }
       };
-      // Filter my notifications i do not want copies while i get warnings 
+
+      // This aint working the filter is not working. fuck
+      // Filter my notifications i do not want copies while i get warnings
       self.filter = function(data){
         try {
           var flag = false;
-          self.blocksNotifications.forEach ( function(i) {
-            if ( self.blocksNotifications([i]) == data)
+
+          self.blocksNotifications.forEach (function() {
+            if (self.blocksNotifications()[i] == data)
               flag = true;
 
-            i++;
+             i++;
           });
 
           if (flag == false){
             self.blocksNotifications.push(data);
             self.PopUpNotification(data);
           }
+          return;
         } catch (e) {
 
         }
@@ -70,9 +74,9 @@ $(function () {
       // Lets me display a PopUp on the page about the notification
       self.PopUpNotification = function (data){
         try {
-          if(data.action =="popup"){
+
             new PNotify({
-                title: gettext("Printer Notification"),
+                title: gettext(" Notification "),
                 text: data.message,
                 type: data.type,
                 hide: true,
@@ -82,7 +86,7 @@ $(function () {
                     closer: true
                 }
             });
-          }
+
         } catch (e) {
           ko.onError(e);
         }
