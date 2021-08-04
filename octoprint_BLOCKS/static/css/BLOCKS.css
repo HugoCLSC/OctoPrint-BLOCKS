@@ -107,6 +107,9 @@ body.BLOCKSUIfixedHeader{
 	margin-left: 5px;
 	margin-right: 5px;
 }
+#blocks_notifications_wrapper{
+	padding: 8px 15px;
+}
 /* ----------------------------*/
 
 /* Temperature wrapper properties */
@@ -350,11 +353,21 @@ select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="c
 }
 
 /* Fan Slider */
+
 #fanRange{
 		width: 255px;
 		padding: 15px;
     border-radius: 16px;
+		/* background: rgb(244,0,0); */
+		/* background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%); */
 }
+
+  /* This is for my gradient on the fan controler slider */
+/* input[type="range"]::-webkit-slider-runnable-track{
+	background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
+} */
+
+
 #fanSlider{
 	display: inline-flex;
 	align-content: center;

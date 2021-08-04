@@ -17,7 +17,7 @@
             <div class="blocks_notifications_message" data-bind="text: message"></div>
           </div>
         </div>
-        <button type="btn btn-block" data-bind="click: $root.clearNotifications"><i class="far fa-trash-alt"></i> {{ _('Clear All Notifications') }}</button>
+        <button type="button" class="btn btn-primary" data-bind="click: $root.clearNotifications"><i class="far fa-trash-alt"></i> {{ _('Clear All Notifications') }}</button>
       </div>
       <div style="display: none" data-bind="visible: blocksNotifications().length == 0">
         {{ _('No notifications to be displayed') }}

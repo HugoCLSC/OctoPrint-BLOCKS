@@ -79,6 +79,7 @@ $(function() {
 
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
+      
           console.log('Connected');
         };
 
@@ -90,6 +91,8 @@ $(function() {
         }
 
         self.onEventDisconnected = function () {
+          // I'll reset the fan slider
+          self.fanControl(0);
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Disconnected');
         }
@@ -285,7 +288,7 @@ $(function() {
             self.control.sendCustomCommand({type: 'command', command:'M18'});
           }
         });
-        // The following set of functions serves for the load/unload filament buttons 
+        // The following set of functions serves for the load/unload filament buttons
         self.loadFilament = ko.observable(undefined);
 
         self.loadFilament.subscribe(function(Val){
