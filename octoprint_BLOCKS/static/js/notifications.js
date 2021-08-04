@@ -25,82 +25,85 @@ $(function () {
             console.log("knockout error", error);
         };
 
+        self.getTime = ko.pureComputed (function(){
+          // Just a normal function to get me the time
+          var date = new Date();
+          var hh = date.getHours();
+          var mm = date.getMinutes();
+          var sec = date.getSeconds();
 
-      // This function will automatically listen for any messages any plugin sends.
-      self.onDataUpdaterPluginMessage = function (plugin, data) {
-        try {
-          if ( plugin != "BLOCKS" )
+          var time = hh + ':' + mm + ':' + sec;
+          return gettext(time);
+        });
+
+        // This function will automatically listen for any messages any plugin sends.
+        self.onDataUpdaterPluginMessage = function (plugin, data) {
+          try {
+            if ( plugin != "BLOCKS" )
+              return;
+
+            console.log(data.message);
+            if(data.message != "Disconnected" ){
+              self.filter(data);
+            }else{
+              self.clearNotifications();
+              self.PopUpNotification(data);
+            }
+          } catch (exception) {
+            ko.onError(exception);
+          }
+        };
+        // This aint working the filter is not working. fuck
+        // Filter my notifications i do not want copies while i get warnings
+        self.filter = function(data){
+          try {
+            var flag = false;
+            ko.utils.arrayForEach(self.blocksNotifications(), function(blocksNotification) {
+              if (blocksNotification.message == data.message){
+                flag = true;
+                return;
+              }
+            }, self);
+            if (flag == false){
+              self.blocksNotifications.push(data);
+              self.PopUpNotification(data);
+            }
             return;
-
-          console.log(data.message);
-
-          if(data.message != "Disconnected" ){
-            // self.blocksNotifications.push(data);
-            // self.PopUpNotification(data);
-            self.filter(data);
-          }else{
-            self.clearNotifications();
-            self.PopUpNotification(data);
+          }catch (e) {
+            ko.onError(e);
           }
-
-        } catch (exception) {
-          ko.onError(exception);
-
         }
-      };
 
-      // This aint working the filter is not working. fuck
-      // Filter my notifications i do not want copies while i get warnings
-      self.filter = function(data){
-        try {
-          var flag = false;
+        // Lets me display a PopUp on the page about the notification
+        self.PopUpNotification = function (data){
+          try {
 
-          self.blocksNotifications.forEach (function() {
-            if (self.blocksNotifications()[i] == data)
-              flag = true;
+              new PNotify({
+                  title: gettext(" Notification "),
+                  text: data.message,
+                  type: data.type,
+                  hide: true,
+                  icon: "fa fa-bell-o",
+                  buttons: {
+                      sticker: false,
+                      closer: true
+                  }
+              });
 
-             i++;
-          });
-
-          if (flag == false){
-            self.blocksNotifications.push(data);
-            self.PopUpNotification(data);
+          } catch (e) {
+            ko.onError(e);
           }
-          return;
-        } catch (e) {
+        };
 
-        }
-      }
-      // Lets me display a PopUp on the page about the notification
-      self.PopUpNotification = function (data){
-        try {
+        self.clearNotifications = function (){
+          try {
+            self.blocksNotifications.removeAll();
+            console.log("Notifications Cleared");
 
-            new PNotify({
-                title: gettext(" Notification "),
-                text: data.message,
-                type: data.type,
-                hide: true,
-                icon: "fa fa-bell-o",
-                buttons: {
-                    sticker: false,
-                    closer: true
-                }
-            });
-
-        } catch (e) {
-          ko.onError(e);
-        }
-      };
-
-      self.clearNotifications = function (){
-        try {
-          self.blocksNotifications.pop();
-          console.log("Notifications Cleared");
-
-        } catch (exception) {
-          ko.onError(exception);
-        }
-      };
+          } catch (exception) {
+            ko.onError(exception);
+          }
+        };
 
 
   }

@@ -8,15 +8,16 @@
   <div  class="container-fluid body">
     <div class="accordion-inner">
       <div style="display: none" data-bind="visible: blocksNotifications().length > 0">
-        <div class="scroll-wrapper blocks_notifications-scrollable" data-bind="foreach: $root.blocksNotifications">
+        <div class="scroll-wrapper blocks_notifications_scrollable" data-bind="foreach: $root.blocksNotifications">
           <div class="blocks_notifications_entry">
+            <i class="fas fa-exclamation"></i>
             <div class="blocks_notifications_timestamp">
-              <!-- <small class="muted" data-bind="text: $root.toDateTimeString($data.timestamp)"></small> -->
+              <small class="muted" data-bind="text: $root.getTime"></small>
             </div>
             <div class="blocks_notifications_message" data-bind="text: message"></div>
           </div>
-          <button type="btn btn-block" data-bind="click: $root.clearNotifications, visible: $root.blocksNotifications().length > 0" ><i class="far fa-trash-alt"></i> {{ _('Clear') }}</button>
         </div>
+        <button type="btn btn-block" data-bind="click: $root.clearNotifications"><i class="far fa-trash-alt"></i> {{ _('Clear All Notifications') }}</button>
       </div>
       <div style="display: none" data-bind="visible: blocksNotifications().length == 0">
         {{ _('No notifications to be displayed') }}

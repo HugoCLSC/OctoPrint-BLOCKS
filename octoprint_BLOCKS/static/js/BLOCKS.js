@@ -47,7 +47,6 @@ $(function() {
           //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
 
-
           // Load custom layout
           self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
 
@@ -70,10 +69,8 @@ $(function() {
         //---------------------------------------------------------------------------
         self.onStartupComplete = function () {
           $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
-
         }
         self.onEventConnecting = function () {
-
           $('#blocks_printer_connect').prop('disabled','disabled');
           if(!self.connectIt()){
             $('#blocks_printer_connect').prop('checked', 'checked');
@@ -83,12 +80,7 @@ $(function() {
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Connected');
-
         };
-
-
-
-
 
         self.onEventDisconnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
@@ -101,13 +93,6 @@ $(function() {
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Disconnected');
         }
-
-        //This shit don't work
-        self.onTabChange = function (current, previous){
-          if(current == "#webCam"){
-            self.control._enableWebcam();
-          }
-        };
 
 
         //---------------------------------------------------------------------------
@@ -221,8 +206,6 @@ $(function() {
           $('div.tabbable').removeClass('span8');
           // The tabs does not need the Control tab because the Control module is
           // on my grid
-
-
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
           $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
@@ -260,15 +243,12 @@ $(function() {
           // on the same space. So i'll just append the wrappers to the correct place
           $('#blocksWrapper').appendTo($('#BTC1'));
           // I want the printer notifications and be able to connect to the printer in the same space
-
-          //$('#sidebar_plugin_action_command_notification').appendTo('#blocksWrapper');
           $('#blocks_notifications_wrapper').appendTo('#blocksWrapper');
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
-
         };
 
         //---------------------------------------------------------------------------
@@ -276,17 +256,15 @@ $(function() {
           $('#files_wrapper > div.container-fluid.heading').attr('role','group');
           $('.btn-group').css({'font-size': ''});
           $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
-        //  $('#files_wrapper > div.container-fluid.heading > a').removeClass('btn');
           self.fixFilesTriggers(settingsPlugin);
         };
         self.fixFilesTriggers = function(settingsPlugin) {
           //i'm going to wrap the three files triggers inside a container
-          $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid "></div>')
-
+          $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid "></div>');
           $('.dropdown-menu').addClass("dropdown-menu-right");
         };
         //---------------------------------------------------------------------------
-        // This is for my fan slider, i can increment the fan speed by 10%
+        // This is for my fan slider, i can increment the fan speed by ~~1%
         self.fanControl = ko.observable(0);
 
         self.fanControl.subscribe(function(rangeVal){
@@ -307,7 +285,7 @@ $(function() {
             self.control.sendCustomCommand({type: 'command', command:'M18'});
           }
         });
-
+        // The following set of functions serves for the load/unload filament buttons 
         self.loadFilament = ko.observable(undefined);
 
         self.loadFilament.subscribe(function(Val){
@@ -326,7 +304,7 @@ $(function() {
 
         self.unloadFilament.subscribe(function(Val){
           if(Val){
-            self.control.sendCustomCommand({type: 'command', command:'M702'});
+            self.control.sendCustomCommand({type: 'command', command: 'M702'});
           }
         });
 
@@ -366,7 +344,7 @@ $(function() {
           $('#control > div > div > div:last-child').remove();
 
           // I'll add my control filament buttons here
-          $('#control_filament').appendTo($('#control'));
+          $('#control_filament').appendTo($('#control > .container-fluid > .row-fluid'));
 
           // Now that i have this fna slider i really don't need the general tab.
           $('#fanSlider').appendTo($('#control'));

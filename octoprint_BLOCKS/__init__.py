@@ -155,12 +155,27 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 }
                 self._plugin_manager.send_plugin_message(self._identifier, notification)
 
+
             self._logger.info("Notification : {}".format("Replace Filament"))
 
         except Exception as e:
             # raise
             pass
 
+
+    def sent_m701_m702(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
+        # Everytime i send the commands M701 and M702 this function will trigger
+        # Possible because of the hook "octoprint.comm.protocol.gcode.sent"
+        # M701 'Load Filament'
+        # M702 'Unload Filament'
+        if gcode == "M701" or gcode == "M702":
+            notification = {
+                "action": "popup",
+                "type": "warning",
+                "message": "Filament Change in Progress"
+            }
+            self._plugin_manager.send_plugin_message(self._identifier, notification)
+            self._logger.info("Notifications: Gcode sent {}".format("gcode"))
 
 
 __plugin_name__ = "Blocks Plugin"
@@ -176,4 +191,5 @@ def __plugin_load__():
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
         "octoprint.comm.protocol.gcode.receive": __plugin_implementation__.gcode_received_hook,
+        "octoprint.comm.protocol.gcode.sent": __plugin_implementation__.sent_m701_m702,
     }

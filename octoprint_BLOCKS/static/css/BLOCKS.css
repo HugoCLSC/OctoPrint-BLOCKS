@@ -65,7 +65,6 @@ body.BLOCKSUIfixedHeader{
   padding: 8px 15px;
   display: flex;
 	flex-direction: column;
-
 }
 
 #control > .container-fluid.accordion-inner {
@@ -77,17 +76,36 @@ body.BLOCKSUIfixedHeader{
 #control > .container-fluid > .row-fluid {
 
 	display: inline-flex;
-  flex-direction: row;
-  align-content: stretch;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: center;
+  flex-direction: row;
 }
 #control .jog-panel>div.distance {
   text-align: left;
   position: relative;
   top: 0px;
   left: -5px;
+}
+#control_filament{
+	top: -70px;
+  position: relative;
+}
+
+.blocks_notifications_entry{
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	line-height: 20px;
+	border-bottom: 1px solid #ddd;
+}
+.blocks_notifications_scrollable{
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 306px;
+}
+.blocks_notifications_timestamp{
+	margin-left: 5px;
+	margin-right: 5px;
 }
 /* ----------------------------*/
 
