@@ -358,14 +358,14 @@ select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="c
 		width: 255px;
 		padding: 15px;
     border-radius: 16px;
-		/* background: rgb(244,0,0); */
-		/* background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%); */
 }
 
   /* This is for my gradient on the fan controler slider */
-/* input[type="range"]::-webkit-slider-runnable-track{
+	/* It only displays the gradient when the printer is connected */
+input[type="range"]:enabled::-webkit-slider-runnable-track{
+	-webkit-appearance: none;
 	background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
-} */
+}
 
 
 #fanSlider{
