@@ -25,16 +25,6 @@ $(function () {
             console.log("knockout error", error);
         };
 
-        var animation = document.querySelector("div.blocks_notifications_entry");
-        console.log(animation);
-        animation.addEventListener('animationend', () =>{
-          console.log(animation)
-          self.blocksNotifications.removeAll();
-        });
-        animation.onanimationend = () => {
-          console.log(animation)
-          self.blocksNotifications.removeAll();
-        }
 
 
         self.onEventConnecting = function() {
@@ -42,6 +32,8 @@ $(function () {
         }
         self.onEventDisconnecting = function(){
           $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
+          var animation = document.querySelector(".fadeOutLeft");
+          animation.addEventListener('animationend', self.blocksNotifications.removeAll());
         }
         self.getTime = ko.pureComputed (function(){
           // Just a normal function to get me the time
@@ -116,8 +108,15 @@ $(function () {
         self.clearNotifications = function (){
           try {
             $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
-            // self.blocksNotifications.removeAll();
-            console.log("Notifications Cleared");
+
+            var animation = document.querySelector(".fadeOutLeft");
+            console.log(animation);
+            animation.addEventListener('webkitAnimationEnd', () => {
+              self.blocksNotifications.removeAll();
+              console.log("YAHHH");
+            });
+
+
 
           } catch (exception) {
             ko.onError(exception);
