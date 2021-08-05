@@ -75,11 +75,13 @@ $(function() {
           if(!self.connectIt()){
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
+          $('#blocksWrapper > .container-fluid ').addClass('scale-up-ver-top');
+
+          $('#PrinterImg').removeClass('scale-down-center').addClass('scale-in-center');
         };
 
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
-      
           console.log('Connected');
         };
 
@@ -88,6 +90,7 @@ $(function() {
           if(self.connectIt()){
             $('#blocks_printer_connect').removeAttr('checked');
           }
+          $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
         }
 
         self.onEventDisconnected = function () {
@@ -250,6 +253,7 @@ $(function() {
           // Add a refresh button to the connection/warnings wrapper
           // I now have a refresh button next to my connection slider
           $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
+          $('#refreshButton').insertBefore($('#PrinterImg'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
         };

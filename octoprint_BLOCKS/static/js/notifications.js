@@ -25,6 +25,24 @@ $(function () {
             console.log("knockout error", error);
         };
 
+        var animation = document.querySelector("div.blocks_notifications_entry");
+        console.log(animation);
+        animation.addEventListener('animationend', () =>{
+          console.log(animation)
+          self.blocksNotifications.removeAll();
+        });
+        animation.onanimationend = () => {
+          console.log(animation)
+          self.blocksNotifications.removeAll();
+        }
+
+
+        self.onEventConnecting = function() {
+          $('.blocks_notifications_entry').removeClass('fadeOutLeft').addClass('slide-right');
+        }
+        self.onEventDisconnecting = function(){
+          $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
+        }
         self.getTime = ko.pureComputed (function(){
           // Just a normal function to get me the time
           var date = new Date();
@@ -97,7 +115,8 @@ $(function () {
 
         self.clearNotifications = function (){
           try {
-            self.blocksNotifications.removeAll();
+            $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
+            // self.blocksNotifications.removeAll();
             console.log("Notifications Cleared");
 
           } catch (exception) {

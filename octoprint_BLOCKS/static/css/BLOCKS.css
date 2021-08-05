@@ -259,6 +259,7 @@ ul.dropdown-menu.dropdown-menu-right {
 	position: static;
 	flex-basis: 100%;
 	padding: 4px;
+	min-height: 425.25px;
 }
 
 .BLOCKCol2 {
@@ -286,10 +287,21 @@ ul.dropdown-menu.dropdown-menu-right {
 
 .container-fluid.body {
 	/*display : contents;*/
-	min-height: 380px;
+	/* min-height: 380px; */
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
 }
 
 	/* Blocks properties */
+
+	#PrinterImg{
+		position: relative;
+    margin-left: auto;
+}
+
+
+	}
 #blocksWrapper {
 	/*border: 1px solid #e5e5e5;*/
 	border-radius: 4px;

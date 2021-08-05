@@ -10,7 +10,7 @@ import octoprint.plugin.core
 from octoprint.access import ADMIN_GROUP
 from octoprint.access.permissions import Permissions
 from octoprint.events import Events
-
+from flask import Flask, render_template, url_for
 
 
 
@@ -35,11 +35,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def get_assets(self):
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
+
         return dict(
-            js= ["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js"],
-            img= ["img/Blocks_Logo.png", "img/settings.png"],
-            css= ["css/BLOCKS.css", "css/jquery-ui.css"],
-            less= ["less/BLOCKS.less"]
+            js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js"],
+            css=["css/BLOCKS.css", "css/jquery-ui.css","css/animations.css"],
+            less=["less/BLOCKS.less"]
         )
 
     ##~~ SettingsPlugin mixin
@@ -71,7 +71,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="settings", custom_bindings=False),
             # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
             # ou criar meu próprio type de template...
-            dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
+            dict(type="generic", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
             # My refresh button for my connection wrapper
             dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
             # My webcam link
@@ -128,6 +128,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._plugin_manager.send_plugin_message(self._identifier, notification)
 
         self._logger.info("Notification : {}".format(event))
+
 
 
     ## ~~ ProgressPlugin mixin
