@@ -32,8 +32,7 @@ $(function () {
         }
         self.onEventDisconnecting = function(){
           $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
-          var animation = document.querySelector(".fadeOutLeft");
-          animation.addEventListener('animationend', self.blocksNotifications.removeAll());
+          self.clearNotifications();
         }
         self.getTime = ko.pureComputed (function(){
           // Just a normal function to get me the time
@@ -52,7 +51,12 @@ $(function () {
             if ( plugin != "BLOCKS" )
               return;
 
-            console.log(data.message);
+            if(data.type == "machine_info"){
+                console.log(data.message);
+                
+            }
+
+
             if(data.message != "Disconnected" ){
               self.filter(data);
             }else{
@@ -108,15 +112,11 @@ $(function () {
         self.clearNotifications = function (){
           try {
             $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
-
             var animation = document.querySelector(".fadeOutLeft");
-            console.log(animation);
             animation.addEventListener('webkitAnimationEnd', () => {
               self.blocksNotifications.removeAll();
-              console.log("YAHHH");
+              console.log("Notifications Cleared");
             });
-
-
 
           } catch (exception) {
             ko.onError(exception);

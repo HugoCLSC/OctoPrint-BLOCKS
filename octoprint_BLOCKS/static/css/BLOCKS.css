@@ -35,6 +35,7 @@
 background: rgb(231, 231, 231);
 }
 
+
 /* -------------------------*/
 body.BLOCKSUIfixedHeader{
 	/*margin-top: 50px;*/
@@ -260,14 +261,18 @@ ul.dropdown-menu.dropdown-menu-right {
 	flex-basis: 100%;
 	padding: 4px;
 	min-height: 425.25px;
+	/* min-height: 587.21px; */
+	border-radius: 15px;
+  border: 1px solid rgba(40, 40, 40, 1);
+	background-color: rgb(228, 13, 167);
 }
 
 .BLOCKCol2 {
-	border-left: 2px solid rgb(185, 185, 185);
-	border-right: 2px solid rgb(185, 185, 185);
+	/* border-left: 2px solid rgb(185, 185, 185);
+	border-right: 2px solid rgb(185, 185, 185); */
 }
-.BotRow > .BLOCKCol2 {
-	min-height: 585px;
+.BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
+	min-height: 587.21px;
 }
 
 .container-fluid {

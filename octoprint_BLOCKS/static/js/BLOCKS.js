@@ -147,6 +147,8 @@ $(function() {
 
           self.logToConsole('Updating layout');
 
+          self.set_NewAppearence(settingsPlugin);
+
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
           //self.set_fixedFooter(settingsPlugin.fixedFooter());
@@ -176,7 +178,13 @@ $(function() {
             $('#navbar').css('overflow','');
           }
         }
+        self.set_NewAppearence = function () {
+          // Fix Navbar Related
+          // Makes the border color and shadow disappear
+          $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
+          $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
 
+        }
         //---------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
