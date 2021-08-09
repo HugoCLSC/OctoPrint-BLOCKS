@@ -151,6 +151,7 @@ $(function() {
 
           self.set_fixedHeader(settingsPlugin.fixedHeader());
 
+
           //self.set_fixedFooter(settingsPlugin.fixedFooter());
 
           self.set_fluidLayout(settingsPlugin.fluidLayout());
@@ -162,6 +163,8 @@ $(function() {
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
 
           self.correctFilesWrapper(settingsPlugin);
+
+          self.replaceHeadingElements(settingsPlugin);
         };
 
 
@@ -184,7 +187,41 @@ $(function() {
           $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
           $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
 
-        }
+        };
+
+        self.replaceHeadingElements = function () {
+          // A ideia é copiar todos os atributos daquele elemento e depois contruir
+          // um outro elemento da tag div e substituir o anterior por este
+          var elems = document.getElementsByTagName("A");
+
+          // console.log(elements);
+          for(let i=0; i < elems.length ; i++){
+            var type = elems.item(i);
+            // The next line gives me the element tag name (a, div, etc..)
+            // var tag = $(type).prop("tagName");
+            var classNames = $(type).attr("class");
+            var elementText = $(type).text();
+
+
+            if( (classNames == 'container-fluid heading') && (elementText != undefined)){
+              var dataTargetNames = $(type).attr('data-target');
+              var idName = $(type).attr('data-test-id');
+              var childs = $(type).children();
+              var parents = $(type).parent();
+              var new_id = dataTargetNames.concat("_heading").replace("#","");
+
+              $(type).replaceWith("<div class= \"" + classNames + "\"  id= \"" + new_id + "\" ></div>");
+              var new_Elem = document.getElementById(new_id);
+              console.log(childs[0]);
+              console.log(new_Elem);
+
+              $(new_Elem).text(elementText);
+              $(new_Elem).prepend(childs[0]);
+
+            }
+          }
+
+        };
         //---------------------------------------------------------------------------
         self.set_fixedFooter = function(enable) {
           if(enable){
@@ -229,9 +266,9 @@ $(function() {
         //---------------------------------------------------------------------------
         self.buildGrid = function (settingsPlugin) {
           //What i want to do here is just create a matrix 3x3
-          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('no-gutters');
+          $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('px-4');
           //add another row after the TopRow
-          $('<div class= "row-fluid no-gutters BotRow" ></div>').insertBefore('div.footer');
+          $('<div class= "row-fluid BotRow px-4" ></div>').insertBefore('div.footer');
           //add an id to both rows
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
@@ -362,7 +399,7 @@ $(function() {
           $('#control_filament').appendTo($('#control > .container-fluid > .row-fluid'));
 
           // Now that i have this fna slider i really don't need the general tab.
-          $('#fanSlider').appendTo($('#control'));
+          $('#fanSlider').appendTo($('#control > .container-fluid > .row-fluid'));
 
           $('#control-jog-general').remove();
         };
@@ -387,11 +424,11 @@ $(function() {
 
           $('#temp').removeClass('tab-pane').addClass('body');
 
-          $('<a class="container-fluid" ></a>').insertBefore("#temp");
+          $('<a class="container-fluid" data-target = "#temperature" ></a>').insertBefore("#temp");
 
           $('#temp').wrapInner('<div class="container-fluid accordion-inner" ></div>');
 
-          $('#temp_wrapper > a').wrap('<div class="container-fluid heading"></div>');
+          $('#temp_wrapper > a').wrap('<div class="container-fluid heading" ></div>');
           $('#temp_wrapper > div > a').append('<i class="fas icon-black fa-thermometer-quarter"></i>');
           $('#temp_wrapper > div > a').append(' Temperature ');
           //Place the wrapper in my grid

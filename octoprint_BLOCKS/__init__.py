@@ -194,7 +194,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "type": "machine_info",
                 "message": format(machine=printer_data["MACHINE_TYPE"])
             }
-            s
+            
 
             self._plugin_manager.send_plugin_message(self._identifier, notification)
         except Exception as e:
