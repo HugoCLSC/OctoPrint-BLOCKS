@@ -542,55 +542,18 @@ $(function() {
         // Get the settings
         var theme = self.getStorage('themeType');
 
-        console.log("My bad lil hoe" + theme);
+        console.log(theme);
 
         self.selectThemeColors = ko.observable(undefined);
         self.selectThemeColors(theme);
-
-        // self.selectThemeColors(theme);
-        // console.log($('#LightDarkSwitch').prop("checked"));
-        // if(theme){
-        //   $('#LightDarkSwitch').prop("checked", true);
-        // }else{
-        //   $('#LightDarkSwitch').prop("checked", false);
-        // }
         self.set_theme(theme);
+
         self.selectThemeColors.subscribe( function(val){
-          // if(val){
-          //   console.log(val);
-          //   $('.BLOCKSMainContainer').css("background-color", "rgb(86,86,86)");
-          //   $('.BLOCKSMainContainer').css("color", "rgb(255,255,255)");
-          //   $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(255,255,255)");
-          //   $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(86,86,86)");
-          //   $('.BLOCKCol1').css("background-color", "#292b2a");
-          //   $('.BLOCKCol2').css("background-color", "#292b2a");
-          //   $('.BLOCKCol3').css("background-color", "#292b2a");
-          //   $('.table').css("color","rgb(255,255,255)");
-          //   $('.footer > ul > li > a').css("color", "rgb(255, 255, 255)");
-          //   $('#LightDarkSwitch').prop("checked", true);
-          //   self.setStorage('themeType', val);
-          //
-          // }else{
-          //   console.log(val);
-          //   $('.BLOCKSMainContainer').css("background-color", "rgb(255,255,255)");
-          //   $('.BLOCKSMainContainer').css("color", "rgb(86,86,86)");
-          //   $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(255,255,255)");
-          //   $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(86,86,86)");
-          //   $('.BLOCKCol1').css("background-color", "rgb(255,255,255)");
-          //   $('.BLOCKCol2').css("background-color", "rgb(255,255,255)");
-          //   $('.BLOCKCol3').css("background-color", "rgb(255,255,255)");
-          //   $('.table').css("color","rgb(86,86,86)");
-          //   $('.footer > ul > li > a').css("color", "rgb(86,86,86)");
-          //   $('#LightDarkSwitch').prop("checked", false);
-          //   self.setStorage('themeType', val);
-          //
-          // }
           self.set_theme(val);
         });
 
-
         self.themeSwitchText = ko.pureComputed( function() {
-          if(self.selectThemeColors){
+          if(self.selectThemeColors()){
             return gettext("Dark");
           }else{
             return gettext("Light");
@@ -599,8 +562,7 @@ $(function() {
       };
 
       self.set_theme = function(val){
-        if(val){
-          console.log(val);
+        if(val === 'true' || val == true){
           $('.BLOCKSMainContainer').css("background-color", "rgb(86,86,86)");
           $('.BLOCKSMainContainer').css("color", "rgb(255,255,255)");
           $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(255,255,255)");
@@ -612,9 +574,7 @@ $(function() {
           $('.footer > ul > li > a').css("color", "rgb(255, 255, 255)");
           $('#LightDarkSwitch').prop("checked", true);
           self.setStorage('themeType', val);
-
         }else{
-          console.log(val);
           $('.BLOCKSMainContainer').css("background-color", "rgb(255,255,255)");
           $('.BLOCKSMainContainer').css("color", "rgb(86,86,86)");
           $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(255,255,255)");
@@ -626,7 +586,6 @@ $(function() {
           $('.footer > ul > li > a').css("color", "rgb(86,86,86)");
           $('#LightDarkSwitch').prop("checked", false);
           self.setStorage('themeType', val);
-
         }
       };
 

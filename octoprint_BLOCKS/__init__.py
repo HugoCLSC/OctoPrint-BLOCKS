@@ -63,13 +63,16 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_settings_initialized(self):
         theme = self._settings.get(["themeType"])
-        self._settings.set(["themeType"], str(theme))
+        self._settings.set(["themeType"], theme)
         self._logger.info("theme = {}".format(theme))
 
     def on_settings_save(self, data):
         # save
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
-        self.logger.info("Saving settings.")
+        theme = self._settings.get(["themeType"])
+        if 'themeType' in data and data['themeType']:
+            self._settings.set(["themeType"], theme)
+            self.logger.info("Saving settings.")
 
     ##~~ TemplatePlugin mixin
 

@@ -71,7 +71,10 @@ a{
 	background-color: unset;
 	background-image: unset;
 }
-
+#LightDarkSwitchWrapper{
+	position:relative;
+	left:60%;
+}
 /* -------------------------*/
 
 
