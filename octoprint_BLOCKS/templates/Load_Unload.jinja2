@@ -1,7 +1,12 @@
 <div class="filamentOperations panel" id="control_filament" >
   <h4> Filament </h4>
-  <div >
-    <button class="btn btn-block control-box" id="filament_load" data-bind="enable: control.isOperational(), click: loadFilament, text: loadFilamentText"> {{ _('Load') }} </button>
-    <button class="btn btn-block control-box" id="filament_unload" data-bind="enable: control.isOperational(), click: unloadFilament, text: unloadFilamentText"> {{ _('Unload') }} </button>
+  <div class="container-fluid btn-group" id="control_filament_buttons" data-bind="enable: (!control.isPrinting() && control.isOperational())">
+    <button class="btn btn-block control-box" id="filament_load" data-bind="enable: (!control.isPrinting() && control.isOperational()) , click: loadFilament, text: loadFilamentText"> {{ _('Filament Change') }} </button>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></button>
+    <ul class="dropdown-menu" data-bind="foreach: filamentType">
+      <li>
+          <a href="javascript:void(0)" data-bind="click: $parent.filamentOper, text: $data"></a>
+      </li>
+    </ul>
 </div>
 </div>

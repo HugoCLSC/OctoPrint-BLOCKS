@@ -1,17 +1,51 @@
 
+html {
+	min-width: 550px;
+	/* position: relative; */
+}
+.clearfix{
+	overflow: auto;
+}
+/* Page setUp */
+.modal-header{
+	/* display: block; */
+}
 
-	.clearfix::after{
-		content:"";
-		clear: both;
-		widthdisplay: table;
-	}
-	html {
-		min-width: 550px;
-		position: relative;
-	}
+.accordion-inner{
+	border-top: unset;
+}
+.container-fluid.heading > .container-fluid.heading {
+    padding: 5px;
+}
+.BLOCKSMainContainer{
+	padding-left: 0px;
+	padding-right: 0px;
+	height: -webkit-fill-available;
+}
+/* text color of the footer links  */
+.footer ul li a {
+    color: rgb(254, 254, 254);
+}
+.footer #footer_links, .footer #footer_version {
+    max-width: 26%;
+}
+#blocks_link > img {
+	width: 10%;
+}
+
+.container-fluid {
+	align-content: baseline;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+a{
+	color: rgb(136, 154, 255);
+	font-family: "Lexend Deca", sans-serif;
+}
 
 
-
+/* --------------------------------- */
 /* Change the navbar/settings aspect */
 #settings_dialog_menu > .nav {
 	flex-direction: column;
@@ -21,36 +55,29 @@
   flex-direction: column;
 }
 
-.modal-header{
-	display: block;
-}
+
 #navbar > .navbar-inner > .container-fluid{
-	background-color: #ffffff;
+	/* background-color: rgb(86 86 86); */
 }
 
 #navbar .navbar-inner .brand {
   padding: 10px 30px 6px;
 }
 #navbar .navbar-inner .nav>li>a:hover{
-background: rgb(231, 231, 231);
+	background-color: rgb(51 51 51);
+	color: #b383ff;
 }
-
+#navbar > .navbar-inner{
+	background-color: unset;
+	background-image: unset;
+}
 
 /* -------------------------*/
-body.BLOCKSUIfixedHeader{
-	/*margin-top: 50px;*/
-}
-.BLOCKSMainContainer{
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-top: 20px;
-	display: inline-grid;
-}
 
 
 /* Control wrapper properties */
 #control_wrapper > .container-fluid.heading > a.container-fluid {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 8px 15px;
 }
 #control_wrapper > .container-fluid.heading {
@@ -60,7 +87,7 @@ body.BLOCKSUIfixedHeader{
 #control_wrapper {
 /*  border: 1px solid #e5e5e5; */
   border-radius: 4px;
-	display: grid;
+	/* display: grid; */
 
 }
 /* #control {
@@ -69,8 +96,8 @@ body.BLOCKSUIfixedHeader{
 	flex-direction: column;
 } */
 
-#control > .container-fluid.accordion-inner {
-  display: block;
+#control > .container-fluid {
+  /* display: block; */
   justify-content: center;
 	position:relative;
 }
@@ -78,9 +105,11 @@ body.BLOCKSUIfixedHeader{
 #control > .container-fluid > .row-fluid {
 
 	display: inline-flex;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
 	flex-wrap: wrap;
+	height: 400px;
+	width: 100%;
 }
 #control .jog-panel>div.distance {
   text-align: left;
@@ -89,8 +118,17 @@ body.BLOCKSUIfixedHeader{
   left: -5px;
 }
 #control_filament{
-	top: -70px;
+	top: 11%;
   position: relative;
+	width: 15%;
+	left: 5%;
+}
+#control_filament_buttons{
+	display: inline-flex;
+  align-items: flex-start;
+}
+#control-jog-extrusion{
+	width: 26%;
 }
 
 .blocks_notifications_entry{
@@ -116,7 +154,8 @@ body.BLOCKSUIfixedHeader{
 
 /* Temperature wrapper properties */
 #temp_wrapper > .container-fluid.heading > a.container-fluid {
-	display: inline-block;
+	/* display: inline-block; */
+
 	padding: 8px 15px;
 }
 #temp_wrapper > .container-fluid.heading {
@@ -124,13 +163,12 @@ body.BLOCKSUIfixedHeader{
 	position: relative;
 }
 #temp_wrapper {
-	/*border: 1px solid #e5e5e5; */
 	border-radius: 4px;
 	height : 577px;
 }
 #temp {
 	padding: 8px 15px;
-	display: block;
+	/* display: block; */
 }
 
 #temperature-graph{
@@ -149,11 +187,14 @@ body.BLOCKSUIfixedHeader{
   border-top: 1px solid #ddd;
 }
 
+.table{
+	color: rgb(245, 245, 245);
+}
 /* ----------------------------- */
 
 /* State wrapper properties */
 #state_wrapper > .container-fluid.heading > a.container-fluid {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 8px 15px;
 }
 #state_wrapper > .container-fluid.heading {
@@ -164,8 +205,8 @@ body.BLOCKSUIfixedHeader{
   border-radius: 4px;
 }
 #state {
-  
-  display: flex;
+
+  /* display: flex; */
 	flex-direction: column;
 }
 
@@ -173,7 +214,7 @@ body.BLOCKSUIfixedHeader{
 
 /* notification properties */
 #sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 8px 15px;
 }
 #sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
@@ -186,7 +227,7 @@ body.BLOCKSUIfixedHeader{
 }
 #sidebar_plugin_action_command_notification{
   padding: 8px 15px;
-  display: flex;
+  /* display: flex; */
 	flex-direction: column;
 }
 #sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
@@ -201,18 +242,17 @@ body.BLOCKSUIfixedHeader{
 /* ----------------------------- */
 
 /* Files wrapper css styles */
-#files_wrapper > .container-fluid > .container-fluid {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-}
-#files_wrapper > .container-fluid.heading > a.container-fluid {
-  display: inline-block;
-  padding: 8px 15px;
 
+#files_wrapper > .container-fluid > .container-fluid.body {
+	display: flex;
+	align-items: stretch;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-block-start: 5%;
 }
+
 #files_wrapper > .container-fluid.heading {
-  /*border-bottom: 1px solid #e5e5e5;*/
+  border-bottom: 1px solid #e5e5e5;
   position: relative;
 	display : flex;
 }
@@ -222,8 +262,8 @@ body.BLOCKSUIfixedHeader{
 }
 #files{
   /*padding: 8px 15px;*/
-  display: flex;
-	flex-direction: column;
+  /* display: flex; */
+	/* flex-direction: column; */
 }
 /* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
 #files .gcode_files .scroll-wrapper {
@@ -232,9 +272,33 @@ body.BLOCKSUIfixedHeader{
 	padding-right: 2px;
   /*height: 306px;*/
 }
+
+#files_triggers {
+	display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+.accordion-heading-button {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+#files_heading{
+	display: inline-flex;
+	align-items: center;
+}
+#files_heading > .fa.fa-list{
+	margin-inline-end: 5px;
+}
+
+
+
+
+
 /* To fix the button settings on the files */
 .open>.dropdown-menu {
-    display: table;
+    /* display: table; */
     top: auto;
 }
 ul.dropdown-menu.dropdown-menu-right {
@@ -247,8 +311,9 @@ ul.dropdown-menu.dropdown-menu-right {
 	display: flex ;
 	align-items: flex-start;
 	flex-wrap:nowrap;
-	max-height: 425px;
+	/* max-height: 425px; */
 	margin-block-end: 15px;
+	margin-block-start: 40px;
 }
 .BotRow{
 	display: flex ;
@@ -259,68 +324,50 @@ ul.dropdown-menu.dropdown-menu-right {
 
 }
 .BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
-	/* position: static; */
 	flex-basis: 100%;
 	padding: 4px;
-	min-height: 425.25px;
-	/* min-height: 587.21px; */
+	min-width: 1%;
 	border-radius: 15px;
-  border: 4px solid rgba(40, 40, 40, 1);
-	background-color: rgb(165, 223, 251);
+  border: 4px solid #292b2a;
   margin-inline-end: 10px;
+	min-height: 462px;
 }
 
-.BLOCKCol2 {
-	/* border-left: 2px solid rgb(185, 185, 185);
-	border-right: 2px solid rgb(185, 185, 185); */
-}
-.BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
-	min-height: 594.98px;
-}
-
-.container-fluid {
-	align-content: baseline;
-	padding-left: 0px;
-	padding-right: 0px;
+.BotRow > .BLOCKCol1, .BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
+  min-height: 630px;
 }
 
 
-/* Tabs properties */
-#tabs{
-	border-radius: 4px;
-	/*border: 1px solid #e5e5e5;*/
-}
+
+
+
 /* ------------------ */
 
 
-.container-fluid.body {
-	/*display : contents;*/
-	/* min-height: 380px; */
-	display: flex;
-	flex-direction: column;
-	align-content: flex-start;
-}
+
+
+
 
 	/* Blocks properties */
 
-	#PrinterImg{
-		position: relative;
-    margin-left: auto;
+#PrinterImg{
+	position: relative;
+	margin-left: auto;
 }
 
 
-	}
+
 #blocksWrapper {
-	/*border: 1px solid #e5e5e5;*/
 	border-radius: 4px;
 }
 #blocksWrapper > .container-fluid.heading {
     position: relative;
     border-bottom: 1px solid #e5e5e5;
-		display: flex;
+		display: inline-flex;
     align-items: center;
-		flex-wrap: wrap;
-		flex-direction: inherit;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
 }
 #blocks_printer_connect{
 	border: 2px solid;
@@ -331,9 +378,6 @@ ul.dropdown-menu.dropdown-menu-right {
 }
 
 /* ----------------- */
-.form-check-input:checked {
-	/*background-color:#0dfd5d;*/
-}
 
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
 input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
@@ -341,14 +385,14 @@ input[type="search"], input[type="tel"], input[type="color"], .uneditable-input 
     height: auto;
 }
 .input-append .add-on, .input-prepend .add-on {
-    display: inline-block;
+    /* display: inline-block; */
     width: auto;
     height: auto;
 
 }
 
 .dropdown-toggle::after {
-    display: contents;
+    /* display: contents; */
 }
 
 #refreshButton.refresh-trigger{
@@ -358,15 +402,11 @@ input[type="search"], input[type="tel"], input[type="color"], .uneditable-input 
 }
 label.form-check-text {
 	font-weight: bold;
-	display: inline;
+	/* display: inline; */
 }
 
 
-a{
 
-	color: /*rgb(60, 64, 67)*/rgb(22, 33, 96);
-	font-family: "Lexend Deca", sans-serif;
-}
 
 /* Just so i don't see the black outline on the toggle switch*/
 select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
@@ -393,13 +433,14 @@ input[type="range"]:enabled::-webkit-slider-runnable-track{
 
 #fanSlider{
 	display: inline-flex;
-	align-content: center;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
 }
 
 #settings_dialog{
-	display: grid;
+	/* display: grid; */
+
 }
 
 /* All Popovers about warnings will have the correct size */
@@ -411,4 +452,14 @@ input[type="range"]:enabled::-webkit-slider-runnable-track{
 a:hover {
 	color: rgb(0, 0, 0);
 	text-decoration: none;
+}
+
+
+/* Notifications icon color  */
+.fas.fa-exclamation{
+	color: red;
+}
+
+.hero-unit{
+	color: black;
 }

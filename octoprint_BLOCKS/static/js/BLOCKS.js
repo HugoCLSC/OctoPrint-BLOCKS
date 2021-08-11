@@ -145,14 +145,9 @@ $(function() {
         //---------------------------------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
 
-          self.logToConsole('Updating layout');
-
-          self.set_NewAppearence(settingsPlugin);
+          self.logToConsole('Blocks Updating layout');
 
           self.set_fixedHeader(settingsPlugin.fixedHeader());
-
-
-          //self.set_fixedFooter(settingsPlugin.fixedFooter());
 
           self.set_fluidLayout(settingsPlugin.fluidLayout());
 
@@ -162,84 +157,15 @@ $(function() {
           // Remove the collapsible feature
           self.set_removeCollapsible(settingsPlugin.removeCollapsible());
 
+          self.replaceHeadingElements(settingsPlugin);
+
           self.correctFilesWrapper(settingsPlugin);
 
-          self.replaceHeadingElements(settingsPlugin);
+          self.theming(settingsPlugin);
         };
 
 
-        //---------------------------------------------------------------------------
-        // Took from UICustumizer
-        self.set_fixedHeader = function(enable) {
-          if(enable){
-            $('body').addClass('BLOCKSUIfixedHeader');
-            $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
-          }else{
-            $('body').removeClass('BLOCKSUIfixedHeader');
-            $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
-            $('#navbar').css('overflow','');
-          }
-        }
-        self.set_NewAppearence = function () {
-          // Fix Navbar Related
-          // Makes the border color and shadow disappear
-          $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
-          $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
 
-        };
-
-        self.replaceHeadingElements = function () {
-          // A ideia é copiar todos os atributos daquele elemento e depois contruir
-          // um outro elemento da tag div e substituir o anterior por este
-          var elems = document.getElementsByTagName("A");
-
-          // console.log(elements);
-          for(let i=0; i < elems.length ; i++){
-            var type = elems.item(i);
-            // The next line gives me the element tag name (a, div, etc..)
-            // var tag = $(type).prop("tagName");
-            var classNames = $(type).attr("class");
-            var elementText = $(type).text();
-
-
-            if( (classNames == 'container-fluid heading') && (elementText != undefined)){
-              var dataTargetNames = $(type).attr('data-target');
-              var idName = $(type).attr('data-test-id');
-              var childs = $(type).children();
-              var parents = $(type).parent();
-              var new_id = dataTargetNames.concat("_heading").replace("#","");
-
-              $(type).replaceWith("<div class= \"" + classNames + "\"  id= \"" + new_id + "\" ></div>");
-              var new_Elem = document.getElementById(new_id);
-              console.log(childs[0]);
-              console.log(new_Elem);
-
-              $(new_Elem).text(elementText);
-              $(new_Elem).prepend(childs[0]);
-
-            }
-          }
-
-        };
-        //---------------------------------------------------------------------------
-        self.set_fixedFooter = function(enable) {
-          if(enable){
-            $('.footer').css("position", "fixed");
-            $('.footer').css("display", "inline-flex");
-            $('.footer').css("justify-content","space-between");
-            $('.footer').css("background-color", "rgb(233,233,233)");
-            $('.footer').css("left","0px");
-            $('.footer').css("bottom","0px");
-            $('.footer').css("right","0px");
-          }
-        };
-        //---------------------------------------------------------------------------
-        self.set_blocksFooterInfo = function(enable) {
-          if(enable){
-            $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" target="_blank" rel="noreferrer noopener"> BLOCKS </a></li>');
-          }
-        };
         //---------------------------------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
@@ -250,17 +176,18 @@ $(function() {
           self.bindWrappers(settingsPlugin);
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
+
           self.set_TemperatureWrapper(settingsPlugin);
+
+          self.set_tabbable(settingsPlugin);
+
+          self.set_NewAppearence(settingsPlugin);
+
+          self.remove_accordion(settingsPlugin);
+
 
           // ~~ Remove the sidebar, i don't need it anymore
           $('#sidebar').remove();
-          $('div.tabbable').removeClass('span8');
-          // The tabs does not need the Control tab because the Control module is
-          // on my grid
-          $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
-          $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
-          // Neither do i need the old tabbable
-          $('.TopRow > div.BLOCKSMainTabs').remove();
         };
 
         //---------------------------------------------------------------------------
@@ -287,6 +214,76 @@ $(function() {
           $('#state_wrapper').appendTo($('#BTC2'));
           $('div.tabbable.span8').appendTo($('#BBC2'));
           $('#files_wrapper').appendTo($('#BBC3'));
+
+          $('#LightDarkSwitchWrapper').appendTo($('#navbar > .navbar-inner > .container-fluid'));
+        };
+        //---------------------------------------------------------------------------
+        // Took from UICustumizer
+        self.set_fixedHeader = function(enable) {
+          if(enable){
+            $('body').addClass('BLOCKSUIfixedHeader');
+            $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
+          }else{
+            $('body').removeClass('BLOCKSUIfixedHeader');
+            $('#navbar').addClass('navbar-static-top').removeClass('navbar-fixed-top');
+            $('#navbar').css('overflow','');
+          }
+        }
+        self.set_NewAppearence = function () {
+          // Fix Navbar Related
+          // Makes the border color and shadow disappear
+          $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
+          $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
+
+        };
+
+        self.replaceHeadingElements = function () {
+          // A ideia é copiar todos os atributos daquele elemento e depois contruir
+          // um outro elemento da tag div e substituir o anterior por este
+          // var elems = document.getElementsByTagName("a");
+
+          var elems = document.getElementsByClassName("heading");
+
+          for(let i=0; i < elems.length ; i++){
+
+            var type = elems.item(i);
+            // The next line gives me the element tag name (a, div, etc..)
+            var tag = $(type).prop("tagName");
+            // console.log(type);
+            var classNames = $(type).attr("class");
+            var elementText = $(type).text();
+            if( (classNames == 'container-fluid heading') && (tag =="A")){
+              var dataTargetNames = $(type).attr('data-target');
+              var idName = $(type).attr('data-test-id');
+              var childs = $(type).children();
+              var parents = $(type).parent();
+              var new_id = dataTargetNames.concat("_heading").replace("#","");
+              $(type).replaceWith("<div class= \"" + classNames + "\"  id= \"" + new_id + "\" ></div>");
+              var new_Elem = document.getElementById(new_id);
+              $(new_Elem).text(elementText);
+              $(new_Elem).prepend(childs[0]);
+            }
+          }
+
+        };
+        //---------------------------------------------------------------------------
+        self.set_fixedFooter = function(enable) {
+          if(enable){
+            $('.footer').css("position", "fixed");
+            $('.footer').css("display", "inline-flex");
+            $('.footer').css("justify-content","space-between");
+            $('.footer').css("background-color", "rgb(233,233,233)");
+            $('.footer').css("left","0px");
+            $('.footer').css("bottom","0px");
+            $('.footer').css("right","0px");
+          }
+        };
+        //---------------------------------------------------------------------------
+        self.set_blocksFooterInfo = function(enable) {
+          if(enable){
+            $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" id="blocks_link" target="_blank" rel="noreferrer noopener"> <img src="./plugin/BLOCKS/static/img/Blocks_Logo.png"> </a></li>');
+          }
         };
         //---------------------------------------------------------------------------
         self.set_blocksWrapper = function(settingsPlugin){
@@ -301,20 +298,32 @@ $(function() {
           $('#refreshButton').insertBefore($('#PrinterImg'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
+
+          var badText = document.getElementById("page-container-main");
+          var shit = $(badText).text();
+
+
         };
+
+
 
         //---------------------------------------------------------------------------
         self.correctFilesWrapper = function(settingsPlugin){
           $('#files_wrapper > div.container-fluid.heading').attr('role','group');
           $('.btn-group').css({'font-size': ''});
           $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
-          self.fixFilesTriggers(settingsPlugin);
-        };
-        self.fixFilesTriggers = function(settingsPlugin) {
+
           //i'm going to wrap the three files triggers inside a container
-          $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid "></div>');
+          $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid filesButtons" id="files_triggers"></div>');
+
+          $('#files > .accordion-inner').addClass('container-fluid body').removeClass('accordion-inner');
+
+          $('#files_triggers').appendTo($('#files_heading'));
+
+          // Fix the Css on the files
           $('.dropdown-menu').addClass("dropdown-menu-right");
         };
+
         //---------------------------------------------------------------------------
         // This is for my fan slider, i can increment the fan speed by ~~1%
         self.fanControl = ko.observable(0);
@@ -337,36 +346,43 @@ $(function() {
             self.control.sendCustomCommand({type: 'command', command:'M18'});
           }
         });
+
         // The following set of functions serves for the load/unload filament buttons
+        // and all the buttons to select which type of filament we have
         self.loadFilament = ko.observable(undefined);
+        self.filamentType = ko.observable(['PLA', 'Other']);
+        // The default temperature is set to 205 Celsius
+        self.newTarget = ko.observable(undefined);
 
         self.loadFilament.subscribe(function(Val){
           if(Val){
-            self.control.sendCustomCommand({type: 'command', command: 'M701'});
+            var newCommand = 'M109 S' + self.newTarget();
+            console.log(newCommand);
+            self.control.sendCustomCommand({type: 'command', command: newCommand});
+            self.control.sendCustomCommand({type: 'command', command: 'M600'});
+            self.temperature.setTargetsToZero();
           }
         });
+
         self.loadFilamentText = ko.pureComputed( function(){
           if(self.loadFilament()){
-            return gettext('Loading');
+            return gettext('Changing');
           }else{
             return gettext('Load');
           }
         });
-        self.unloadFilament = ko.observable(undefined);
 
-        self.unloadFilament.subscribe(function(Val){
-          if(Val){
-            self.control.sendCustomCommand({type: 'command', command: 'M702'});
-          }
-        });
 
-        self.unloadFilamentText = ko.pureComputed( function(){
-          if(self.unloadFilament()){
-            return gettext('Unloading');
-          }else{
-            return gettext('Unload');
+        self.filamentOper = function (data){
+          if (data == "PLA"){
+            self.newTarget(180);
+          }else if (data == "Other"){
+            self.newTarget(240);
+          }else {
+            self.newTarget(210);
           }
-        });
+        };
+
         //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -376,7 +392,7 @@ $(function() {
           // This is for the heading, also gives it  the possibility to collapse.
           $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
           // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
-          $('#control').wrapInner('<div class="container-fluid accordion-inner"></div>');
+          $('#control').wrapInner('<div class="container-fluid"></div>');
           // Needed to wrap my header
           $('#control_wrapper > a').wrap('<div class="container-fluid heading"></div>');
           // Adds the gamepad icon in black and also adds the text "Controls" to the header
@@ -404,7 +420,7 @@ $(function() {
           $('#control-jog-general').remove();
         };
 
-
+        //---------------------------------------------------------------------------
         self.set_tabWebStream = function (settingsPlugin){
           $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAnyPermissionKo(access.permissions.WEBCAM)"></div>');
           $('#webcam_container').appendTo($('#webCam'));
@@ -418,13 +434,27 @@ $(function() {
 
           $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
         };
+
+        self.set_tabbable = function(settingsPlugin){
+          // Remove the container borders.
+          $('#tabs_content').css("border-right", "unset");
+          $('#tabs_content').css("border-left", "unset");
+          $('#tabs_content').css("border-bottom", "unset");
+
+          $('div.tabbable').removeClass('span8');
+
+          $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
+          $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
+          // Neither do i need the old tabbable
+          $('.TopRow > div.BLOCKSMainTabs').remove();
+        }
         //---------------------------------------------------------------------------
         self.set_TemperatureWrapper = function(settingsPlugin) {
           $('#temp').wrap('<div id="temp_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.STATUS, access.permissions.CONTROL)"></div>');
 
           $('#temp').removeClass('tab-pane').addClass('body');
 
-          $('<a class="container-fluid" data-target = "#temperature" ></a>').insertBefore("#temp");
+          $('<a class="container-fluid heading" data-target = "#temperature" ></a>').insertBefore("#temp");
 
           $('#temp').wrapInner('<div class="container-fluid accordion-inner" ></div>');
 
@@ -438,6 +468,7 @@ $(function() {
           // Basically it presses the button on the tabs to create the grid
           // After the grid is created the tab is deleted from the tab container
           // because i don't need that tab there anymore
+          $(".flot-text").css("color","rgb(255, 255, 255)");
 
           $('#temp_link > a').trigger('click');
 
@@ -493,7 +524,130 @@ $(function() {
         };
 
 
-      }
+
+        self.remove_accordion = function (settingsPlugin){
+          try {
+            var all_elements = document.getElementsByClassName('accordion-inner');
+            for (let i=0 ; i < all_elements.length ; i++){
+              var elem = all_elements.item(i);
+              $(elem).addClass('container-fluid').removeClass('accordion-inner');
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        };
+
+      //---------------------------------------------------------------------------
+      self.theming = function(){
+        // Get the settings
+        var theme = self.getStorage('themeType');
+
+        console.log("My bad lil hoe" + theme);
+
+        self.selectThemeColors = ko.observable(undefined);
+        self.selectThemeColors(theme);
+
+        // self.selectThemeColors(theme);
+        // console.log($('#LightDarkSwitch').prop("checked"));
+        // if(theme){
+        //   $('#LightDarkSwitch').prop("checked", true);
+        // }else{
+        //   $('#LightDarkSwitch').prop("checked", false);
+        // }
+        self.set_theme(theme);
+        self.selectThemeColors.subscribe( function(val){
+          // if(val){
+          //   console.log(val);
+          //   $('.BLOCKSMainContainer').css("background-color", "rgb(86,86,86)");
+          //   $('.BLOCKSMainContainer').css("color", "rgb(255,255,255)");
+          //   $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(255,255,255)");
+          //   $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(86,86,86)");
+          //   $('.BLOCKCol1').css("background-color", "#292b2a");
+          //   $('.BLOCKCol2').css("background-color", "#292b2a");
+          //   $('.BLOCKCol3').css("background-color", "#292b2a");
+          //   $('.table').css("color","rgb(255,255,255)");
+          //   $('.footer > ul > li > a').css("color", "rgb(255, 255, 255)");
+          //   $('#LightDarkSwitch').prop("checked", true);
+          //   self.setStorage('themeType', val);
+          //
+          // }else{
+          //   console.log(val);
+          //   $('.BLOCKSMainContainer').css("background-color", "rgb(255,255,255)");
+          //   $('.BLOCKSMainContainer').css("color", "rgb(86,86,86)");
+          //   $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(255,255,255)");
+          //   $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(86,86,86)");
+          //   $('.BLOCKCol1').css("background-color", "rgb(255,255,255)");
+          //   $('.BLOCKCol2').css("background-color", "rgb(255,255,255)");
+          //   $('.BLOCKCol3').css("background-color", "rgb(255,255,255)");
+          //   $('.table').css("color","rgb(86,86,86)");
+          //   $('.footer > ul > li > a').css("color", "rgb(86,86,86)");
+          //   $('#LightDarkSwitch').prop("checked", false);
+          //   self.setStorage('themeType', val);
+          //
+          // }
+          self.set_theme(val);
+        });
+
+
+        self.themeSwitchText = ko.pureComputed( function() {
+          if(self.selectThemeColors){
+            return gettext("Dark");
+          }else{
+            return gettext("Light");
+          }
+        });
+      };
+
+      self.set_theme = function(val){
+        if(val){
+          console.log(val);
+          $('.BLOCKSMainContainer').css("background-color", "rgb(86,86,86)");
+          $('.BLOCKSMainContainer').css("color", "rgb(255,255,255)");
+          $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(255,255,255)");
+          $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(86,86,86)");
+          $('.BLOCKCol1').css("background-color", "#292b2a");
+          $('.BLOCKCol2').css("background-color", "#292b2a");
+          $('.BLOCKCol3').css("background-color", "#292b2a");
+          $('.table').css("color","rgb(255,255,255)");
+          $('.footer > ul > li > a').css("color", "rgb(255, 255, 255)");
+          $('#LightDarkSwitch').prop("checked", true);
+          self.setStorage('themeType', val);
+
+        }else{
+          console.log(val);
+          $('.BLOCKSMainContainer').css("background-color", "rgb(255,255,255)");
+          $('.BLOCKSMainContainer').css("color", "rgb(86,86,86)");
+          $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(255,255,255)");
+          $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(86,86,86)");
+          $('.BLOCKCol1').css("background-color", "rgb(255,255,255)");
+          $('.BLOCKCol2').css("background-color", "rgb(255,255,255)");
+          $('.BLOCKCol3').css("background-color", "rgb(255,255,255)");
+          $('.table').css("color","rgb(86,86,86)");
+          $('.footer > ul > li > a').css("color", "rgb(86,86,86)");
+          $('#LightDarkSwitch').prop("checked", false);
+          self.setStorage('themeType', val);
+
+        }
+      };
+
+      self.setStorage = function(cname,cvalue){
+          if (!Modernizr.localstorage) return;
+          if (window.location.pathname != "/"){
+              cname = window.location.pathname+cname;
+          }
+          localStorage['plugin.BLOCKS.'+cname] = cvalue;
+          console.log("saving...");
+      };
+
+      self.getStorage = function(cname){
+          if (!Modernizr.localstorage) return undefined;
+          if (window.location.pathname != "/"){
+              cname = window.location.pathname+cname;
+          }
+          return localStorage['plugin.BLOCKS.'+cname];
+      };
+
+    }
       //---------------------------------------------------------------------------
       //---------------------------------------------------------------------------
       //                            BlocksViewModel END
@@ -523,6 +677,7 @@ $(function() {
           "#blocksWrapper",
           "#fanSlider",
           "#blocksControlWrapper",
-          "#control_filament"]
+          "#control_filament",
+          "#LightDarkSwitchWrapper"]
     });
 });

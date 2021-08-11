@@ -53,7 +53,7 @@ $(function () {
 
             if(data.type == "machine_info"){
                 console.log(data.message);
-                
+
             }
 
 
@@ -96,7 +96,7 @@ $(function () {
                   title: gettext(" Notification "),
                   text: data.message,
                   type: data.type,
-                  hide: true,
+                  hide: data.hide,
                   icon: "fa fa-bell-o",
                   buttons: {
                       sticker: false,

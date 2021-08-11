@@ -54,10 +54,22 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             "blocksFooterInfo" : True,
 
-            "removeCollapsible" : True
+            "removeCollapsible" : True,
+
+            "themeType": False
 
 
         }
+
+    def on_settings_initialized(self):
+        theme = self._settings.get(["themeType"])
+        self._settings.set(["themeType"], str(theme))
+        self._logger.info("theme = {}".format(theme))
+
+    def on_settings_save(self, data):
+        # save
+        octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
+        self.logger.info("Saving settings.")
 
     ##~~ TemplatePlugin mixin
 
@@ -71,7 +83,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="settings", custom_bindings=False),
             # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
             # ou criar meu próprio type de template...
-            dict(type="generic", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
+            dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
             # My refresh button for my connection wrapper
             dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
             # My webcam link
@@ -81,7 +93,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Custom Notifications
             dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=False),
             # For Load Unload functions on the control section
-            dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False)
+            dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False),
+            # Light Dark Theme Switch
+            dict(type="generic", template="LightDarkSwitch.jinja2", custom_bindings=False)
         ]
 
     ##~~ Softwareupdate hook
@@ -114,6 +128,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             notification = {
                 "action": "popup",
                 "type": "info",
+                "hide": "true",
                 "message": event,
             }
             self._plugin_manager.send_plugin_message(self._identifier, notification)
@@ -123,6 +138,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             notification = {
                 "action": "popup",
                 "type": "info",
+                "hide": "true",
                 "message": event,
             }
             self._plugin_manager.send_plugin_message(self._identifier, notification)
@@ -139,6 +155,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             notification = {
                 "action": "popup",
                 "type": "warning",
+                "hide": "true",
                 "message": "25"
             }
             # Sends a message to any message listeners
@@ -146,34 +163,18 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         self._logger.info("Print Progress: {}".format(progress))
 
-    def gcode_received_hook(self, comm, line, *args, **kwargs):
-        try:
-            if comm == "M600":
-                notification = {
-                    "action": "popup",
-                    "type": "error",
-                    "message": "Replace filament"
-                }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
 
-
-            self._logger.info("Notification : {}".format("Replace Filament"))
-
-        except Exception as e:
-            # raise
-            pass
-
-
-    def sent_m701_m702(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
+    def sent_m600(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
         # Everytime i send the commands M701 and M702 this function will trigger
         # Possible because of the hook "octoprint.comm.protocol.gcode.sent"
         # M701 'Load Filament'
         # M702 'Unload Filament'
-        if gcode == "M701" or gcode == "M702":
+        if gcode and "M600" in gcode:
             notification = {
                 "action": "popup",
                 "type": "warning",
-                "message": "Filament Change in Progress"
+                "hide": "false",
+                "message": "Filament Change in Progress. Follow the printer instructions"
             }
             self._plugin_manager.send_plugin_message(self._identifier, notification)
             self._logger.info("Notifications: Gcode sent {}".format("gcode"))
@@ -194,7 +195,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "type": "machine_info",
                 "message": format(machine=printer_data["MACHINE_TYPE"])
             }
-            
+
 
             self._plugin_manager.send_plugin_message(self._identifier, notification)
         except Exception as e:
@@ -213,7 +214,6 @@ def __plugin_load__():
     global __plugin_hooks__
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-        "octoprint.comm.protocol.gcode.received": __plugin_implementation__.gcode_received_hook,
         "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_machine_type,
-        "octoprint.comm.protocol.gcode.sent": __plugin_implementation__.sent_m701_m702,
+        "octoprint.comm.protocol.gcode.sent": __plugin_implementation__.sent_m600,
     }
