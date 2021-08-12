@@ -98,7 +98,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # For Load Unload functions on the control section
             dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False),
             # Light Dark Theme Switch
-            dict(type="generic", template="LightDarkSwitch.jinja2", custom_bindings=False)
+            dict(type="generic", template="LightDarkSwitch.jinja2", custom_bindings=False),
+            # Steppers
+            dict(type="generic", template="steppers_button.jinja2", custom_bindings=False),
         ]
 
     ##~~ Softwareupdate hook

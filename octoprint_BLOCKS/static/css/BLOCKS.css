@@ -6,480 +6,494 @@
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
-	--bg-color: rgb(255,255,255);
-	--border-color: rgb(41,43,42);
-	--font-color: rgb(41,43,42);
-}
-
-html {
-	min-width: 550px;
-}
-.clearfix{
-	overflow: auto;
-}
-/* Page setUp */
-
-.accordion-inner{
-	border-top: unset;
-}
-.container-fluid.heading > .container-fluid.heading {
-    padding: 5px;
-}
-.BLOCKSMainContainer{
-	padding-left: 0px;
-	padding-right: 0px;
-	height: -webkit-fill-available;
-	background-color: var(--primary-color);
-	color: var(--font-color);
-}
-
-/* text color of the footer links  */
-.footer ul li a {
-	color: var(--font-color);
-}
-.footer #footer_links, .footer #footer_version {
-    max-width: 26%;
-}
-#blocks_link > img {
-	width: 10%;
-}
-
-.container-fluid {
-	align-content: baseline;
-	padding-left: 0px;
-	padding-right: 0px;
-}
-
-a{
-	color: rgb(136, 154, 255);
-	font-family: "Lexend Deca", sans-serif;
+	--bg-color: #F5F5F5;
+	--border-color: #F5F5F5;
+	--font-color: rgb(86,86,86);
 }
 
 
-/* --------------------------------- */
-/* Change the navbar/settings aspect */
-#settings_dialog_menu > .nav {
-	flex-direction: column;
-}
-#settings {
-	display: flex;
-  flex-direction: column;
-}
+@media only screen and (min-width: 1420px){
+
+	.clearfix{
+		overflow: auto;
+	}
+	/* Page setUp */
+
+	.accordion-inner{
+		border-top: unset;
+	}
+	.container-fluid.heading > .container-fluid.heading {
+	    padding: 5px;
+	}
+	.BLOCKSMainContainer{
+		padding-left: 0px;
+		padding-right: 0px;
+		height: -webkit-fill-available;
+		background-color: var(--primary-color);
+		color: var(--font-color);
+	}
+	.BLOCKSMainContainer > .tab-content > .tab-pane > h1 {
+		color: var(--font-color);
+	}
+	.octoprint-container .tab-content h1{
+		color: var(--font-color);
+	}
+
+	/* text color of the footer links  */
+	.footer ul li a {
+		color: var(--font-color);
+	}
+	.footer #footer_links, .footer #footer_version {
+	    max-width: 26%;
+	}
+	#blocks_link > img {
+		width: 10%;
+	}
+
+	.container-fluid {
+		align-content: baseline;
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	a{
+		color: rgb(136, 154, 255);
+		font-family: "Lexend Deca", sans-serif;
+	}
 
 
-#navbar > .navbar-inner > .container-fluid{
-	background-color: var(--primary-color);
-	color: var(--font-color);
-}
-
-#navbar .navbar-inner .brand {
-  padding: 10px 30px 6px;
-}
-#navbar .navbar-inner .nav>li>a:hover{
-	background-color: rgb(51 51 51);
-	color: #b383ff;
-}
-#navbar > .navbar-inner{
-	background-color: unset;
-	background-image: unset;
-}
-#LightDarkSwitchWrapper{
-	position:relative;
-	width: fit-content;
-	height: fit-content;
-}
-
-}
-/* -------------------------*/
+	/* --------------------------------- */
+	/* Change the navbar/settings aspect */
+	#settings_dialog_menu > .nav {
+		flex-direction: column;
+	}
+	#settings {
+		display: flex;
+	  flex-direction: column;
+	}
 
 
-/* Control wrapper properties */
-#control_wrapper > .container-fluid.heading > a.container-fluid {
-  /* display: inline-block; */
-  padding: 8px 15px;
-}
-#control_wrapper > .container-fluid.heading {
-  border-bottom: 1px solid #e5e5e5;
-  position: relative;
-}
-#control_wrapper {
-/*  border: 1px solid #e5e5e5; */
-  border-radius: 4px;
-	/* display: grid; */
+	#navbar > .navbar-inner > .container-fluid{
+		background-color: var(--primary-color);
+		color: var(--font-color);
+	}
 
-}
-/* #control {
-  padding: 8px 15px;
-  display: flex;
-	flex-direction: column;
-} */
-
-#control > .container-fluid {
-  /* display: block; */
-  justify-content: center;
-	position:relative;
-}
-
-#control > .container-fluid > .row-fluid {
-
-	display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-	flex-wrap: wrap;
-	height: 400px;
-	width: 100%;
-}
-#control .jog-panel>div.distance {
-  text-align: left;
-  position: relative;
-  top: 0px;
-  left: -5px;
-}
-#control_filament{
-	top: 11%;
-  position: relative;
-	width: 15%;
-	left: 5%;
-}
-#control_filament_buttons{
-	display: inline-flex;
-  align-items: flex-start;
-}
-#control-jog-extrusion{
-	width: 26%;
-}
-
-.blocks_notifications_entry{
-	display: flex;
-	align-items: center;
-	padding: 5px;
-	line-height: 20px;
-	border-bottom: 1px solid #ddd;
-}
-.blocks_notifications_scrollable{
-	overflow-x: hidden;
-	overflow-y: auto;
-	max-height: 306px;
-}
-.blocks_notifications_timestamp{
-	margin-left: 5px;
-	margin-right: 5px;
-}
-#blocks_notifications_wrapper{
-	padding: 8px 15px;
-}
-/* ----------------------------*/
-
-/* Temperature wrapper properties */
-#temp_wrapper > .container-fluid.heading > a.container-fluid {
-	/* display: inline-block; */
-
-	padding: 8px 15px;
-}
-#temp_wrapper > .container-fluid.heading {
-	border-bottom: 1px solid #e5e5e5;
-	position: relative;
-}
-#temp_wrapper {
-	border-radius: 4px;
-	height : 577px;
-}
-#temp {
-	padding: 8px 15px;
-	/* display: block; */
-}
-
-#temperature-graph{
-	background-image: url(../img/Blocks_Logo.png);
-	background-size: cover;
-	opacity: 0.6;
-	background-position: center;
-	background-size: 50%;
-	width: 100%;
-}
-.table th, .table td {
-  padding: 4px;
-  line-height: 20px;
-  text-align: left;
-  vertical-align: top;
-  border-top: 1px solid #ddd;
-}
-
-.table{
-	color: var(--font-color);
-}
-/* ----------------------------- */
-
-/* State wrapper properties */
-#state_wrapper > .container-fluid.heading > a.container-fluid {
-  /* display: inline-block; */
-  padding: 8px 15px;
-}
-#state_wrapper > .container-fluid.heading {
-  border-bottom: 1px solid #e5e5e5;
-  position: relative;
-}
-#state_wrapper {
-  border-radius: 4px;
-}
-#state {
-
-  /* display: flex; */
-	flex-direction: column;
-}
-
-/* ----------------------------- */
-
-/* notification properties */
-#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
-  /* display: inline-block; */
-  padding: 8px 15px;
-}
-#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
-  border-bottom: 1px solid #e5e5e5;
-  position: relative;
-}
-#sidebar_plugin_action_command_notification_wrapper{
-  /*border: 1px solid #e5e5e5;*/
-  border-radius: 4px;
-}
-#sidebar_plugin_action_command_notification{
-  padding: 8px 15px;
-  /* display: flex; */
-	flex-direction: column;
-}
-#sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
-  overflow-x: hidden;
-  overflow-y: auto;
-  /*max-height: 306px;*/
-}
-/* Fixes the problem of the notifications making the grid all wonky when there are alot of notifications*/
-#sidebar_plugin_action_command_notification > .accordion-inner{
-	max-height: 344px;
-}
-/* ----------------------------- */
-
-/* Files wrapper css styles */
-
-#files_wrapper > .container-fluid > .container-fluid.body {
-	display: flex;
-	align-items: stretch;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  margin-block-start: 5%;
-}
-
-#files_wrapper > .container-fluid.heading {
-  border-bottom: 1px solid #e5e5e5;
-  position: relative;
-	display : flex;
-}
-#files_wrapper{
-  /*border: 1px solid #e5e5e5;*/
-  border-radius: 4px;
-}
-#files{
-  /*padding: 8px 15px;*/
-  /* display: flex; */
-	/* flex-direction: column; */
-}
-/* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
-#files .gcode_files .scroll-wrapper {
-  overflow-x: hidden;
-  overflow-y: auto;
-	padding-right: 2px;
-  /*height: 306px;*/
-}
-
-#files_triggers {
-	display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: flex-end;
-}
-.accordion-heading-button {
-    margin-left: 10px;
-    margin-right: 20px;
-}
-#files_heading{
-	display: inline-flex;
-	align-items: center;
-}
-#files_heading > .fa.fa-list{
-	margin-inline-end: 5px;
-}
+	#navbar .navbar-inner .brand {
+	  padding: 10px 30px 6px;
+	}
+	#navbar .navbar-inner .nav>li>a:hover{
+		background-color: rgb(51 51 51);
+		color: #b383ff;
+	}
+	#navbar > .navbar-inner{
+		background-color: unset;
+		background-image: unset;
+	}
+	#LightDarkSwitchWrapper{
+		position:relative;
+		width: fit-content;
+		height: fit-content;
+	}
 
 
+	/* -------------------------*/
 
 
+	/* Control wrapper properties */
+	#control_wrapper > .container-fluid.heading > a.container-fluid {
+	  /* display: inline-block; */
+	  padding: 8px 15px;
+	}
+	#control_wrapper > .container-fluid.heading {
+	  border-bottom: 1px solid #e5e5e5;
+	  position: relative;
+	}
+	#control_wrapper {
+	/*  border: 1px solid #e5e5e5; */
+	  border-radius: 4px;
+		/* display: grid; */
 
-/* To fix the button settings on the files */
-.open>.dropdown-menu {
-    /* display: table; */
-    top: auto;
-}
-ul.dropdown-menu.dropdown-menu-right {
-	position: absolute;
-  left: auto;
-}
-/* Grid properties */
+	}
 
-.TopRow{
-	display: flex ;
-	align-items: flex-start;
-	flex-wrap:nowrap;
-	/* max-height: 425px; */
-	margin-block-end: 15px;
-	margin-block-start: 40px;
-}
-.BotRow{
-	display: flex ;
-	/* border-top : 2px solid rgb(185, 185, 185); */
-	border-bottom : 2px solid rgb(185, 185, 185);
-	align-items: flex-start;
-	flex-wrap:nowrap;
+	#control > .container-fluid {
+	  /* display: block; */
+	  justify-content: center;
+		position:relative;
+	}
 
-}
-.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
-	flex-basis: 100%;
-	padding: 4px;
-	min-width: 1%;
-	border-radius: 15px;
-  border: 4px solid #292b2a;
-  margin-inline-end: 10px;
-	min-height: 462px;
-	color: var(--font-color);
-	background-color: var(--bg-color);
-}
+	#control > .container-fluid > .row-fluid {
 
-.BotRow > .BLOCKCol1, .BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
-  min-height: 630px;
-}
+		display: inline-flex;
+	  justify-content: center;
+	  align-items: flex-start;
+		flex-wrap: wrap;
+		height: 400px;
+		width: 100%;
+	}
+	#control .jog-panel>div.distance {
+	  text-align: left;
+	  position: relative;
+	  top: 0px;
+	  left: -5px;
+	}
+	#control_filament{
+		top: 11%;
+	  position: relative;
+		width: 15%;
+		left: 5%;
+	}
+	#control_filament_buttons{
+		display: inline-flex;
+	  align-items: flex-start;
+	}
+	#control-jog-extrusion{
+		width: 26%;
+	}
+	#control-jog-feedrate > label > .popover{
+		color: rgb(86,86,86);
+	}
+	#control-jog-flowrate > label > .popover{
+		color: rgb(86,86,86);
+	}
+	.blocks_notifications_entry{
+		display: flex;
+		align-items: center;
+		padding: 5px;
+		line-height: 20px;
+		border-bottom: 1px solid #ddd;
+	}
+	.blocks_notifications_scrollable{
+		overflow-x: hidden;
+		overflow-y: auto;
+		max-height: 306px;
+	}
+	.blocks_notifications_timestamp{
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	#blocks_notifications_wrapper{
+		padding: 8px 15px;
+	}
+	/* ----------------------------*/
+
+	/* Temperature wrapper properties */
+	#temp_wrapper > .container-fluid.heading > a.container-fluid {
+		/* display: inline-block; */
+
+		padding: 8px 15px;
+	}
+	#temp_wrapper > .container-fluid.heading {
+		border-bottom: 1px solid #e5e5e5;
+		position: relative;
+	}
+	#temp_wrapper {
+		border-radius: 4px;
+		height : 577px;
+	}
+	#temp {
+		padding: 8px 15px;
+		/* display: block; */
+	}
+
+	#temperature-graph{
+		background-image: url(../img/Blocks_Logo.png);
+		background-size: cover;
+		opacity: 0.6;
+		background-position: center;
+		background-size: 50%;
+		width: 100%;
+	}
+	.table th, .table td {
+	  padding: 4px;
+	  line-height: 20px;
+	  text-align: left;
+	  vertical-align: top;
+	  border-top: 1px solid #ddd;
+	}
+
+	.table{
+		color: var(--font-color);
+	}
+	/* ----------------------------- */
+
+	/* State wrapper properties */
+	#state_wrapper > .container-fluid.heading > a.container-fluid {
+	  /* display: inline-block; */
+	  padding: 8px 15px;
+	}
+	#state_wrapper > .container-fluid.heading {
+	  border-bottom: 1px solid #e5e5e5;
+	  position: relative;
+	}
+	#state_wrapper {
+	  border-radius: 4px;
+	}
+	#state {
+
+	  /* display: flex; */
+		flex-direction: column;
+	}
+
+	/* ----------------------------- */
+
+	/* notification properties */
+	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
+	  /* display: inline-block; */
+	  padding: 8px 15px;
+	}
+	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
+	  border-bottom: 1px solid #e5e5e5;
+	  position: relative;
+	}
+	#sidebar_plugin_action_command_notification_wrapper{
+	  /*border: 1px solid #e5e5e5;*/
+	  border-radius: 4px;
+	}
+	#sidebar_plugin_action_command_notification{
+	  padding: 8px 15px;
+	  /* display: flex; */
+		flex-direction: column;
+	}
+	#sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
+	  overflow-x: hidden;
+	  overflow-y: auto;
+	  /*max-height: 306px;*/
+	}
+	/* Fixes the problem of the notifications making the grid all wonky when there are alot of notifications*/
+	#sidebar_plugin_action_command_notification > .accordion-inner{
+		max-height: 344px;
+	}
+	/* ----------------------------- */
+
+	/* Files wrapper css styles */
+
+	#files_wrapper > .container-fluid > .container-fluid.body {
+		display: flex;
+		align-items: stretch;
+	  flex-direction: column;
+	  flex-wrap: nowrap;
+	  margin-block-start: 5%;
+	}
+
+	#files_wrapper > .container-fluid.heading {
+	  border-bottom: 1px solid #e5e5e5;
+	  position: relative;
+		display : flex;
+	}
+	#files_wrapper{
+	  /*border: 1px solid #e5e5e5;*/
+	  border-radius: 4px;
+	}
+	#files{
+	  /*padding: 8px 15px;*/
+	  /* display: flex; */
+		/* flex-direction: column; */
+	}
+	/* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
+	#files .gcode_files .scroll-wrapper {
+	  overflow-x: hidden;
+	  overflow-y: auto;
+		padding-right: 2px;
+	  /*height: 306px;*/
+	}
+
+	#files_triggers {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+	.accordion-heading-button {
+	    margin-left: 10px;
+	    margin-right: 20px;
+	}
+	#files_heading{
+		display: inline-flex;
+		align-items: center;
+	}
+	#files_heading > .fa.fa-list{
+		margin-inline-end: 5px;
+	}
 
 
+	input.input-block.search-query{
+		width:70%;
+	}
 
 
+	/* To fix the button settings on the files */
+	.open>.dropdown-menu {
+	    /* display: table; */
+	    top: auto;
+	}
+	ul.dropdown-menu.dropdown-menu-right {
+		position: absolute;
+	  left: auto;
+	}
+	/* Grid properties */
 
-/* ------------------ */
+	.TopRow{
+		display: flex ;
+		align-items: flex-start;
+		flex-wrap:nowrap;
+		/* max-height: 425px; */
+		margin-block-end: 15px;
+		margin-block-start: 40px;
+	}
+	.BotRow{
+		display: flex ;
+		/* border-top : 2px solid rgb(185, 185, 185); */
+		border-bottom : 2px solid rgb(185, 185, 185);
+		align-items: flex-start;
+		flex-wrap:nowrap;
 
+	}
+	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
+		flex-basis: 100%;
+		padding: 4px;
+		min-width: 1%;
+		border-radius: 15px;
+	  border: 4px solid;
+		border-color: var(--border-color);
+	  margin-inline-end: 10px;
+		min-height: 462px;
+		color: var(--font-color);
+		background-color: var(--bg-color);
+	}
 
+	.BotRow > .BLOCKCol1, .BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
+	  min-height: 630px;
+	}
 
-
-
+	/* ------------------ */
 
 	/* Blocks properties */
 
-#PrinterImg{
-	position: relative;
-	margin-left: auto;
-}
-
-
-
-#blocksWrapper {
-	border-radius: 4px;
-}
-#blocksWrapper > .container-fluid.heading {
-    position: relative;
-    border-bottom: 1px solid #e5e5e5;
-		display: inline-flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-}
-#blocks_printer_connect{
-	border: 2px solid;
-}
-
-.form-switch {
-    padding: 7px 3px 2px 50px;
-}
-
-/* ----------------- */
-
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
-input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
-input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-    height: auto;
-}
-.input-append .add-on, .input-prepend .add-on {
-    /* display: inline-block; */
-    width: auto;
-    height: auto;
-
-}
-
-.dropdown-toggle::after {
-    /* display: contents; */
-}
-
-#refreshButton.refresh-trigger{
-
+	#PrinterImg{
 		position: relative;
-		left: 40px;
-}
-label.form-check-text {
-	font-weight: bold;
-	/* display: inline; */
-}
+		margin-left: auto;
+	}
+
+	#blocksWrapper {
+		border-radius: 4px;
+	}
+	#blocksWrapper > .container-fluid.heading {
+		position: relative;
+	  border-bottom: 1px solid #e5e5e5;
+	  display: flex;
+	  align-items: center;
+	  justify-content: flex-start;
+	  flex-wrap: wrap;
+	  flex-direction: row;
+	}
+	#blocks_printer_connect{
+		border: 2px solid;
+	}
+
+	.form-switch {
+	    padding: 7px 3px 2px 50px;
+	}
+
+	/* ----------------- */
+
+	select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
+	input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+	input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+	    height: auto;
+	}
+	.input-append .add-on, .input-prepend .add-on {
+	    /* display: inline-block; */
+	    width: auto;
+	    height: auto;
+
+	}
+
+	.dropdown-toggle::after {
+	    /* display: contents; */
+	}
+
+	#refreshButton.refresh-trigger{
+
+			position: relative;
+			left: 45%;
+	}
+	label.form-check-text {
+		font-weight: bold;
+		/* display: inline; */
+	}
 
 
 
 
-/* Just so i don't see the black outline on the toggle switch*/
-select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
-    outline: thin dotted #000;
-    outline: 0px auto -webkit-focus-ring-color;
-    /* outline-offset: -2px; */
-}
+	/* Just so i don't see the black outline on the toggle switch*/
+	select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
+	    outline: thin dotted #000;
+	    outline: 0px auto -webkit-focus-ring-color;
+	    /* outline-offset: -2px; */
+	}
 
-/* Fan Slider */
+	/* Fan Slider */
 
-#fanRange{
-		width: 255px;
-		padding: 15px;
-    border-radius: 16px;
-}
+	#fanRange{
+			width: 255px;
+			padding: 15px;
+	    border-radius: 16px;
+	}
 
-  /* This is for my gradient on the fan controler slider */
-	/* It only displays the gradient when the printer is connected */
-input[type="range"]:enabled::-webkit-slider-runnable-track{
-	-webkit-appearance: none;
-	background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
-}
-
-
-#fanSlider{
-	display: inline-flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-wrap: nowrap;
-}
-
-#settings_dialog{
-	/* display: grid; */
-
-}
-
-/* All Popovers about warnings will have the correct size */
-.modal.hide.fade.modal-overflow.in{
-	height: fit-content;
-}
-
-/* Changes the background color of the buttons when i hover over them */
-a:hover {
-	color: rgb(0, 0, 0);
-	text-decoration: none;
-}
+	  /* This is for my gradient on the fan controler slider */
+		/* It only displays the gradient when the printer is connected */
+	input[type="range"]:enabled::-webkit-slider-runnable-track{
+		-webkit-appearance: none;
+		background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
+	}
 
 
-/* Notifications icon color  */
-.fas.fa-exclamation{
-	color: red;
-}
+	#fanSlider{
+		display: inline-flex;
+	  align-items: center;
+	  justify-content: space-evenly;
+	  flex-wrap: nowrap;
+	}
 
-.hero-unit{
-	color: black;
+	/* All Popovers about warnings will have the correct size */
+	.modal.hide.fade.modal-overflow.in{
+		height: fit-content;
+	}
+
+	/* Changes the background color of the buttons when i hover over them */
+	a:hover {
+		color: rgb(0, 0, 0);
+		text-decoration: none;
+	}
+	/* Notifications icon color  */
+	.fas.fa-exclamation{
+		color: red;
+	}
+
+	.hero-unit{
+		color: black;
+	}
+
+	#gcode >div > .progress {
+		width: 100%;
+	}
+	#gcode_canvas{
+		width: 100%;
+		height: 100%;
+	}
+
+
+	#babystepZ{
+		position: relative;
+    top: 30%;
+    width: 15%;
+    right: 10%;
+	}
+
+	span.add-on{
+		color: rgb(86,86,86);
+	}
+
+
+
 }

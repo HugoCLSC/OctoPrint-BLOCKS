@@ -47,7 +47,7 @@ $(function() {
 
           //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
-          $('.BLOCKSMainContainer').attr('data-theme','light');
+
 
           // Load custom layout
           self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
@@ -84,6 +84,11 @@ $(function() {
 
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
+
+          var switchVal = $('blocks_printer_connect').prop("checked");
+          if(switchVal !== true){
+            $('blocks_printer_connect').prop("checked",true);
+          }
           console.log('Connected');
         };
 
@@ -237,11 +242,13 @@ $(function() {
           // Makes the border color and shadow disappear
           $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
           $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
-
+          self.add_subAttributeData_Theme();
+        };
+        self.add_subAttributeData_Theme = function(){
+          $('.BLOCKSMainContainer').attr('data-theme','light');
           $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
 
-        };
-
+        }
         self.replaceHeadingElements = function () {
           // A ideia é copiar todos os atributos daquele elemento e depois contruir
           // um outro elemento da tag div e substituir o anterior por este
@@ -299,11 +306,6 @@ $(function() {
           $('#refreshButton').insertBefore($('#PrinterImg'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
-
-          var badText = document.getElementById("page-container-main");
-          var shit = $(badText).text();
-
-
         };
 
 
@@ -384,6 +386,16 @@ $(function() {
           }
         };
 
+
+        self.babystepZ = ko.observable(undefined);
+
+        self.babystepZ.subscribe(function(range){
+          OctoPrint.printer.jog({"z": range});
+        });
+        self.babystepZText = ko.pureComputed( function(){
+          var value = self.babystepZ();
+          return gettext(value+'%');
+        });
         //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -414,7 +426,7 @@ $(function() {
 
           // I'll add my control filament buttons here
           $('#control_filament').appendTo($('#control > .container-fluid > .row-fluid'));
-
+          $('#babystepZ').appendTo($('#control > .container-fluid > .row-fluid'));
           // Now that i have this fna slider i really don't need the general tab.
           $('#fanSlider').appendTo($('#control > .container-fluid > .row-fluid'));
 
@@ -443,7 +455,7 @@ $(function() {
           $('#tabs_content').css("border-bottom", "unset");
 
           $('div.tabbable').removeClass('span8');
-
+          $('#timelapse > h1').attr('class','dark');
           $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
           $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
           // Neither do i need the old tabbable
@@ -564,7 +576,6 @@ $(function() {
       self.set_theme = function(val){
         var elements = document.querySelectorAll("[data-theme]");
         var size = elements.length;
-        console.log(elements);
         if(val === 'true' || val == true){
           for(let i = 0; i <= size; i++){
             var elem = elements.item(i);
@@ -582,6 +593,9 @@ $(function() {
         }
       };
 
+      // -----------------------------------------------------------------------
+
+      // -----------------------------------------------------------------------
       self.setStorage = function(cname,cvalue){
           if (!Modernizr.localstorage) return;
           if (window.location.pathname != "/"){
@@ -630,6 +644,7 @@ $(function() {
           "#fanSlider",
           "#blocksControlWrapper",
           "#control_filament",
-          "#LightDarkSwitchWrapper"]
+          "#LightDarkSwitchWrapper",
+          "#babystepZ"]
     });
 });
