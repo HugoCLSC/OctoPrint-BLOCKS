@@ -44,8 +44,10 @@ $(function() {
           //Html can have mulitple classes
           $('#tabs').parent().addClass('BLOCKSMainTabs');
 
+
           //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
+          $('.BLOCKSMainContainer').attr('data-theme','light');
 
           // Load custom layout
           self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
@@ -200,12 +202,12 @@ $(function() {
           $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
           $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
           // All that is left to do is just create my collumns.
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" id="BTC1"></div>');
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" id="BTC2"></div>');
-          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" id="BTC3"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" id="BBC1"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" id="BBC2"></div>');
-          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" id="BBC3"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol1" data-theme="light" id="BTC1"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol2" data-theme="light" id="BTC2"></div>');
+          $('#BLOCKSRowTop').append('<div class="col-4-md BLOCKCol3" data-theme="light" id="BTC3"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol1" data-theme="light" id="BBC1"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol2" data-theme="light" id="BBC2"></div>');
+          $('#BLOCKSRowBot').append('<div class="col-4-md BLOCKCol3" data-theme="light" id="BBC3"></div>');
         };
         //---------------------------------------------------------------------------
         self.bindWrappers = function(settingsPlugin){
@@ -236,17 +238,16 @@ $(function() {
           $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
           $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
 
+          $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
+
         };
 
         self.replaceHeadingElements = function () {
           // A ideia é copiar todos os atributos daquele elemento e depois contruir
           // um outro elemento da tag div e substituir o anterior por este
           // var elems = document.getElementsByTagName("a");
-
           var elems = document.getElementsByClassName("heading");
-
           for(let i=0; i < elems.length ; i++){
-
             var type = elems.item(i);
             // The next line gives me the element tag name (a, div, etc..)
             var tag = $(type).prop("tagName");
@@ -553,6 +554,7 @@ $(function() {
 
       self.themeSwitchText = ko.pureComputed( function() {
         if(self.selectThemeColors() === 'true' || self.selectThemeColors() == true){
+          $('#LightDarkSwitch').css("border")
           return gettext("Dark");
         }else{
           return gettext("Light");
@@ -560,28 +562,21 @@ $(function() {
       });
 
       self.set_theme = function(val){
+        var elements = document.querySelectorAll("[data-theme]");
+        var size = elements.length;
+        console.log(elements);
         if(val === 'true' || val == true){
-          $('.BLOCKSMainContainer').css("background-color", "rgb(86,86,86)");
-          $('.BLOCKSMainContainer').css("color", "rgb(255,255,255)");
-          $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(255,255,255)");
-          $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(86,86,86)");
-          $('.BLOCKCol1').css("background-color", "#292b2a");
-          $('.BLOCKCol2').css("background-color", "#292b2a");
-          $('.BLOCKCol3').css("background-color", "#292b2a");
-          $('.table').css("color","rgb(255,255,255)");
-          $('.footer > ul > li > a').css("color", "rgb(255, 255, 255)");
+          for(let i = 0; i <= size; i++){
+            var elem = elements.item(i);
+            $(elem).attr("data-theme","dark");
+          }
           $('#LightDarkSwitch').prop("checked", true);
           self.setStorage('themeType', val);
         }else{
-          $('.BLOCKSMainContainer').css("background-color", "rgb(255,255,255)");
-          $('.BLOCKSMainContainer').css("color", "rgb(86,86,86)");
-          $('#navbar > .navbar-inner > .container-fluid').css("background-color", "rgb(255,255,255)");
-          $('#navbar > .navbar-inner > .container-fluid').css("color", "rgb(86,86,86)");
-          $('.BLOCKCol1').css("background-color", "rgb(255,255,255)");
-          $('.BLOCKCol2').css("background-color", "rgb(255,255,255)");
-          $('.BLOCKCol3').css("background-color", "rgb(255,255,255)");
-          $('.table').css("color","rgb(86,86,86)");
-          $('.footer > ul > li > a').css("color", "rgb(86,86,86)");
+          for(let i = 0; i <= size; i++){
+            var elem = elements.item(i);
+            $(elem).attr("data-theme","light");
+          }
           $('#LightDarkSwitch').prop("checked", false);
           self.setStorage('themeType', val);
         }
