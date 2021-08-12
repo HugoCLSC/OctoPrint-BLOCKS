@@ -538,28 +538,26 @@ $(function() {
         };
 
       //---------------------------------------------------------------------------
+      self.selectThemeColors = ko.observable(undefined);
       self.theming = function(){
         // Get the settings
         var theme = self.getStorage('themeType');
-
         console.log(theme);
 
-        self.selectThemeColors = ko.observable(undefined);
         self.selectThemeColors(theme);
         self.set_theme(theme);
-
         self.selectThemeColors.subscribe( function(val){
           self.set_theme(val);
         });
-
-        self.themeSwitchText = ko.pureComputed( function() {
-          if(self.selectThemeColors()){
-            return gettext("Dark");
-          }else{
-            return gettext("Light");
-          }
-        });
       };
+
+      self.themeSwitchText = ko.pureComputed( function() {
+        if(self.selectThemeColors() === 'true' || self.selectThemeColors() == true){
+          return gettext("Dark");
+        }else{
+          return gettext("Light");
+        }
+      });
 
       self.set_theme = function(val){
         if(val === 'true' || val == true){

@@ -22,6 +22,7 @@ html {
 	padding-right: 0px;
 	height: -webkit-fill-available;
 }
+
 /* text color of the footer links  */
 .footer ul li a {
     color: rgb(254, 254, 254);
@@ -73,7 +74,10 @@ a{
 }
 #LightDarkSwitchWrapper{
 	position:relative;
-	left:60%;
+	width: fit-content;
+	height: fit-content;
+}
+
 }
 /* -------------------------*/
 
