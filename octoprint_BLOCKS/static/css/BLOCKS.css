@@ -3,16 +3,35 @@
 	--bg-color: rgb(41, 43, 42);
 	--border-color: rgb(41,43,42);
 	--font-color: rgb(255,255,255);
+	--navbar-color: #F5F5F5;
+	--shadow-text: 0 1px rgb(86,86,86);
+	--switch-color: rgb(62, 62, 62);
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
 	--bg-color: #F5F5F5;
 	--border-color: #F5F5F5;
 	--font-color: rgb(86,86,86);
+	--navbar-color: #333333;
+	--shadow-text: 0 1px #ccc;
+	--switch-color:rgb(218, 218, 218);
 }
 
+[switch-color="red"]{
+	--bg-color: rgb(255,59,59);
+	--border-color: rgb(255,59,59);
+}
+[switch-color="green"]{
+	--bg-color: rgb(85,247,92);
+	--border-color: rgb(85,247,92);
+}
 
-@media only screen and (min-width: 1420px){
+/* @media (min-width: 1420px){ */
+
+	html{
+		/* Obriga o tamanho da página nunca ser menor que 1420px de largura */
+		min-width: 1420px;
+	}
 
 	.clearfix{
 		overflow: auto;
@@ -75,11 +94,15 @@
 
 	#navbar > .navbar-inner > .container-fluid{
 		background-color: var(--primary-color);
-		color: var(--font-color);
+		color: var(--navbar-color);
 	}
 
 	#navbar .navbar-inner .brand {
 	  padding: 10px 30px 6px;
+	}
+	#navbar .navbar-inner .brand, #navbar .navbar-inner .nav>li>a{
+		color: var(--navbar-color);
+		text-shadow: var(--shadow-text);
 	}
 	#navbar .navbar-inner .nav>li>a:hover{
 		background-color: rgb(51 51 51);
@@ -93,8 +116,21 @@
 		position:relative;
 		width: fit-content;
 		height: fit-content;
+		right: -30%;
 	}
 
+	#LightDarkSwitch{
+		background-color: var(--switch-color);
+		border-color: var(--switch-color);
+	}
+	#LightDarkSwitch:checked{
+		background-color: var(--switch-color);
+		border-color: var(--switch-color);
+	}
+	#LightDarkSwitch:focus{
+		background-color: var(--switch-color);
+		box-shadow: var(--switch-color);
+	}
 
 	/* -------------------------*/
 
@@ -121,14 +157,15 @@
 		position:relative;
 	}
 
-	#control > .container-fluid > .row-fluid {
-
-		display: inline-flex;
-	  justify-content: center;
-	  align-items: flex-start;
-		flex-wrap: wrap;
-		height: 400px;
-		width: 100%;
+	#control > .container-fluid > .container-fluid {
+		display: flex;
+    height: 400px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: stretch;
+    align-items: stretch;
+    flex-direction: row;
 	}
 	#control .jog-panel>div.distance {
 	  text-align: left;
@@ -136,11 +173,16 @@
 	  top: 0px;
 	  left: -5px;
 	}
-	#control_filament{
-		top: 11%;
-	  position: relative;
+	#babystepZ{
+
+	}
+	#filamentStep{
 		width: 15%;
-		left: 5%;
+		position: relative;
+		top: 5%;
+	}
+	#control_filament{
+		width: 100%;
 	}
 	#control_filament_buttons{
 		display: inline-flex;
@@ -388,10 +430,16 @@
 	}
 	#blocks_printer_connect{
 		border: 2px solid;
+		border-color: var(--border-color);
 	}
-
+	#blocks_printer_connect:checked{
+		background-color: var(--bg-color);
+	}
 	.form-switch {
 	    padding: 7px 3px 2px 50px;
+	}
+	.form-check-input{
+		background-color: var(--bg-color);
 	}
 
 	/* ----------------- */
@@ -483,12 +531,7 @@
 	}
 
 
-	#babystepZ{
-		position: relative;
-    top: 30%;
-    width: 15%;
-    right: 10%;
-	}
+
 
 	span.add-on{
 		color: rgb(86,86,86);
@@ -496,4 +539,4 @@
 
 
 
-}
+/* } */

@@ -24,6 +24,7 @@ $(function() {
         self.temperature = parameters[3];
         self.appearance = parameters[4];
         self.access = parameters[5];
+        self.printerState = parameters[6];
 
         // TODO: Implement your plugin's view model here.
 
@@ -71,7 +72,8 @@ $(function() {
         //---------------------------------------------------------------------------
         self.onStartupComplete = function () {
           $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
-        }
+        };
+
         self.onEventConnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
           if(!self.connectIt()){
@@ -84,11 +86,6 @@ $(function() {
 
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
-
-          var switchVal = $('blocks_printer_connect').prop("checked");
-          if(switchVal !== true){
-            $('blocks_printer_connect').prop("checked",true);
-          }
           console.log('Connected');
         };
 
@@ -98,16 +95,43 @@ $(function() {
             $('#blocks_printer_connect').removeAttr('checked');
           }
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
-        }
+        };
 
         self.onEventDisconnected = function () {
           // I'll reset the fan slider
           self.fanControl(0);
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Disconnected');
-        }
+        };
 
 
+        self.fromCurrentData = function (data) {
+          var bleh = $('#blocks_printer_connect').prop("checked");
+          console.log(bleh);
+          if(data.state.text == "Operational" && bleh == false){
+            self.set_ConnectionSwitch(true);
+          }
+        };
+
+        self.set_ConnectionSwitch = function(val){
+          var elems = document.querySelectorAll("[switch-color]");
+          var size = elems.length;
+          if(val === 'true' || val == true){
+            for(let i=0; i<= size; i++){
+              var elem = elems.item(i);
+              $(elem).attr("switch-color", "green");
+            }
+            $('#blocks_printer_connect').prop("checked", true);
+            self.setStorage('ConnectionState', true);
+          }else{
+            for(let i=0; i <= size; i++){
+              var elem = elems.item(i);
+              $(elem).attr("switch-color", "red");
+            }
+            $('#blocks_printer_connect').prop("checked", false);
+            self.setStorage('ConnectionState', false);
+          }
+        };
         //---------------------------------------------------------------------------
         // Connection switch trigger functionality, this set of instructions is what
         // make the switch work
@@ -134,16 +158,14 @@ $(function() {
         // ~~ Will display Connected/Disconnected
 
         // ~~ it also changes the color of the connection trigger
-        // ~~ Conected =:= Green
+        // ~~ Connected =:= Green
         // ~~ Disconnected =:= Red
         self.connection_labelText = ko.pureComputed(function () {
           if (self.connection.isErrorOrClosed()){
-              $('#blocks_printer_connect').css("border-color", "rgb(255, 59, 59)");
-              $('.form-check-input').css("background-color","rgb(255, 59, 59)");
+              self.set_ConnectionSwitch(false);
               return gettext("Disconnected");
             }else{
-              $('#blocks_printer_connect').css("border-color", "rgb(85, 247, 92)");
-              $('.form-check-input:checked').css("background-color", "rgb(85, 247, 92)");
+              self.set_ConnectionSwitch(true);
               return gettext("Connected");
             }
         });
@@ -247,6 +269,12 @@ $(function() {
         self.add_subAttributeData_Theme = function(){
           $('.BLOCKSMainContainer').attr('data-theme','light');
           $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
+          var elems = document.getElementsByClassName('nav');
+          var size = elems.legnth;
+          for(let i=0; i <= size ; i++){
+            var elem = elems.item(i);
+            $(elem).attr('data-theme', 'dark');
+          }
 
         }
         self.replaceHeadingElements = function () {
@@ -424,13 +452,19 @@ $(function() {
           $('#control > div > div > div:first-child').remove();
           $('#control > div > div > div:last-child').remove();
 
-          // I'll add my control filament buttons here
-          $('#control_filament').appendTo($('#control > .container-fluid > .row-fluid'));
-          $('#babystepZ').appendTo($('#control > .container-fluid > .row-fluid'));
           // Now that i have this fna slider i really don't need the general tab.
-          $('#fanSlider').appendTo($('#control > .container-fluid > .row-fluid'));
+
 
           $('#control-jog-general').remove();
+          $('#control > .container-fluid > .row-fluid').append('<div class="container-fluid" id="filamentStep"></div>');
+          $('#control > .container-fluid > .row-fluid').addClass('container-fluid').removeClass('row-fluid');
+
+          // I'll add my control filament buttons here
+          $('#control_filament').appendTo($('#filamentStep'));
+          $('#babystepZ').appendTo($('#filamentStep'));
+          $('#fanSlider').appendTo($('#control > .container-fluid > .container-fluid'));
+
+
         };
 
         //---------------------------------------------------------------------------
@@ -551,7 +585,7 @@ $(function() {
         };
 
       //---------------------------------------------------------------------------
-      self.selectThemeColors = ko.observable(undefined);
+      self.selectThemeColors = ko.observable(false);
       self.theming = function(){
         // Get the settings
         var theme = self.getStorage('themeType');
@@ -637,7 +671,8 @@ $(function() {
             "controlViewModel",
             "temperatureViewModel",
             "appearanceViewModel",
-            "accessViewModel"],
+            "accessViewModel",
+            "printerStateViewModel"],
         // Elements to bind to, e.g. #settings_plugin_BLOCKS, #tab_plugin_BLOCKS, ...
         elements: [
           "#blocksWrapper",
