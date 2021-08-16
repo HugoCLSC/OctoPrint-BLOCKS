@@ -6,6 +6,8 @@
 	--navbar-color: #F5F5F5;
 	--shadow-text: 0 1px rgb(86,86,86);
 	--switch-color: rgb(62, 62, 62);
+	--graph-image: url(../img/Blocks_VECTORIZADOBRANCO.png);
+	--hover-color: rgb(180, 180, 180);
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
@@ -15,6 +17,8 @@
 	--navbar-color: #333333;
 	--shadow-text: 0 1px #ccc;
 	--switch-color:rgb(218, 218, 218);
+	--graph-image: url(../img/Blocks_VECTORIZADOpreto.png);
+	--hover-color: rgb(236 236 236);
 }
 
 [switch-color="red"]{
@@ -32,7 +36,11 @@
 		/* Obriga o tamanho da página nunca ser menor que 1420px de largura */
 		min-width: 1420px;
 	}
-
+	body{
+		font-family: 'Montserrat';
+		font-size: 14px;
+		line-height: 25px;
+	}
 	.clearfix{
 		overflow: auto;
 	}
@@ -53,6 +61,7 @@
 	}
 	.BLOCKSMainContainer > .tab-content > .tab-pane > h1 {
 		color: var(--font-color);
+
 	}
 	.octoprint-container .tab-content h1{
 		color: var(--font-color);
@@ -62,11 +71,18 @@
 	.footer ul li a {
 		color: var(--font-color);
 	}
-	.footer #footer_links, .footer #footer_version {
+	/* .footer #footer_links, .footer #footer_version {
 	    max-width: 26%;
+	} */
+	.footer > ul {
+		margin-right: 25px;
+		margin-bottom: 0px;
 	}
-	#blocks_link > img {
-		width: 10%;
+	#blocks_link{
+		width: 65px;
+	}
+	#blocks_link > img{
+		width: 60px;
 	}
 
 	.container-fluid {
@@ -77,12 +93,17 @@
 
 	a{
 		color: rgb(136, 154, 255);
-		font-family: "Lexend Deca", sans-serif;
+		font-family: "Montserrat";
 	}
 
 
 	/* --------------------------------- */
 	/* Change the navbar/settings aspect */
+	#settings_dialog{
+		margin-top: -25%;
+		color: var(--font-color);
+		background-color: var(--primary-color);
+	}
 	#settings_dialog_menu > .nav {
 		flex-direction: column;
 	}
@@ -90,11 +111,24 @@
 		display: flex;
 	  flex-direction: column;
 	}
+	.modal-footer{
+		background-color: var(--primary-color);
+		color: var(--font-color);
+	}
+	.modal-body{
+		background-color: var(--bg-color);
+	}
+	.span{
+		color: var(--font-color);
 
-
+	}
+	.help-block, .help-inline{
+		color: var(--font-color);
+	}
 	#navbar > .navbar-inner > .container-fluid{
 		background-color: var(--primary-color);
 		color: var(--navbar-color);
+
 	}
 
 	#navbar .navbar-inner .brand {
@@ -105,18 +139,21 @@
 		text-shadow: var(--shadow-text);
 	}
 	#navbar .navbar-inner .nav>li>a:hover{
-		background-color: rgb(51 51 51);
-		color: #b383ff;
+		background-color: var(--hover-color);
+		color: #22005f;
+		background-image: unset;
 	}
 	#navbar > .navbar-inner{
 		background-color: unset;
 		background-image: unset;
 	}
 	#LightDarkSwitchWrapper{
+		display: inline-flex;
 		position:relative;
 		width: fit-content;
 		height: fit-content;
-		right: -30%;
+		width: 5%;
+		float: right;
 	}
 
 	#LightDarkSwitch{
@@ -162,7 +199,7 @@
     height: 400px;
     width: 100%;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     align-content: stretch;
     align-items: stretch;
     flex-direction: row;
@@ -173,6 +210,9 @@
 	  top: 0px;
 	  left: -5px;
 	}
+	#control > .container-fluid > .container-fluid > .panel > .jog-panel {
+		margin-right: 10px;
+	}
 	#babystepZ{
 
 	}
@@ -180,6 +220,8 @@
 		width: 15%;
 		position: relative;
 		top: 5%;
+		margin-left: 15px;
+		margin-right: 0px;
 	}
 	#control_filament{
 		width: 100%;
@@ -238,7 +280,7 @@
 	}
 
 	#temperature-graph{
-		background-image: url(../img/Blocks_Logo.png);
+		background-image: var(--graph-image);
 		background-size: cover;
 		opacity: 0.6;
 		background-position: center;
@@ -487,7 +529,9 @@
 			padding: 15px;
 	    border-radius: 16px;
 	}
-
+	#fanSlider > label {
+		width: 7%;
+	}
 	  /* This is for my gradient on the fan controler slider */
 		/* It only displays the gradient when the printer is connected */
 	input[type="range"]:enabled::-webkit-slider-runnable-track{

@@ -86,8 +86,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
             # ou criar meu próprio type de template...
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
-            # My refresh button for my connection wrapper
-            dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
+            # # My refresh button for my connection wrapper
+            # dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
             # My webcam link
             dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
             # Fan slider
@@ -98,8 +98,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False),
             # Light Dark Theme Switch
             dict(type="generic", template="lightDarkSwitch.jinja2", custom_bindings=False),
-            # Steppers
-            dict(type="generic", template="steppers_button.jinja2", custom_bindings=False),
+        
         ]
 
     ##~~ Softwareupdate hook
@@ -206,6 +205,32 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._logger.info(e)
 
 
+    # Detect filament runout
+    # GCode command: M412
+    # This command than proceeds to execute the M600 to execute the filament change.
+    def detect_filament_runout(self, comm, line, *args, **kwargs):
+        try:
+            from octoprint.util.comm import parse_firmware_line
+            if "M412" not in line:
+                return line
+
+            printer_data = parse_firmware_line(line)
+
+            notification = {
+                "action": "popup",
+                "type": "machine_info",
+                "message": "Filament Runout, Change Filament to proceed",
+                "hide": "false",
+            }
+            self._plugin_manager.send_plugin_message(self._identifier, notification)
+
+
+        except Exception as e:
+            self._logger.info(e)
+
+
+
+
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
 
@@ -219,5 +244,6 @@ def __plugin_load__():
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
         "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_machine_type,
+        "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_filament_runout,
         "octoprint.comm.protocol.gcode.sent": __plugin_implementation__.sent_m600,
     }

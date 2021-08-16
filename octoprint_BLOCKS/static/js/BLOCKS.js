@@ -10,6 +10,9 @@ $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/them
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
 $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
 
+// Fonts: Montserrat
+$('head').prepend("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat'></link>");
+
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -38,6 +41,8 @@ $(function() {
                 console.log('BLOCKS:',msg)
             }
         };
+
+
 
         //---------------------------------------------------------------------------
         self.onAllBound = function(){
@@ -269,6 +274,12 @@ $(function() {
         self.add_subAttributeData_Theme = function(){
           $('.BLOCKSMainContainer').attr('data-theme','light');
           $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
+          $('.modal-footer').attr('data-theme', 'light');
+          $('.modal-body').attr('data-theme', 'light');
+          $('span').attr('data-theme', 'light');
+          $('.help-block').attr('data-theme', 'light');
+          $('.help-inline').attr('data-theme', 'light');
+          $('#settings_dialog').attr('data-theme', 'light');
           var elems = document.getElementsByClassName('nav');
           var size = elems.legnth;
           for(let i=0; i <= size ; i++){
@@ -329,9 +340,9 @@ $(function() {
           // I want the printer notifications and be able to connect to the printer in the same space
           $('#blocks_notifications_wrapper').appendTo('#blocksWrapper');
           // Add a refresh button to the connection/warnings wrapper
-          // I now have a refresh button next to my connection slider
-          $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
-          $('#refreshButton').insertBefore($('#PrinterImg'));
+          // // I now have a refresh button next to my connection slider
+          // $('#blocksWrapper > .container-fluid').append($('#refreshButton'));
+          // $('#refreshButton').insertBefore($('#PrinterImg'));
           // I'll need to introduce, at least a sentence saying that this container has the Notifications
           $('#sidebar_plugin_action_command_notification').prepend('<div class="container-fluid heading"><i class ="fa fa-bell"></i> Notifications </div>');
         };
@@ -415,15 +426,15 @@ $(function() {
         };
 
 
-        self.babystepZ = ko.observable(undefined);
-
-        self.babystepZ.subscribe(function(range){
-          OctoPrint.printer.jog({"z": range});
-        });
-        self.babystepZText = ko.pureComputed( function(){
-          var value = self.babystepZ();
-          return gettext(value+'%');
-        });
+        // self.babystepZ = ko.observable(undefined);
+        //
+        // self.babystepZ.subscribe(function(range){
+        //   OctoPrint.printer.jog({"z": range});
+        // });
+        // self.babystepZText = ko.pureComputed( function(){
+        //   var value = self.babystepZ();
+        //   return gettext(value+'%');
+        // });
         //---------------------------------------------------------------------------
         self.set_ControlWrapper = function(settingsPlugin){
           // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -461,7 +472,7 @@ $(function() {
 
           // I'll add my control filament buttons here
           $('#control_filament').appendTo($('#filamentStep'));
-          $('#babystepZ').appendTo($('#filamentStep'));
+          // $('#babystepZ').appendTo($('#filamentStep'));
           $('#fanSlider').appendTo($('#control > .container-fluid > .container-fluid'));
 
 
@@ -679,7 +690,6 @@ $(function() {
           "#fanSlider",
           "#blocksControlWrapper",
           "#control_filament",
-          "#LightDarkSwitchWrapper",
-          "#babystepZ"]
+          "#LightDarkSwitchWrapper"]
     });
 });
