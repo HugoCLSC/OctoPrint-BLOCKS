@@ -24,18 +24,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.ProgressPlugin,
                    octoprint.plugin.EventHandlerPlugin,):
 
-
-
-
     def on_after_startup(self):
-        self._logger.info("Blocks theme initialized...")
+        self._logger.info("Blocks initializing...")
 
     ##~~ AssetPlugin mixi
 
     def get_assets(self):
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
-
         return dict(
             js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js"],
             css=["css/BLOCKS.css", "css/jquery-ui.css","css/animations.css"],
@@ -46,27 +42,18 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def get_settings_defaults(self):
         return {
-            # put your plugin's default settings here
-
-            "fluidLayout" : True,
-
-            "fixedHeader" : True,
-
-            "blocksFooterInfo" : True,
-
-            "removeCollapsible" : True,
-
+            # For Light and Dark Theme
             "themeType": False
-
-
         }
+
     def on_settings_initialized(self):
+        # Get the saved settings
         theme = self._settings.get(["themeType"])
         self._settings.set(["themeType"], theme)
         self._logger.info("theme = {}".format(theme))
 
     def on_settings_save(self, data):
-        # save
+        # save settings 
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
         theme = self._settings.get(["themeType"])
         if 'themeType' in data and data['themeType']:
@@ -81,13 +68,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def get_template_configs(self):
 
         return[
-
             dict(type="settings", custom_bindings=False),
             # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
             # ou criar meu próprio type de template...
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
-            # # My refresh button for my connection wrapper
-            # dict(type="generic", template="refreshButton.jinja2", custom_bindings=False),
             # My webcam link
             dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
             # Fan slider
@@ -98,7 +82,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False),
             # Light Dark Theme Switch
             dict(type="generic", template="lightDarkSwitch.jinja2", custom_bindings=False),
-        
         ]
 
     ##~~ Softwareupdate hook
@@ -126,27 +109,30 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     ## ~~ EventHandlerPlugin mixin
 
     def on_event(self, event, payload):
-        # Everytime an event takes place we will send a message to any message listeners that exist
-        if event == Events.CONNECTED:
-            notification = {
-                "action": "popup",
-                "type": "info",
-                "hide": "true",
-                "message": event,
-            }
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
+        try:
+            # Everytime an event takes place we will send a message to any message listeners that exist
+            if event == Events.CONNECTED:
+                notification = {
+                    "action": "popup",
+                    "type": "info",
+                    "hide": "true",
+                    "message": event,
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
 
+            if event == Events.DISCONNECTED:
+                notification = {
+                    "action": "popup",
+                    "type": "info",
+                    "hide": "true",
+                    "message": event,
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
 
-        if event == Events.DISCONNECTED:
-            notification = {
-                "action": "popup",
-                "type": "info",
-                "hide": "true",
-                "message": event,
-            }
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
+            self._logger.info("Notification : {}".format(event))
+        except Exception as e:
+            self._logger.info(e)
 
-        self._logger.info("Notification : {}".format(event))
 
 
 
@@ -168,26 +154,29 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
 
     def sent_m600(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
-        # Everytime i send the commands M701 and M702 this function will trigger
-        # Possible because of the hook "octoprint.comm.protocol.gcode.sent"
-        # M701 'Load Filament'
-        # M702 'Unload Filament'
-        if gcode and "M600" in gcode:
-            notification = {
-                "action": "popup",
-                "type": "warning",
-                "hide": "false",
-                "message": "Filament Change in Progress. Follow the printer instructions"
-            }
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
-            self._logger.info("Notifications: Gcode sent {}".format("gcode"))
+        try:
+            # Everytime i send the commands M701 and M702 this function will trigger
+            # Possible because of the hook "octoprint.comm.protocol.gcode.sent"
+            # M701 'Load Filament'
+            # M702 'Unload Filament'
+            if gcode and "M600" in gcode:
+                notification = {
+                    "action": "popup",
+                    "type": "warning",
+                    "hide": "false",
+                    "message": "Filament Change in Progress. Follow the printer instructions"
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._logger.info("Notifications: Gcode sent {}".format("gcode"))
+        except Exception as e:
+            self._logger.info(e);
+
 
     def detect_machine_type(self, comm, line, *args, **kwargs):
         try:
             from octoprint.util.comm import parse_firmware_line
 
             printer_data = parse_firmware_line(line)
-
             if "MACHINE_TYPE" not in line:
                 # self._logger.info(line)
                 return line
@@ -198,8 +187,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "type": "machine_info",
                 "message": format(machine=printer_data["MACHINE_TYPE"])
             }
-
-
             self._plugin_manager.send_plugin_message(self._identifier, notification)
         except Exception as e:
             self._logger.info(e)
@@ -223,8 +210,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "hide": "false",
             }
             self._plugin_manager.send_plugin_message(self._identifier, notification)
-
-
         except Exception as e:
             self._logger.info(e)
 

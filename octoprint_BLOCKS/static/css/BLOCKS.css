@@ -128,7 +128,6 @@
 	#navbar > .navbar-inner > .container-fluid{
 		background-color: var(--primary-color);
 		color: var(--navbar-color);
-
 	}
 
 	#navbar .navbar-inner .brand {
@@ -149,11 +148,19 @@
 	}
 	#LightDarkSwitchWrapper{
 		display: inline-flex;
-		position:relative;
-		width: fit-content;
-		height: fit-content;
-		width: 5%;
-		float: right;
+    position: relative;
+    height: fit-content;
+    width: 5%;
+    float: right;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: flex-start;
+	}
+	.popover, .popover-title{
+		color: var(--font-color);
+		background-color: var(--bg-color);
 	}
 
 	#LightDarkSwitch{
@@ -212,6 +219,11 @@
 	}
 	#control > .container-fluid > .container-fluid > .panel > .jog-panel {
 		margin-right: 10px;
+		display: flex;
+		flex-direction: column;
+    align-content: flex-end;
+    justify-content: center;
+    align-items: center;
 	}
 	#babystepZ{
 
@@ -219,7 +231,7 @@
 	#filamentStep{
 		width: 15%;
 		position: relative;
-		top: 5%;
+		top: 0%;
 		margin-left: 15px;
 		margin-right: 0px;
 	}
@@ -298,6 +310,9 @@
 	.table{
 		color: var(--font-color);
 	}
+	/* #temperature_table{
+		table-layout: auto;
+	} */
 	/* ----------------------------- */
 
 	/* State wrapper properties */
@@ -369,7 +384,7 @@
 	  border-radius: 4px;
 	}
 	#files{
-	  /*padding: 8px 15px;*/
+	  padding: 8px 15px;
 	  /* display: flex; */
 		/* flex-direction: column; */
 	}
@@ -581,6 +596,13 @@
 		color: rgb(86,86,86);
 	}
 
-
-
-/* } */
+	.caret {
+	    display: unset;
+	    width: unset;
+			height: unset;
+	    vertical-align: unset;
+	    border-top: unset;
+	    border-right: unset;
+	    border-left: unset;
+	    content: unset;
+	}
