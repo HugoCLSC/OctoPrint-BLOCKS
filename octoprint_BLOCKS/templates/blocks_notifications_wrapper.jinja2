@@ -1,0 +1,27 @@
+<div id="blocks_notifications_wrapper" >
+  <div class="container-fluid heading">
+    <div class="header" data-bind>
+      <i class="far icon-black fa-bell"></i>
+       Notifications
+    </div>
+  </div>
+  <div  class="container-fluid body">
+    <div class="container-fluid">
+      <div style="display: none" data-bind="visible: $root.blocksNotifications().length > 0">
+        <div class="scroll-wrapper blocks_notifications_scrollable" data-bind="foreach: $root.blocksNotifications()">
+          <div class="blocks_notifications_entry slide-right">
+            <i class="fas fa-exclamation"></i>
+            <div class="blocks_notifications_timestamp">
+              <small class="muted" data-bind="text: $root.getTime"></small>
+            </div>
+            <div class="blocks_notifications_message" data-bind="text: message"></div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" data-bind="click: $root.clearNotifications"><i class="far fa-trash-alt"></i> {{ _('Clear All Notifications') }}</button>
+      </div>
+      <div style="display: none" data-bind="visible: blocksNotifications().length == 0">
+        {{ _('No notifications to be displayed') }}
+      </div>
+    </div>
+  </div>
+</div>
