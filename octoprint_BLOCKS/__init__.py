@@ -112,10 +112,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         try:
             if event == Events.PRINT_STARTED:
                 notification = {
-                "action": "popup",
-                "type": "info",
-                "hide": "true",
-                "message": "Print Start, Heating"
+                    "action": "popup",
+                    "type": "info",
+                    "hide": "true",
+                    "message": "Print Start, Heating"
                 }
                 self._plugin_manager.send_plugin_message(self._identifier, notification)
             if event == Events.PRINT_FAILED:

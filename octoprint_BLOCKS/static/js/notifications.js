@@ -22,7 +22,7 @@ $(function () {
           $('.blocks_notifications_entry').removeClass('fadeOutLeft').addClass('slide-right');
         };
         self.onEventDisconnecting = function(){
-          $('.blocks_notifications_entry').removeClass('slide-right').addClass('fadeOutLeft');
+          $('.blocks_notifications_entry').addClass('fadeOutLeft').removeClass('slide-right');
           self.clearNotifications();
         };
         self.getTime = ko.pureComputed (function(){
@@ -44,12 +44,12 @@ $(function () {
                 console.log(data.message);
             }
             if(data.message == "Print Failed"){
-              self.PopUpNotification(data);
+              self._PopUpNotification(data);
             }else if(data.message != "Disconnected" && data.message != "Print Failed"){
-              self.filter(data);
+              self._filter(data);
             }else{
               self.clearNotifications();
-              self.PopUpNotification(data);
+              self._PopUpNotification(data);
             }
           } catch (exception) {
             ko.onError(exception);
@@ -57,7 +57,7 @@ $(function () {
         };
         // This aint working the filter is not working. fuck
         // Filter my notifications i do not want copies while i get warnings
-        self.filter = function(data){
+        self._filter = function(data){
           try {
             var flag = false;
             ko.utils.arrayForEach(self.blocksNotifications(), function(blocksNotification) {
@@ -68,7 +68,7 @@ $(function () {
             }, self);
             if (flag == false){
               self.blocksNotifications.push(data);
-              self.PopUpNotification(data);
+              self._PopUpNotification(data);
             }
             return;
           }catch (e) {
@@ -76,7 +76,7 @@ $(function () {
           }
         };
         // Lets me display a PopUp on the page about the notification
-        self.PopUpNotification = function (data){
+        self._PopUpNotification = function (data){
           try {
               new PNotify({
                   title: gettext(" Notification "),

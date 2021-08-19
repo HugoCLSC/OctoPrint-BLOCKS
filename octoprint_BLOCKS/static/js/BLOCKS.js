@@ -130,30 +130,11 @@ $(function() {
           // fazer um if onde dependendo do tipo de impressora faço append ou apenas mudo o src
            // no elemento #PrinterImg
 
-            console.log(data);
+
           } catch (e) {
-            console.log(e);
+            self.logToConsole(e);
           }
         };
-
-        // self.onTabChange = function(current, previous){
-        //   // console.log("PREVIOUS"+previous);
-        //   console.log("CURRENT"+current);
-        //   if (current == "#webCam"){
-        //     // $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
-        //     self.control._enableWebcam();
-        //     $("#webcam_image").attr("src","http://192.168.1.94/webcam/?action=stream");
-        //   }else if (previous == "#webCam"){
-        //     self.control._disableWebcam();
-        //   }
-        // };
-        // self.onBrowserTabVisibilityChange = function (status) {
-        //     if (status) {
-        //         self.control._enableWebcam();
-        //     } else {
-        //         self.control._disableWebcam();
-        //     }
-        // };
 
         //---------------------------------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
@@ -161,22 +142,20 @@ $(function() {
           $('#tabs').parent().addClass('BLOCKSMainTabs');
           //adds another class name for the octoprint-container i can now call it by BLOCKSMainContainer
           $('div.octoprint-container').addClass('BLOCKSMainContainer');
-          self.set_fixedHeader(settingsPlugin);
-          self.set_fluidLayout(settingsPlugin);
-          self.set_blocksFooterInfo(settingsPlugin);
+          self._set_fixedHeader(settingsPlugin);
+          self._set_fluidLayout(settingsPlugin);
+          self._set_blocksFooterInfo(settingsPlugin);
           //Builds the main layout
           self.set_mainLayout(settingsPlugin);
           // Remove the collapsible feature
-          self.set_removeCollapsible(settingsPlugin);
-          self.replaceHeadingElements(settingsPlugin);
-          self.correctFilesWrapper(settingsPlugin);
-          self.theming(settingsPlugin);
-
-
+          self._set_removeCollapsible(settingsPlugin);
+          self._replaceHeadingElements(settingsPlugin);
+          self._correctFilesWrapper(settingsPlugin);
+          self._theming(settingsPlugin);
         };
         //---------------------------------------------------------------------------
         // Took from UICustumizer
-        self.set_fixedHeader = function(enable) {
+        self._set_fixedHeader = function(enable) {
           try {
             $('body').addClass('BLOCKSUIfixedHeader');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
@@ -188,7 +167,7 @@ $(function() {
         //---------------------------------------------------------------------------
         // Fix fluid layout
         // Took from UICustomizer
-        self.set_fluidLayout = function(enabled){
+        self._set_fluidLayout = function(enabled){
           try {
             $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
             $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
@@ -197,7 +176,7 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        self.set_blocksFooterInfo = function(enable) {
+        self._set_blocksFooterInfo = function(enable) {
           // Just adds a hyperlink to the Blocks website on the footer
           try {
             $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" id="blocks_link" target="_blank" rel="noreferrer noopener"> <img src="./plugin/BLOCKS/static/img/Blocks_Logo.png"> </a></li>');
@@ -208,21 +187,21 @@ $(function() {
         //---------------------------------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
-          self.buildGrid(settingsPlugin);
+          self._buildGrid(settingsPlugin);
           //In these set of instructions i set what each container on my grid has
           self.set_blocksWrapper(settingsPlugin);
           // ~~ Bind the remaining wrappers to the grid
-          self.bindWrappers(settingsPlugin);
+          self._bindWrappers(settingsPlugin);
           // ~~The function where i create the Controls wrapper.
           self.set_ControlWrapper(settingsPlugin);
           self.set_TemperatureWrapper(settingsPlugin);
           self.set_tabbable(settingsPlugin);
-          self.set_NewAppearence(settingsPlugin);
+          self._set_NewAppearence(settingsPlugin);
           self.remove_accordion(settingsPlugin);
           self.fix_gcode_viewer();
         };
         //---------------------------------------------------------------------------
-        self.buildGrid = function (settingsPlugin) {
+        self._buildGrid = function (settingsPlugin) {
           try {
             //What i want to do here is just create a matrix 3x3
             $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('px-4');
@@ -243,7 +222,7 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        self.bindWrappers = function(settingsPlugin){
+        self._bindWrappers = function(settingsPlugin){
           try {
             $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
@@ -258,18 +237,18 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        self.set_NewAppearence = function () {
+        self._set_NewAppearence = function () {
           try {
             // Fix Navbar Related
             // Makes the border color and shadow disappear
             $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
-            self.add_subAttributeData_Theme();
+            self._add_subAttributeData_Theme();
           } catch (e) {
             self.logToConsole(e);
           }
         };
-        self.add_subAttributeData_Theme = function(){
+        self._add_subAttributeData_Theme = function(){
           try {
             $('.BLOCKSMainContainer').attr('data-theme','light');
             $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
@@ -298,7 +277,7 @@ $(function() {
           }
         };
 
-        self.replaceHeadingElements = function () {
+        self._replaceHeadingElements = function () {
           try {
             // Gets me all the elements with the class name heading
             var elems = document.getElementsByClassName("heading");
@@ -352,7 +331,7 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        self.correctFilesWrapper = function(settingsPlugin){
+        self._correctFilesWrapper = function(settingsPlugin){
           try {
             $('#files_wrapper > div.container-fluid.heading').attr('role','group');
             $('.btn-group').css({'font-size': ''});
@@ -604,7 +583,7 @@ $(function() {
         };
         //---------------------------------------------------------------------------
         //I don't want my elements to be collapsible
-        self.set_removeCollapsible = function(enable){
+        self._set_removeCollapsible = function(enable){
           try {
             $('#control_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
@@ -647,14 +626,14 @@ $(function() {
         };
       //---------------------------------------------------------------------------
       self.selectThemeColors = ko.observable(false);
-      self.theming = function(){
+      self._theming = function(){
         try {
           // Get the settings
           var theme = self.getStorage('themeType');
           self.selectThemeColors(theme);
-          self.set_theme(theme);
+          self._set_theme(theme);
           self.selectThemeColors.subscribe( function(val){
-            self.set_theme(val);
+            self._set_theme(val);
           });
         } catch (e) {
           self.logToConsole(e);
@@ -672,7 +651,7 @@ $(function() {
           self.logToConsole(e);
         }
       });
-      self.set_theme = function(val){
+      self._set_theme = function(val){
         try {
           var elements = document.querySelectorAll("[data-theme]");
           var size = elements.length;

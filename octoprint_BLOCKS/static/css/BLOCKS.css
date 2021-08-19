@@ -633,6 +633,9 @@
 		width: 100%;
 		height: 100%;
 	}
+	.slider.slider-vertical .slider-track{
+		margin-left: 20px;
+	}
 
 
 
