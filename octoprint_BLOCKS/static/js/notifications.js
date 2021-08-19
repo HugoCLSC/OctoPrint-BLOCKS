@@ -43,7 +43,9 @@ $(function () {
             if(data.type == "machine_info"){
                 console.log(data.message);
             }
-            if(data.message != "Disconnected" ){
+            if(data.message == "Print Failed"){
+              self.PopUpNotification(data);
+            }else if(data.message != "Disconnected" && data.message != "Print Failed"){
               self.filter(data);
             }else{
               self.clearNotifications();
@@ -107,6 +109,6 @@ $(function () {
   OCTOPRINT_VIEWMODELS.push({
     construct: NotificationsViewModel,
     dependencies: ["loginStateViewModel", "accessViewModel", "settingsViewModel"],
-    elements: ["#blocks_notifications_wrapper"] 
+    elements: ["#blocks_notifications_wrapper"]
   });
 });

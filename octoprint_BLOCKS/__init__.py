@@ -33,7 +33,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Define your plugin's asset(the folder) files to automatically include in the
         # core UI here.
         return dict(
-            js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js"],
+            js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js","js/BLOCKS_WebCam.js"],
             css=["css/BLOCKS.css", "css/jquery-ui.css","css/animations.css"],
             less=["less/BLOCKS.less"]
         )
@@ -53,7 +53,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._logger.info("theme = {}".format(theme))
 
     def on_settings_save(self, data):
-        # save settings 
+        # save settings
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
         theme = self._settings.get(["themeType"])
         if 'themeType' in data and data['themeType']:
@@ -110,6 +110,22 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_event(self, event, payload):
         try:
+            if event == Events.PRINT_STARTED:
+                notification = {
+                "action": "popup",
+                "type": "info",
+                "hide": "true",
+                "message": "Print Start, Heating"
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
+            if event == Events.PRINT_FAILED:
+                notification = {
+                    "action": "popup",
+                    "type": "error",
+                    "hide": "false",
+                    "message": "Print Failed"
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
             # Everytime an event takes place we will send a message to any message listeners that exist
             if event == Events.CONNECTED:
                 notification = {
@@ -145,12 +161,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "action": "popup",
                 "type": "warning",
                 "hide": "true",
-                "message": "25"
+                "message": "Print Progress: {}".format(progress)
             }
             # Sends a message to any message listeners
             self._plugin_manager.send_plugin_message(self._identifier, notification)
 
         self._logger.info("Print Progress: {}".format(progress))
+
+
 
 
     def sent_m600(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):

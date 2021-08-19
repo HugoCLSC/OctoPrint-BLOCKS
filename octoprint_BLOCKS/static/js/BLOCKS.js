@@ -121,6 +121,40 @@ $(function() {
             self.logToConsole(e);
           }
         };
+
+        self.onDataUpdaterPluginMessage = function(plugin, data){
+          try {
+            if(plugin != "BLOCKS" && data.type!="machine_info"){
+              return;
+            }
+          // fazer um if onde dependendo do tipo de impressora faço append ou apenas mudo o src
+           // no elemento #PrinterImg
+
+            console.log(data);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+
+        // self.onTabChange = function(current, previous){
+        //   // console.log("PREVIOUS"+previous);
+        //   console.log("CURRENT"+current);
+        //   if (current == "#webCam"){
+        //     // $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
+        //     self.control._enableWebcam();
+        //     $("#webcam_image").attr("src","http://192.168.1.94/webcam/?action=stream");
+        //   }else if (previous == "#webCam"){
+        //     self.control._disableWebcam();
+        //   }
+        // };
+        // self.onBrowserTabVisibilityChange = function (status) {
+        //     if (status) {
+        //         self.control._enableWebcam();
+        //     } else {
+        //         self.control._disableWebcam();
+        //     }
+        // };
+
         //---------------------------------------------------------------------------
         self.UpdateLayout= function(settingsPlugin){
           self.logToConsole('Blocks Updating layout');
@@ -239,22 +273,31 @@ $(function() {
           try {
             $('.BLOCKSMainContainer').attr('data-theme','light');
             $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
-            $('.modal-footer').attr('data-theme', 'light');
-            $('.modal-body').attr('data-theme', 'light');
             $('span').attr('data-theme', 'light');
             $('.help-block').attr('data-theme', 'light');
             $('.help-inline').attr('data-theme', 'light');
             $('#settings_dialog').attr('data-theme', 'light');
-            var elems = document.getElementsByClassName('nav');
-            var size = elems.legnth;
-            for(let i=0; i <= size ; i++){
-              var elem = elems.item(i);
+            $('.modal-header').attr('data-theme', 'light');
+            $('.modal-footer').attr('data-theme', 'light');
+            $('.modal-body').attr('data-theme', 'light');
+            $('.tab-pane').attr("data-theme", "light");
+            var elemGroup1 = document.getElementsByClassName('nav');
+            var groupSize = elems.length;
+            var elemGroup2 = document.getElementsByClassName('tab-content');
+            var groupSize2 = elems2.length;
+            for(let i=0; i <= groupSize ; i++){
+              var elem = elemGroup1.item(i);
               $(elem).attr('data-theme', 'dark');
+            }
+            for(let i=0; i<= groupSize2; i++){
+              var elem2 = elemGroup2.item(i);
+              $(elem2).attr('data-theme', 'dark');
             }
           } catch (e) {
             self.logToConsole(e);
           }
         };
+
         self.replaceHeadingElements = function () {
           try {
             // Gets me all the elements with the class name heading
@@ -427,9 +470,10 @@ $(function() {
           try {
             if(Val){
               var newCommand = 'M109 S' + self.newTarget();
-              console.log(newCommand);
+              // console.log(newCommand);
               self.control.sendCustomCommand({type: 'command', command: newCommand});
               self.control.sendCustomCommand({type: 'command', command: 'M600'});
+
               self.temperature.setTargetsToZero();
             }
           } catch (e) {
@@ -503,13 +547,14 @@ $(function() {
             $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAnyPermissionKo(access.permissions.WEBCAM)"></div>');
             $('#webcam_container').appendTo($('#webCam'));
             $('#webCam').appendTo($('#tabs_content'));
-            $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM, access.permissions.CONTROL)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
+            $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
             // Add a Webcam  tab to the tabbable
             $('#webcam_link').appendTo($('#tabs'));
             // The webCam only initializes if the control tab is clicked.
             // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
             // Literally the same thing has the temperature graph problem i had
             $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
+
           } catch (e) {
             self.logToConsole(e);
           }
@@ -708,7 +753,6 @@ $(function() {
         elements: [
           "#blocksWrapper",
           "#fanSlider",
-          "#blocksControlWrapper",
           "#control_filament",
           "#LightDarkSwitchWrapper"]
     });
