@@ -1,9 +1,13 @@
-/*,
+/*
  * View model for BLOCKSUI
  *
  * Author: Hugo C. Lopes Santos Costa
  * License: AGPLv3
+ *
+ *
  */
+
+
 //~~ Gets me the jquey-ui libraries
 $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
 
@@ -17,10 +21,8 @@ $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
 
-        //Run in debug/verbose mode
         self.debug = false;
 
-        // assign the injected parameters, e.g.:
         self.settings = parameters[0];
         self.connection = parameters[1];
         self.control = parameters[2];
@@ -29,9 +31,7 @@ $(function() {
         self.access = parameters[5];
         self.printerState = parameters[6];
 
-        // TODO: Implement your plugin's view model here.
-
-
+        // Debugger
         self.logToConsole = function(msg){
             if (!self.debug){
                 return true;
@@ -45,26 +45,24 @@ $(function() {
           try {
             // Load custom layout
             self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
+
             // Refresh all
             window.setTimeout(function() {
                 $(window).trigger('resize');
             },500);
-            // Executes when the window is loaded
-            // window.onload = function(){
-            //
-            // };
+
+            // This helps prevent a bug on the connection switch
             if(self.connection.isOperational()){
               $('#blocks_printer_connect').prop('checked', 'checked');
             }
 
+            // When i added bootstrap v5 all the carets got duplicated
+            // So i just remove the duplicates here
             var elems = document.getElementsByClassName('caret');
             var size = elems.length;
             for(let i=0; i <= size; i++){
               var elem = elems.item(i);
-              // var tag = $(elem).prop("tagName");
-
               $(elem).remove();
-
             }
           } catch (e) {
             self.logToConsole(e);
@@ -83,7 +81,6 @@ $(function() {
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
           $('#blocksWrapper > .container-fluid ').addClass('scale-up-ver-top');
-
           $('#PrinterImg').removeClass('scale-down-center').addClass('scale-in-center');
         };
 
@@ -101,7 +98,7 @@ $(function() {
         };
 
         self.onEventDisconnected = function () {
-          // I'll reset the fan slider
+          // I'll reset the fan slider here
           self.fanControl(0);
           $('#blocks_printer_connect').removeAttr('disabled');
           console.log('Disconnected');
@@ -121,24 +118,24 @@ $(function() {
           }
         };
 
+        // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
-          // fazer um if onde dependendo do tipo de impressora faço append ou apenas mudo o src
-           // no elemento #PrinterImg
+            // The idea is to change the printer picture on the web interface acording to the connected Printer
+            // It only works if it's a Blocks 3D Printer
            if(data.message == "Blocks Pro S30"){
              $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
            }else if (data.message == "Blocks zero"){
               $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>")
            }else if (data.message == "Blocks One MKII" ){
              $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>")
-           }else if (data.message == "2130"){ //
-             // $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
            }
-
-
+           // else if (data.message == "2130"){ //
+           //   // $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
+           // }
           } catch (e) {
             self.logToConsole(e);
           }
@@ -159,10 +156,13 @@ $(function() {
           self._set_removeCollapsible(settingsPlugin);
           self._replaceHeadingElements(settingsPlugin);
           self._correctFilesWrapper(settingsPlugin);
+          // Since the Light/Dark theming is stored in the localStorage
+          // This will get and set the correnct theming
           self._theming(settingsPlugin);
         };
         //---------------------------------------------------------------------------
         // Saw this on UICustumizer
+        // https://github.com/LazeMSS/OctoPrint-UICustomizer
         self._set_fixedHeader = function(enable) {
           try {
             $('body').addClass('BLOCKSUIfixedHeader');
@@ -175,6 +175,7 @@ $(function() {
         //---------------------------------------------------------------------------
         // Fix fluid layout
         // Saw this on UICustomizer
+        // https://github.com/LazeMSS/OctoPrint-UICustomizer
         self._set_fluidLayout = function(enabled){
           try {
             $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
@@ -185,7 +186,7 @@ $(function() {
         };
         //---------------------------------------------------------------------------
         self._set_blocksFooterInfo = function(enable) {
-          // Just adds a hyperlink to the Blocks website on the footer
+          // Just adds a hyperlink to the Blocks website and an image with the company Logo on the footer
           try {
             $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" id="blocks_link" target="_blank" rel="noreferrer noopener"> <img src="./plugin/BLOCKS/static/img/Blocks_Logo.png"> </a></li>');
           } catch (e) {
@@ -209,6 +210,8 @@ $(function() {
           self.fix_gcode_viewer();
         };
         //---------------------------------------------------------------------------
+        // The way the grid is made is Basically the same way bootstrap examplifies
+        // https://getbootstrap.com/docs/5.0/layout/grid/
         self._buildGrid = function (settingsPlugin) {
           try {
             //What i want to do here is just create a matrix 3x3
@@ -247,7 +250,7 @@ $(function() {
         //---------------------------------------------------------------------------
         self._set_NewAppearence = function () {
           try {
-            // Fix Navbar Related
+            // Fix Navbar
             // Makes the border color and shadow disappear
             $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
@@ -284,7 +287,7 @@ $(function() {
             self.logToConsole(e);
           }
         };
-
+        // This functions replaces all elements on the containers heading from <a> to <div>
         self._replaceHeadingElements = function () {
           try {
             // Gets me all the elements with the class name heading
@@ -312,6 +315,7 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
+        // Fixes the footer to the bottom of the page
         self.set_fixedFooter = function(enable) {
           try {
             $('.footer').css("position", "fixed");
@@ -394,6 +398,8 @@ $(function() {
             self.logToConsole(e);
           }
         });
+        // This function replaces the color of the button acording to the switch state
+        // It also stores the switch state in the localStorage
         self.set_ConnectionSwitch = function(val){
           try {
             var elems = document.querySelectorAll("[switch-color]");
@@ -420,6 +426,7 @@ $(function() {
         //---------------------------------------------------------------------------
         // This is for my fan slider, i can increment the fan speed by ~~1%
         self.fanControl = ko.observable(0);
+        // This function is triggered everytime the value of fanControl changes
         self.fanControl.subscribe(function(rangeVal){
           try {
             var fanSpeed = 2.6*rangeVal;
@@ -437,6 +444,7 @@ $(function() {
             self.logToConsole(e);
           }
         });
+        // This is for my disable motors button, sends the M18 GCode to disable the steppers.
         self.motorDisable = ko.observable(undefined);
         self.motorDisable.subscribe(function(Val){
           try {
@@ -450,41 +458,31 @@ $(function() {
         // The following set of functions serves for the load/unload filament buttons
         // and all the buttons to select which type of filament we have
         self.loadFilament = ko.observable(undefined);
-        self.filamentType = ko.observable(['180°', '200°','210°']);
-        // The default temperature is set to 205 Celsius
-        self.newTarget = ko.observable(undefined);
+        self.filamentType = ko.observable(['180°', '200°', '210°']);
+        // The default temperature is set to 180 Celsius
+        self.newTarget = ko.observable(180);
+        console.log(self.newTarget());
         self.loadFilament.subscribe(function(Val){
           try {
             if(Val){
               var newCommand = 'M109 S' + self.newTarget();
-              // console.log(newCommand);
               self.control.sendCustomCommand({type: 'command', command: newCommand});
               self.control.sendCustomCommand({type: 'command', command: 'M600'});
-
+              // Coolsdown the hotend
               self.temperature.setTargetsToZero();
             }
           } catch (e) {
             self.logToConsole(e);
           }
         });
-        self.loadFilamentText = ko.pureComputed( function(){
-          try {
-            if(self.loadFilament()){
-              return gettext('Changing');
-            }else{
-              return gettext('Load');
-            }
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        });
+        // Executed everytime the user selects one of the temperatures on the Change Filament Button
         self.filamentOper = function (data){
           try {
-            if (data == "180°"){
+            if (data == '180°'){
               self.newTarget(180);
-            }else if (data == "200°"){
+            }else if (data == '200°'){
               self.newTarget(200);
-            }else {
+            }else if (data == '210°') {
               self.newTarget(210);
             }
           } catch (e) {
@@ -510,7 +508,7 @@ $(function() {
             // Need to create a row-fluid
             $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
             // Fix the size of the control wrapper letters.
-            $('h1').css("font-size","20px");
+            $('h1').css("font-size","15px");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
             $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
@@ -541,7 +539,6 @@ $(function() {
             // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
             // Literally the same thing has the temperature graph problem i had
             $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
-
           } catch (e) {
             self.logToConsole(e);
           }
@@ -554,6 +551,7 @@ $(function() {
             $('#tabs_content').css("border-bottom", "unset");
             $('div.tabbable').removeClass('span8');
             $('#timelapse > h1').attr('class','dark');
+            // Remove the Tabs i don't need
             $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
             $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
             // Neither do i need the old tabbable
@@ -590,7 +588,8 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        //I don't want my elements to be collapsible
+        // I really don't want my elements to be collapsible
+        // I'll set my containers fluid here
         self._set_removeCollapsible = function(enable){
           try {
             $('#control_wrapper > div ').each( function() {
@@ -620,7 +619,7 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-
+        // I delete the accordion-inner class here
         self.remove_accordion = function (settingsPlugin){
           try {
             var all_elements = document.getElementsByClassName('accordion-inner');
@@ -633,6 +632,7 @@ $(function() {
           }
         };
       //---------------------------------------------------------------------------
+      // This next set of functions are responsible for the Light/Dark switch
       self.selectThemeColors = ko.observable(false);
       self._theming = function(){
         try {
@@ -683,6 +683,7 @@ $(function() {
         }
       };
       // -----------------------------------------------------------------------
+      // The Gcode viewer was a little wonky so i fixed it here
       self.fix_gcode_viewer = function() {
         try {
           $('#gcode_layer_slider').css('width','0%');
@@ -693,11 +694,10 @@ $(function() {
         } catch (e) {
           self.logToConsole(e);
         }
-
       };
       // -----------------------------------------------------------------------
-      // Took this from Ui Customizer Plugin
-      // setStorage and getStorage
+      // This is from Ui UICustumizer made by LazeMSS
+      // https://github.com/LazeMSS/OctoPrint-UICustomizer
       self.setStorage = function(cname,cvalue){
         try {
           if (!Modernizr.localstorage) return;
@@ -730,13 +730,13 @@ $(function() {
     OCTOPRINT_VIEWMODELS.push({
         construct: BlocksViewModel,
         dependencies: [
-            "settingsViewModel",
-            "connectionViewModel",
-            "controlViewModel",
-            "temperatureViewModel",
-            "appearanceViewModel",
-            "accessViewModel",
-            "printerStateViewModel"],
+          "settingsViewModel",
+          "connectionViewModel",
+          "controlViewModel",
+          "temperatureViewModel",
+          "appearanceViewModel",
+          "accessViewModel",
+          "printerStateViewModel"],
         elements: [
           "#blocksWrapper",
           "#fanSlider",

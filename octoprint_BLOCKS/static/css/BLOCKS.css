@@ -230,12 +230,11 @@
 	  position: relative;
 	}
 	#control_wrapper {
-	/*  border: 1px solid #e5e5e5; */
 	  border-radius: 4px;
-		/* display: grid; */
-
 	}
-
+	#control .control-box{
+		width: 65% !important;
+	}
 	#control > .container-fluid {
 	  /* display: block; */
 	  justify-content: center;

@@ -1,36 +1,31 @@
 # coding=utf-8
+
 from __future__ import absolute_import
 
-import time
-import flask
 import octoprint.plugin
 import octoprint.events
 import octoprint.plugin.core
 
-from octoprint.access import ADMIN_GROUP
-from octoprint.access.permissions import Permissions
 from octoprint.events import Events
-from flask import Flask, render_template, url_for
 
 
 
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
-                   octoprint.plugin.UiPlugin,
                    octoprint.plugin.AssetPlugin,
                    octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.StartupPlugin,
-                   octoprint.plugin.SimpleApiPlugin,
                    octoprint.plugin.ProgressPlugin,
-                   octoprint.plugin.EventHandlerPlugin,):
+                   octoprint.plugin.EventHandlerPlugin):
 
+   # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
 
     ##~~ AssetPlugin mixi
 
     def get_assets(self):
-        # Define your plugin's asset(the folder) files to automatically include in the
+        # Define your plugin's asset(the folder) files to be automatically included in the
         # core UI here.
         return dict(
             js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js","js/BLOCKS_WebCam.js"],
@@ -43,6 +38,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def get_settings_defaults(self):
         return {
             # For Light and Dark Theme
+            # The default is the Light Theme
             "themeType": False
         }
 
@@ -62,15 +58,16 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     ##~~ TemplatePlugin mixin
 
-        ##This mixin enables me to inject my own components into the OctoPrint
-        ##web interface.
+        # This mixin enables me to inject my own components into the OctoPrint
+        # My own templates
+        # More information on the dictionaries on:
+        # https://docs.octoprint.org/en/master/plugins/mixins.html#templateplugin
 
     def get_template_configs(self):
 
         return[
             dict(type="settings", custom_bindings=False),
-            # Permite-me adicionar o meu novo container para a connection mas não sei se devo utilizar este type
-            # ou criar meu próprio type de template...
+            # Connection wrapper
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
             # My webcam link
             dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
@@ -79,7 +76,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Custom Notifications
             dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=False),
             # For Load Unload functions on the control section
-            dict(type="generic", template="Load_Unload.jinja2", custom_bindings=False),
+            dict(type="generic", template="changeFilament.jinja2", custom_bindings=False),
             # Light Dark Theme Switch
             dict(type="generic", template="lightDarkSwitch.jinja2", custom_bindings=False),
         ]
@@ -109,6 +106,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     ## ~~ EventHandlerPlugin mixin
 
     def on_event(self, event, payload):
+        # Sends messages to any listeners about certain events
+        # All available events on https://docs.octoprint.org/en/master/events/index.html#sec-events
+
         try:
             if event == Events.PRINT_STARTED:
                 notification = {
@@ -155,8 +155,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     ## ~~ ProgressPlugin mixin
 
     def on_print_progress(self, storage, path, progress):
-
-        if progress >= 25:
+        # Sends a message to any listeners about the print progress
+        if progress == 25 or \
+           progress == 50 or \
+           progress == 75 or \
+           progress == 100:
             notification = {
                 "action": "popup",
                 "type": "warning",
@@ -189,7 +192,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         except Exception as e:
             self._logger.info(e);
 
-
+    # This function detects the machine type, it's name, and then sends a message to any listerners there might be
     def detect_machine_type(self, comm, line, *args, **kwargs):
         try:
             from octoprint.util.comm import parse_firmware_line
