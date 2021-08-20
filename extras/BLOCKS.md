@@ -9,7 +9,8 @@ authors:
 license: AGPLv3
 
 # TODO
-date: today's date in format YYYY-MM-DD, e.g. 2015-04-21
+<!-- date: today's date in format YYYY-MM-DD, e.g. 2015-04-21 -->
+date: 2021-08-19
 
 homepage: https://github.com/HugoCLSC/BLOCKSUI
 source: https://github.com/HugoCLSC/BLOCKSUI
@@ -30,16 +31,20 @@ tags:
 
 # TODO
 screenshots:
-- url: url of a screenshot, /assets/img/...
+- url: /assets/img/ScreenShot#1.PNG
   alt: alt-text of a screenshot
-  caption: caption of a screenshot
-- url: url of another screenshot, /assets/img/...
+  caption: Light
+- url:  /assets/img/ScreenShot#2.PNG
   alt: alt-text of another screenshot
-  caption: caption of another screenshot
-- ...
-
+  caption: Dark
+- url:  /assets/img/ScreenShot#3.PNG
+  alt:
+  caption: Light connected
+- url:  /assets/img/ScreenShot#4.PNG
+  alt:
+  caption: Dark connected
 # TODO
-featuredimage: url of a featured image for your plugin, /assets/img/...
+featuredimage: /assets/img/Blocks_Logo.png
 
 # TODO
 # You only need the following if your plugin requires specific OctoPrint versions or
@@ -59,7 +64,7 @@ compatibility:
   # OctoPrint versions being supported.
 
   octoprint:
-  - 1.2.0
+  - 1.6.1
 
   # List of compatible operating systems
   #
@@ -94,9 +99,15 @@ compatibility:
   # is EOL), leave at ">=2.7,<3" - be aware that your plugin will not be allowed to register on the
   # plugin repository if it only support Python 2.
 
-  python: ">=2.7,<3"
+  python: ">=2.7,<4"
 
 ---
 
-**TODO**: Longer description of your plugin, configuration examples etc. This part will be visible on the page at
+**TODO**:
+# Blocks Plugin
+
+<dd>This Plugin was made with the intention to offer a personalized interface to the users of the Blocks 3D Printers.
+The Plugin offers more notifications, a new theme and the ability to change between Light and Dark themes.
+</dd>
+The plugin is still in development.
 http://plugins.octoprint.org/plugin/BLOCKS/
