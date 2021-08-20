@@ -1,0 +1,85 @@
+/* Printer image animations  */
+.scale-in-center {
+	animation: scale-in-center 0.5s ease-in both;
+}
+
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-down-center{
+	animation: scale-down-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@keyframes scale-down-center {
+
+	0%{
+		transform: scale(1);
+		opacity: 1;
+	}
+	100%{
+		transform: scale(0);
+
+		display: none;
+	}
+}
+/* ------------------------- */
+.slide-right {
+	animation: slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+.fadeOutLeft {
+	-webkit-animation-name: fadeOutLeft;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-fill-mode: both;
+}
+@-webkit-keyframes fadeOutLeft {
+	0% {
+	opacity: 1;
+	}
+	100% {
+	opacity: 0;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	}
+}
+
+
+.slide-bottom {
+	animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@keyframes slide-bottom {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(69px);/* Nicee */
+  }
+}
+
+.scale-up-ver-top {
+	animation: scale-up-ver-top 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+@keyframes scale-up-ver-top {
+  0% {
+    transform: scaleY(35.99px);
+    transform-origin: 100% 0%;
+  }
+  100% {
+    transform: scaleY(105px);
+    transform-origin: 100% 0%;
+  }
+}
