@@ -129,13 +129,13 @@ $(function() {
           // fazer um if onde dependendo do tipo de impressora faço append ou apenas mudo o src
            // no elemento #PrinterImg
            if(data.message == "Blocks Pro S30"){
-             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/'")
+             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
            }else if (data.message == "Blocks zero"){
-
+              $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>")
            }else if (data.message == "Blocks One MKII" ){
-
+             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>")
            }else if (data.message == "2130"){ //
-
+             // $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
            }
 
 
