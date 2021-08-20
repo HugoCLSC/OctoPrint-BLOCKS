@@ -31,7 +31,7 @@ $(function() {
 
         // TODO: Implement your plugin's view model here.
 
-      
+
         self.logToConsole = function(msg){
             if (!self.debug){
                 return true;
@@ -128,6 +128,15 @@ $(function() {
             }
           // fazer um if onde dependendo do tipo de impressora faço append ou apenas mudo o src
            // no elemento #PrinterImg
+           if(data.message == "Blocks Pro S30"){
+             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/'")
+           }else if (data.message == "Blocks zero"){
+
+           }else if (data.message == "Blocks One MKII" ){
+
+           }else if (data.message == "2130"){ //
+
+           }
 
 
           } catch (e) {
