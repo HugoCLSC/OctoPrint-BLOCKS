@@ -4,10 +4,11 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 import octoprint.events
+import octoprint.util.comm
 import octoprint.plugin.core
 
 from octoprint.events import Events
-
+from octoprint.util.comm import parse_firmware_line
 
 
 
@@ -190,51 +191,74 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 self._plugin_manager.send_plugin_message(self._identifier, notification)
                 self._logger.info("Notifications: Gcode sent {}".format("gcode"))
         except Exception as e:
-            self._logger.info(e);
-
-    # This function detects the machine type, it's name, and then sends a message to any listerners there might be
-    def detect_machine_type(self, comm, line, *args, **kwargs):
-        try:
-            from octoprint.util.comm import parse_firmware_line
-
-            printer_data = parse_firmware_line(line)
-            if "MACHINE_TYPE" not in line:
-                # self._logger.info(line)
-                return line
-
-            self._logger.info(line)
-
-            notification = {
-                "type": "machine_info",
-                "message": format(machine=printer_data["MACHINE_TYPE"])
-            }
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
-        except Exception as e:
             self._logger.info(e)
 
+    # # This function detects the machine type, it's name, and then sends a message to any listerners there might be
+    # def detect_machine_type(self, comm, line, *args, **kwargs):
+    #     try:
+    #         from octoprint.util.comm import parse_firmware_line
+    #
+    #         printer_data = parse_firmware_line(line)
+    #         if "MACHINE_TYPE" not in line:
+    #             return line
+    #
+    #         self._logger.info(line)
+    #
+    #         notification = {
+    #             "type": "machine_info",
+    #             "message": printer_data["MACHINE_TYPE"]
+    #         }
+    #         self._plugin_manager.send_plugin_message(self._identifier, notification)
+    #     except Exception as e:
+    #         self._logger.info(e)
+    #
+    #
+    # # Detect filament runout
+    # # GCode command: M412
+    # # This command than proceeds to execute the M600 to execute the filament change.
+    # def detect_filament_runout(self, comm, line, *args, **kwargs):
+    #     try:
+    #         from octoprint.util.comm import parse_firmware_line
+    #         if "M412" not in line:
+    #             return line
+    #
+    #         printer_data = parse_firmware_line(line)
+    #
+    #         notification = {
+    #             "action": "popup",
+    #             "type": "machine_info",
+    #             "message": "Filament Runout, Change Filament to proceed",
+    #             "hide": "false",
+    #         }
+    #         self._plugin_manager.send_plugin_message(self._identifier, notification)
+    #     except Exception as e:
+    #         self._logger.info(e)
 
-    # Detect filament runout
-    # GCode command: M412
-    # This command than proceeds to execute the M600 to execute the filament change.
-    def detect_filament_runout(self, comm, line, *args, **kwargs):
+
+
+    def detect_commands(self, comm, line, *args, **kwargs):
         try:
-            from octoprint.util.comm import parse_firmware_line
-            if "M412" not in line:
+            if "MACHINE_TYPE" in line:
+                printer_data = parse_firmware_line(line)
+                notification = {
+                    "type": "machine_info",
+                    "message": printer_data["MACHINE_TYPE"]
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
+
+            elif "M412" in line:
+                notification = {
+                    "action": "popup",
+                    "type": "machine_info",
+                    "message": "Filament Runout, Change Filament to proceed",
+                    "hide": "false",
+                }
+                self._plugin_manager.send_plugin_message(self._identifier, notification)
+            else:
+
                 return line
-
-            printer_data = parse_firmware_line(line)
-
-            notification = {
-                "action": "popup",
-                "type": "machine_info",
-                "message": "Filament Runout, Change Filament to proceed",
-                "hide": "false",
-            }
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
         except Exception as e:
             self._logger.info(e)
-
-
 
 
 __plugin_name__ = "Blocks Plugin"
@@ -249,7 +273,6 @@ def __plugin_load__():
     global __plugin_hooks__
     __plugin_hooks__ = {
         "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
-        "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_machine_type,
-        "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_filament_runout,
         "octoprint.comm.protocol.gcode.sent": __plugin_implementation__.sent_m600,
+        "octoprint.comm.protocol.gcode.received": __plugin_implementation__.detect_commands, 
     }

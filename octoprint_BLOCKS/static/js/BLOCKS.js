@@ -124,14 +124,15 @@ $(function() {
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
+            console.log("SUPOSED" + data.message);
             // The idea is to change the printer picture on the web interface acording to the connected Printer
             // It only works if it's a Blocks 3D Printer
            if(data.message == "Blocks Pro S30"){
-             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
+             $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>").appendTo($('#PrinterImg'));
            }else if (data.message == "Blocks zero"){
-              $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>")
+             $("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>").appendTo($('#PrinterImg'));
            }else if (data.message == "Blocks One MKII" ){
-             $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>")
+             $("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>").appendTo($('#PrinterImg'));
            }
            // else if (data.message == "2130"){ //
            //   // $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
