@@ -9,9 +9,10 @@
 	--switch-color: rgb(62, 62, 62);
 	--graph-image: url(../img/Blocks_VECTORIZADOBRANCO.png);
 	--hover-color: rgb(180, 180, 180);
-	--bs-table-hover-color: rgb(255 255 255) !important;
-	--bs-table-hover-bg: rgb(224 223 223 / 27%) !important;
-	--bs-table-accent-bg: rgb(224 223 223 / 27%) !important;
+	--bs-table-hover-bg: rgb(0 0 0 / 27%) !important;
+	--flot-text-color: rgb( 255 255 255) !important;
+	--button-border-color: rgb(230 230 230 / 64%);
+	--bs-font-weight: 900;
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
@@ -24,8 +25,10 @@
 	--switch-color:rgb(218, 218, 218);
 	--graph-image: url(../img/Blocks_VECTORIZADOpreto.png);
 	--hover-color: rgb(236 236 236);
-	--bs-table-hover-color: rgb(0 0 0) !important;
   --bs-table-hover-bg: rgb(224 223 223 / 27%) !important;
+	--flot-text-color: rgb(84 84 84) !important;
+	--button-border-color: rgb(165 164 164 / 64%);
+	--bs-font-weight: 900;
 }
 
 [switch-color="red"]{
@@ -43,11 +46,19 @@
 		/* Obriga o tamanho da página nunca ser menor que 1420px de largura */
 		min-width: 1420px;
 	}
-	body{
-		font-family: 'Montserrat' !important;
-		line-height: 25px;
-		font-size: 14px;
+	@font-face {
+		font-family: 'montserrat-light';
+    src: url("../Fonts/montserrat-light-webfont.woff2") format('woff2'),
+         url("../Fonts/montserrat-light-webfont.woff") format('woff');
+    font-weight: var(--bs-font-weight);
+    font-style: normal;
 	}
+	body{
+		font-family: 'montserrat-light', sans-serif !important;
+		line-height: 25px !important;
+		font-size: 14px !important;
+		font-weight: 900 !important;
+	 }
 	.clearfix{
 		overflow: auto;
 	 }
@@ -79,6 +90,7 @@
 		color: var(--font-color);
 	}
 
+
 	/* text color of the footer links  */
 	.footer ul li a {
 		color: var(--font-color);
@@ -99,24 +111,27 @@
 
 	.container-fluid {
 		align-content: baseline;
-		padding-left: 0px;
-		padding-right: 0px;
+		padding-left: 0px !important;
+		padding-right: 0px !important;
 	}
 
 	a{
 		color: rgb(136, 154, 255);
-		font-family: "Montserrat";
+		font-family: "montserrat-light";
+		text-decoration: unset !important;
 	}
 
 
 	/* --------------------------------- */
 	/* Change the navbar/settings aspect */
 	#settings_dialog{
-		margin-top: -25% !important;
+		/* margin-top: -25% !important; */
 		color: var(--font-color) !important;
 		background-color: var(--primary-color) !important;
 		height: auto !important;
 		width: 55% !important;
+		opacity: inherit !important;
+	 	/* margin-left: 400px; */
 	}
 	#settings_dialog_menu > .nav {
 		flex-direction: column;
@@ -149,16 +164,23 @@
 		color: var(--font-color) !important;
 	}
 
-	/* .modal{
+ .modal{
 		background-color: var(--bg-color) !important;
 		color: var(--font-color) !important;
-	} */
-
+		opacity: 1 !important;
+		left: 720px !important;
+		width: 50% !important;
+		height: fit-content !important;
+	}
+	.modal.large{
+		margin-left: -290px;
+	}
 	legend{
 		color: var(--font-color) !important;
 	}
 	.span{
 		color: var(--font-color) !important;
+		height: 33px !important;
 	}
 	.progress-text-back{
 		color: rgb(0 0 0);
@@ -234,6 +256,14 @@
 	}
 	#control .control-box{
 		width: 65% !important;
+		padding: 4px 0px !important;
+
+	}
+	#control .box{
+		width: unset !important;
+		height: unset !important;
+		padding-left: 8px !important;
+    padding-right: 8px !important;
 	}
 	#control > .container-fluid {
 	  /* display: block; */
@@ -247,7 +277,7 @@
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: stretch;
+    align-content: space-around;
     align-items: stretch;
     flex-direction: row;
 	}
@@ -265,8 +295,8 @@
     justify-content: center;
     align-items: center;
 	}
-	#babystepZ{
-
+	#filament_load{
+		padding-left: 2px;
 	}
 	#filamentStep{
 		width: 15%;
@@ -337,6 +367,10 @@
 		background-size: 50%;
 		width: 100%;
 	}
+	#temperature-table{
+		/* table-layout: fixed !important; */
+		margin-top: 20px !important;
+	}
 	/* ----------------------------- */
 	/* TABLES PROPESTIES */
 	.table th, .table td {
@@ -352,11 +386,13 @@
 	    white-space: nowrap;
 	}
 	.table{
-		color: var(--font-color);
+		color: var(--font-color) !important;
 	}
-
+	.flot-text{
+		color: var(--flot-text-color) !important;
+	}
 	.tab-pane{
-		width: 95%;
+		width: 100%;
 	}
 
 	/* ----------------------------- */
@@ -449,8 +485,8 @@
 		justify-content: flex-end;
 	}
 	.accordion-heading-button {
-	    margin-left: 10px;
-	    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
 	}
 	#files_heading{
 		display: inline-flex;
@@ -548,24 +584,25 @@
 	/* ----------------- */
 
 	select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
-	input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+	input[type="month"], input[type="time"], input[type="week"], input[type="email"],input[type="number"], input[type="url"],
 	input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
 	    height: auto;
+			/* width: auto; */
 	}
+
 	.input-append .add-on, .input-prepend .add-on {
-	    /* display: inline-block; */
 	    width: auto;
-	    height: auto;
-
+	    height: auto !important;
 	}
 
+	input[type=number].input-nospin{
+		width: 35px !important;
+	}
 
-
-	#refreshButton.refresh-trigger{
-
+	/* #refreshButton.refresh-trigger{
 			position: relative;
 			left: 45%;
-	}
+	} */
 	label.form-check-text {
 		font-weight: bold;
 		/* display: inline; */
@@ -609,6 +646,9 @@
 	/* All Popovers about warnings will have the correct size */
 	.modal.hide.fade.modal-overflow.in{
 		height: fit-content;
+    /* width: fit-content; */
+		/* width: 45px !important; */
+    text-align: center
 	}
 
 	/* Changes the background color of the buttons when i hover over them */
@@ -633,7 +673,7 @@
 		height: 100%;
 	}
 	.slider.slider-vertical .slider-track{
-		margin-left: 20px;
+		margin-left: 0px;
 	}
 
 
@@ -652,4 +692,20 @@
 	    border-right: unset;
 	    border-left: unset;
 	    content: unset;
+	}
+
+	.btn{
+		line-height: 20px !important;
+		height: 30px;
+		border: 1px solid var(--button-border-color) !important;
+		font-size: 14px !important;
+		padding: 4px 12px !important;
+	}
+
+	.h1{
+		font-weight: bold !important;
+	}
+
+	.pagination ul {
+		padding-left:0px !important;
 	}

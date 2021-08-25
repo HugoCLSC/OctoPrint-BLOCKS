@@ -9,13 +9,11 @@
 
 
 //~~ Gets me the jquey-ui libraries
-$('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
-
+// $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+// $('head').prepend("<link rel='script' href='static/js/jquery-ui.min.js'>");
 //~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
-$('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
-
-// Fonts: Montserrat
-$('head').prepend("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat'></link>");
+// $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+$('head').prepend('<link rel="stylesheet" href="/css/bootstrap.min.css">');
 
 $(function() {
     function BlocksViewModel(parameters) {
@@ -92,7 +90,7 @@ $(function() {
         self.onEventDisconnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
           if(self.connectIt()){
-            $('#blocks_printer_connect').removeAttr('checked');
+            $('#blocks_printer_connect').removeAttr('checked','disabled');
           }
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
         };
@@ -168,6 +166,7 @@ $(function() {
           try {
             $('body').addClass('BLOCKSUIfixedHeader');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $('.navbar').css("position","fixed");
             $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
           } catch (e) {
             self.logToConsole(e);
@@ -255,6 +254,8 @@ $(function() {
             // Makes the border color and shadow disappear
             $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
+            // Remove the underline from the <a> elements
+            $('.a').css("text-decoration","unset");
             self._add_subAttributeData_Theme();
           } catch (e) {
             self.logToConsole(e);
@@ -272,6 +273,7 @@ $(function() {
             $('.modal-footer').attr('data-theme', 'light');
             $('.modal-body').attr('data-theme', 'light');
             $('.tab-pane').attr("data-theme", "light");
+            $('.table').attr("data-theme","light");
             var elemGroup1 = document.getElementsByClassName('nav');
             var groupSize = elems.length;
             var elemGroup2 = document.getElementsByClassName('tab-content');
@@ -510,6 +512,7 @@ $(function() {
             $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
             // Fix the size of the control wrapper letters.
             $('h1').css("font-size","15px");
+            $('h1').css("font-weight","bold");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
             $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
