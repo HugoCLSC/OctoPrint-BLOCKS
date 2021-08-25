@@ -171,8 +171,9 @@
 	}
 
  .modal{
-		background-color: var(--bg-color) !important;
-		color: var(--font-color) !important;
+		/* background-color: var(--bg-color) !important; */
+		/* color: var(--font-color) !important; */
+		top: 45% !important;
 		opacity: 1 !important;
 		left: 720px !important;
 		width: 50% !important;
@@ -709,7 +710,11 @@
 		font-size: 14px !important;
 		padding: 4px 12px !important;
 	}
-
+	.btn-check:focus+.btn, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(13 110 253 / 25%) !important;
+    border-radius: 4px !important;
+	}
 	.h1{
 		font-weight: bold !important;
 	}

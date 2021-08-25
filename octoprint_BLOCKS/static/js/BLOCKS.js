@@ -114,19 +114,23 @@ $(function() {
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
+            var checkImg = $('#PrinterImg > img');
 
+            // Hope this corrects the bug where there are more than one tab open of the octoprint more images of the printer whould show up
+            if(checkImg != undefined){
+              return;
+            }
             // The idea is to change the printer picture on the web interface acording to the connected Printer
             // It only works if it's a Blocks 3D Printer
+            // At this moment there are only three models available to the public
            if(data.message == "Blocks Pro S30"){
-             $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>").appendTo($('#PrinterImg'));
+             $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30T.png'>").appendTo($('#PrinterImg'));
            }else if (data.message == "Blocks zero"){
-             $("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>").appendTo($('#PrinterImg'));
+             $("<img src='./plugin/BLOCKS/static/img/Blocks_zeroT.png'>").appendTo($('#PrinterImg'));
            }else if (data.message == "Blocks One MKII" ){
              $("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>").appendTo($('#PrinterImg'));
            }
-           // else if (data.message == "2130"){ //
-           //   // $('#PrinterImg').append("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>")
-           // }
+
           } catch (e) {
             self.logToConsole(e);
           }
@@ -261,6 +265,7 @@ $(function() {
             $('.help-block').attr('data-theme', 'light');
             $('.help-inline').attr('data-theme', 'light');
             $('#settings_dialog').attr('data-theme', 'light');
+            // $('.modal').attr('data-theme', 'light');
             $('.modal-header').attr('data-theme', 'light');
             $('.modal-footer').attr('data-theme', 'light');
             $('.modal-body').attr('data-theme', 'light');
