@@ -8,11 +8,13 @@
 	--shadow-text: 0 1px rgb(86,86,86);
 	--switch-color: rgb(62, 62, 62);
 	--graph-image: url(../img/Blocks_VECTORIZADOBRANCO.png);
-	--hover-color: rgb(180, 180, 180);
+	/* --hover-color: rgb(180, 180, 180);rgb(119 119 119 / 22%) */
+	--hover-color: rgb(119 119 119 / 22%);
 	--bs-table-hover-bg: rgb(0 0 0 / 27%) !important;
 	--flot-text-color: rgb( 255 255 255) !important;
 	--button-border-color: rgb(230 230 230 / 64%);
 	--bs-font-weight: 900;
+	--notification-color: white;
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
@@ -29,6 +31,7 @@
 	--flot-text-color: rgb(84 84 84) !important;
 	--button-border-color: rgb(165 164 164 / 64%);
 	--bs-font-weight: 900;
+	--notification-color: black;
 }
 
 [switch-color="red"]{
@@ -149,6 +152,9 @@
 	.tab-content{
 		background-color: var(--bg-color) !important;
 		color: var(--font-color) !important;
+	}
+	div#terminal-filterpanel {
+    float: unset;
 	}
 	/* For the popups that appear */
 	.modal-header{
@@ -495,7 +501,9 @@
 	#files_heading > .fa.fa-list{
 		margin-inline-end: 5px;
 	}
-
+	#files .gcode_files .entry:hover {
+		background-color: var(--hover-color) !important;
+	}
 
 	input.input-block.search-query{
 		width:70%;
@@ -658,7 +666,7 @@
 	}
 	/* Notifications icon color  */
 	.fas.fa-exclamation{
-		color: red;
+		color: var(--notification-color);
 	}
 
 	.hero-unit{

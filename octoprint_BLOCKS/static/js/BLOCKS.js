@@ -6,15 +6,6 @@
  *
  *
  */
-
-
-//~~ Gets me the jquey-ui libraries
-// $('head').prepend('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
-// $('head').prepend("<link rel='script' href='static/js/jquery-ui.min.js'>");
-//~~ Get me that bootstrap version 5 (Causes things to desformat on the page, i'll fix that....)
-// $('head').prepend('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
-$('head').prepend('<link rel="stylesheet" href="/css/bootstrap.min.css">');
-
 $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
@@ -93,6 +84,7 @@ $(function() {
             $('#blocks_printer_connect').removeAttr('checked','disabled');
           }
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
+          $('#PrinterImg > img').remove();
         };
 
         self.onEventDisconnected = function () {
@@ -122,7 +114,7 @@ $(function() {
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
-            console.log("SUPOSED" + data.message);
+
             // The idea is to change the printer picture on the web interface acording to the connected Printer
             // It only works if it's a Blocks 3D Printer
            if(data.message == "Blocks Pro S30"){
@@ -274,6 +266,7 @@ $(function() {
             $('.modal-body').attr('data-theme', 'light');
             $('.tab-pane').attr("data-theme", "light");
             $('.table').attr("data-theme","light");
+            $('.gcode_files').attr("data-theme","light");
             var elemGroup1 = document.getElementsByClassName('nav');
             var groupSize = elems.length;
             var elemGroup2 = document.getElementsByClassName('tab-content');
@@ -464,7 +457,7 @@ $(function() {
         self.filamentType = ko.observable(['180°', '200°', '210°']);
         // The default temperature is set to 180 Celsius
         self.newTarget = ko.observable(180);
-        console.log(self.newTarget());
+        // console.log(self.newTarget());
         self.loadFilament.subscribe(function(Val){
           try {
             if(Val){

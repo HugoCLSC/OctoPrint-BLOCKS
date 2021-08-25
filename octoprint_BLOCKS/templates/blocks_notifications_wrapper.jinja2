@@ -10,7 +10,7 @@
       <div style="display: none" data-bind="visible: $root.blocksNotifications().length > 0">
         <div class="scroll-wrapper blocks_notifications_scrollable" data-bind="foreach: $root.blocksNotifications()">
           <div class="blocks_notifications_entry slide-right">
-            <i class="fas fa-exclamation"></i>
+            <i class="fas fa-exclamation" data-theme></i>
             <div class="blocks_notifications_timestamp">
               <small class="muted" data-bind="text: $root.getTime"></small>
             </div>

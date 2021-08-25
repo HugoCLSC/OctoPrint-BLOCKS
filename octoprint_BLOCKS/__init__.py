@@ -199,6 +199,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 printer_data = parse_firmware_line(line)
                 notification = {
                     "type": "machine_info",
+                    "hide": "false",
                     "message": printer_data["MACHINE_TYPE"]
                 }
                 self._plugin_manager.send_plugin_message(self._identifier, notification)
