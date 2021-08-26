@@ -40,22 +40,31 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         return {
             # For Light and Dark Theme
             # The default is the Light Theme
-            "themeType": False
+            "themeType": False,
+            "Machine_Type": "undefined"
         }
 
     def on_settings_initialized(self):
         # Get the saved settings
         theme = self._settings.get(["themeType"])
+        machine = self._settings.get(["Machine_Type"])
+        self._settings.set(["Machine_Type"], machine)
         self._settings.set(["themeType"], theme)
         self._logger.info("theme = {}".format(theme))
+
 
     def on_settings_save(self, data):
         # save settings
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
         theme = self._settings.get(["themeType"])
+        machine = self._settings.get(["Machine_Type"])
         if 'themeType' in data and data['themeType']:
             self._settings.set(["themeType"], theme)
             self.logger.info("Saving settings.")
+        if 'Machine_Type' in data and data['Machine_Type']:
+            self._settings.set(["Machine_Type"], machine)
+            self.logger.info("Saving settings.")
+
 
     ##~~ TemplatePlugin mixin
 
