@@ -40,14 +40,11 @@ $(function() {
                 $(window).trigger('resize');
             },500);
 
-            window.onbeforeunload = function() {
-              console.log("I?M HERE");
-              localStorage.removeItem('Machine_Type');
-            };
             // This helps prevent a bug on the connection switch
             if(self.connection.isOperational()){
               $('#blocks_printer_connect').prop('checked', 'checked');
             }
+
 
             // When i added bootstrap v5 all the carets got duplicated
             // So i just remove the duplicates here
@@ -67,6 +64,8 @@ $(function() {
         self.onStartupComplete = function () {
           $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
           self.set_PrinterImg();
+
+
         };
 
         self.onEventConnecting = function () {
@@ -74,8 +73,6 @@ $(function() {
           if(!self.connectIt()){
             $('#blocks_printer_connect').prop('checked', 'checked');
           }
-
-          self.set_PrinterImg();
           $('#blocksWrapper > .container-fluid ').addClass('scale-up-ver-top');
           $('#PrinterImg').removeClass('scale-down-center').addClass('scale-in-center');
         };
@@ -90,9 +87,8 @@ $(function() {
           if(self.connectIt()){
             $('#blocks_printer_connect').removeAttr('checked','disabled');
           }
+
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
-
-
         };
 
         self.onEventDisconnected = function () {
@@ -100,7 +96,7 @@ $(function() {
           self.fanControl(0);
           $('#blocks_printer_connect').removeAttr('disabled');
           $('#PrinterImg > img').remove();
-          localStorage.removeItem('Machine_Type');
+          // self.setStorage('Machine_Type', 'undefined');
           console.log('Disconnected');
         };
 
@@ -141,8 +137,6 @@ $(function() {
            }else if (data.message == "Blocks One MKII" ){
              // $("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>");
-           }else{
-             self.setStorage('Machine_Type', 'undefined');
            }
 
            self.set_PrinterImg();
@@ -177,6 +171,9 @@ $(function() {
           var size = img.length;
           console.log(img);
           console.log(printer);
+          if(printer == "undefined"){
+            self.control.sendCustomCommand({type:'command', command: 'M115'});
+          }
           if(size == 0){
             $(printer).appendTo($('#PrinterImg'));
           }
