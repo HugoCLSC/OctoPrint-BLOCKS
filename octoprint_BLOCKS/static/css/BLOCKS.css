@@ -506,9 +506,6 @@
 		background-color: var(--hover-color) !important;
 	}
 
-	input.input-block.search-query{
-		width:70%;
-	}
 
 
 	/* To fix the button settings on the files */
