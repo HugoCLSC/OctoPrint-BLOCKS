@@ -250,6 +250,13 @@
 
 
 	/* Control wrapper properties */
+	#control{
+		overflow: unset !important;
+		height: 400px;
+	}
+	#control >.container-fluid > .jog-panel{
+		margin-right: 0px !important;
+	}
 	#control_wrapper > .container-fluid.heading > a.container-fluid {
 	  /* display: inline-block; */
 	  padding: 8px 15px;
@@ -272,36 +279,24 @@
 		padding-left: 8px !important;
     padding-right: 8px !important;
 	}
-	#control > .container-fluid {
-	  /* display: block; */
-	  justify-content: center;
-		position:relative;
-	}
 
-	#control > .container-fluid > .container-fluid {
-		display: flex;
-    height: 400px;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-around;
-    align-items: stretch;
-    flex-direction: row;
-	}
-	#control .jog-panel>div.distance {
+	#control > .container-fluid > .jog-panel>div.distance {
 	  text-align: left;
 	  position: relative;
 	  top: 0px;
 	  left: -5px;
 	}
-	#control > .container-fluid > .container-fluid > .panel > .jog-panel {
-		margin-right: 10px;
-		display: flex;
-		flex-direction: column;
-    align-content: flex-end;
+	#control > .container-fluid{
+		display: inline-flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    flex-direction: row;
+    align-content: flex-start;
+    flex-wrap: wrap;
+		position: relative;
+		top: 25px;
 	}
+
 	#filament_load{
 		padding-left: 2px;
 	}
@@ -374,35 +369,22 @@
 		background-size: 50%;
 		width: 100%;
 	}
-	#temperature-table{
-		/* table-layout: fixed !important; */
-		margin-top: 20px !important;
-	}
+
 	/* ----------------------------- */
 	/* TABLES PROPESTIES */
-	.table th, .table td {
-		/* Added this first line to make the distance between lines tiny */
-	  padding: 0px !important;
-	  line-height: 20px;
-	  text-align: left;
-	  vertical-align: top;
-	  border-top: 1px solid #ddd;
+	#temperature-table{
+		margin-top: 20px !important;
 	}
-	table td.settings_groups_actions, table td.settings_users_actions, table th.settings_groups_actions, table th.settings_users_actions {
-	    width: 15%;
-	    text-align: center;
-	    white-space: nowrap;
-	}
+
 	.table{
 		color: var(--font-color) !important;
 	}
 	.flot-text{
 		color: var(--flot-text-color) !important;
 	}
-	.tab-pane{
-		width: 100%;
+	#temperature-table > tbody,#temperature-table >tbody > tr  {
+		border-bottom: 1px solid var(--font-color) !important;
 	}
-
 	/* ----------------------------- */
 
 	/* State wrapper properties */
@@ -603,7 +585,8 @@
 	}
 
 	input[type=number].input-nospin{
-		width: 35px !important;
+		width: 45px !important;
+		text-align: center;
 	}
 
 	/* #refreshButton.refresh-trigger{
@@ -644,10 +627,10 @@
 
 
 	#fanSlider{
-		display: inline-flex;
-	  align-items: center;
-	  justify-content: space-evenly;
-	  flex-wrap: nowrap;
+		display: inline-flex !important;
+	  align-items: center !important;
+	  justify-content: space-evenly !important;
+	  flex-wrap: nowrap !important;
 	}
 
 	/* All Popovers about warnings will have the correct size */

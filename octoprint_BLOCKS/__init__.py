@@ -78,17 +78,19 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         return[
             dict(type="settings", custom_bindings=False),
             # Connection wrapper
-            dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=False),
+            dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=True),
             # My webcam link
-            dict(type="generic", template="webcam_tab.jinja2", custom_bindings=False),
+            dict(type="generic", template="webcam_tab.jinja2", custom_bindings=True),
+            dict(type="generic", template="webcam_body.jinja2", custom_bindings=True),
+            # dict(type="tab", custom_bindings=True),
             # Fan slider
-            dict(type="generic", template="fanSlider.jinja2", custom_bindings=False),
+            dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications
-            dict(type="generic", template="blocks_notifications_wrapper.jinja2", custom_bindings=False),
+            dict(type="sidebar", template="blocks_notifications_wrapper.jinja2", custom_bindings=True),
             # For Load Unload functions on the control section
-            dict(type="generic", template="changeFilament.jinja2", custom_bindings=False),
+            dict(type="generic", template="changeFilament.jinja2", custom_bindings=True),
             # Light Dark Theme Switch
-            dict(type="generic", template="lightDarkSwitch.jinja2", custom_bindings=False),
+            dict(type="navbar", template="lightDarkSwitch.jinja2", custom_bindings=True),
         ]
 
     ##~~ Softwareupdate hook

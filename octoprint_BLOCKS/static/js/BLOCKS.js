@@ -29,7 +29,7 @@ $(function() {
                 console.log('BLOCKS:',msg)
             }
         };
-        //---------------------------------------------------------------------------     
+        //---------------------------------------------------------------------------
         self.onAllBound = function(){
           try {
             // Load custom layout
@@ -217,13 +217,13 @@ $(function() {
         self.set_mainLayout = function(settingsPlugin) {
           self._buildGrid(settingsPlugin);
           //In these set of instructions i set what each container on my grid has
+
           self.set_blocksWrapper(settingsPlugin);
+          //Rearranges the tabs
+          self.new_tabs(settingsPlugin);
           // ~~ Bind the remaining wrappers to the grid
           self._bindWrappers(settingsPlugin);
-          // ~~The function where i create the Controls wrapper.
-          self.set_ControlWrapper(settingsPlugin);
-          self.set_TemperatureWrapper(settingsPlugin);
-          self.set_tabbable(settingsPlugin);
+
           self._set_NewAppearence(settingsPlugin);
           self.remove_accordion(settingsPlugin);
           self.fix_gcode_viewer();
@@ -257,7 +257,13 @@ $(function() {
             $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
-            $('div.tabbable.span8').appendTo($('#BBC2'));
+            // $('div.tabbable.span8').appendTo($('#BBC2'));
+            $('#webcam_link').appendTo($('#tabs'));
+            // Finally i place my new control wrapper in my grid and correct the webcam
+            $('#control_wrapper').appendTo($('#BTC3'));
+
+            $('.BLOCKSMainTabs').appendTo($('#BBC2'));
+
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
             // ~~ Remove the sidebar, i don't need it anymore
@@ -514,39 +520,40 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
+        self.new_tabs = function (settingsPlugin){
+          self.set_ControlWrapper();
+          self.set_tabWebStream();
+          self.set_TemperatureWrapper();
+          self.set_tabbable();
+        }
         self.set_ControlWrapper = function(settingsPlugin){
           try {
             // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
             $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
             // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
-            $('#control').removeClass('tab-pane').removeClass('container-fluid').addClass('container-fluid body');
+            $('#control').removeClass('tab-pane').addClass('body');
             // This is for the heading, also gives it  the possibility to collapse.
-            $('<a class="container-fluid" data-target="#control"></a>').insertBefore('#control');
+            $('<div class="container-fluid heading" ></div>').insertBefore('#control');
             // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
             $('#control').wrapInner('<div class="container-fluid"></div>');
-            // Needed to wrap my header
-            $('#control_wrapper > a').wrap('<div class="container-fluid heading"></div>');
             // Adds the gamepad icon in black and also adds the text "Controls" to the header
-            $('#control_wrapper > div > a').append('<i class=" fas icon-black fa-gamepad"></i>');
-            $('#control_wrapper > div > a').append(' Controls ');
+            $('#control_wrapper > .container-fluid.heading').append('<i class=" fas icon-black fa-gamepad"></i>').append(' Controls ');
             // Need to create a row-fluid
-            $('#control > .container-fluid > div').wrapAll('<div class="row-fluid"></div>');
+            // $('#control > .container-fluid > div').wrapAll('<div class="container-fluid"></div>');
             // Fix the size of the control wrapper letters.
             $('h1').css("font-size","15px");
             $('h1').css("font-weight","bold");
-            // Finally i place my new control wrapper in my grid and correct the webcam
-            $('#control_wrapper').appendTo($('#BTC3'));
+
             $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
             self.set_tabWebStream(settingsPlugin);
-            $('#control > div > div > div:first-child').remove();
-            $('#control > div > div > div:last-child').remove();
+            $('#control > div  > div:first-child').remove();
+            // $('#control > div > div > div:last-child').remove();
             // Now that i have this fna slider i really don't need the general tab.
             $('#control-jog-general').remove();
-            $('#control > .container-fluid > .row-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
-            $('#control > .container-fluid > .row-fluid').addClass('container-fluid').removeClass('row-fluid');
+            $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
             // I'll add my control filament buttons here
             $('#control_filament').appendTo($('#filamentStep'));
-            $('#fanSlider').appendTo($('#control > .container-fluid > .container-fluid'));
+            $('#fanSlider').appendTo($('#control'));
           } catch (e) {
             self.logToConsole(e);
           }
@@ -554,12 +561,12 @@ $(function() {
         //---------------------------------------------------------------------------
         self.set_tabWebStream = function (settingsPlugin){
           try {
-            $('#webcam_hls_container').wrap('<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAnyPermissionKo(access.permissions.WEBCAM)"></div>');
+            $('#webcam_hls_container').appendTo($('#webCam'));
             $('#webcam_container').appendTo($('#webCam'));
             $('#webCam').appendTo($('#tabs_content'));
-            $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
+            // $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
             // Add a Webcam  tab to the tabbable
-            $('#webcam_link').appendTo($('#tabs'));
+            $('#webCam').appendTo($('#tabs_content'));
             // The webCam only initializes if the control tab is clicked.
             // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
             // Literally the same thing has the temperature graph problem i had
@@ -579,8 +586,8 @@ $(function() {
             // Remove the Tabs i don't need
             $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
             $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
-            // Neither do i need the old tabbable
-            $('.TopRow > div.BLOCKSMainTabs').remove();
+            $('div.tabbable > tabs_content > #temp');
+
           } catch (e) {
             self.logToConsole(e);
           }
@@ -597,13 +604,13 @@ $(function() {
             $('#temp_wrapper > div > a').append(' Temperature ');
             //Place the wrapper in my grid
             $('#temp_wrapper').appendTo($('#BBC1'));
-            $('#temperature-table').css("margin-top","0px");
-            $('#temperature-table').css("table-layout","unset");
+            $('#temperature-table').css("margin-top","0px").css("table-layout","unset");
+            $('#temperature-table').removeClass('table-bordered').removeClass("table").addClass("table-sm");
             // Just a little hack so i can use the temperatureViewModel graph
             // Basically it presses the button on the tabs to create the grid
             // After the grid is created the tab is deleted from the tab container
             // because i don't need that tab there anymore
-            $(".flot-text").css("color","rgb(255, 255, 255)");
+            // $(".flot-text").css("color","rgb(255, 255, 255)");
             $('.temperature_target').css('width','42%');
             $('.temperature_offset').css('width','42%');
             $('.temperature_tool').css('width','9%');
