@@ -381,7 +381,8 @@
 	/* ----------------------------- */
 	/* TABLES PROPESTIES */
 	.table th, .table td {
-	  padding: 4px;
+		/* Added this first line to make the distance between lines tiny */
+	  padding: 0px !important;
 	  line-height: 20px;
 	  text-align: left;
 	  vertical-align: top;
