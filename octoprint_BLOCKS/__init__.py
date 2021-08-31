@@ -11,7 +11,6 @@ from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 
 
-
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.AssetPlugin,
                    octoprint.plugin.TemplatePlugin,
@@ -23,18 +22,20 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
 
-    ##~~ AssetPlugin mixi
+    # ~~ AssetPlugin mixi
 
     def get_assets(self):
         # Define your plugin's asset(the folder) files to be automatically included in the
         # core UI here.
         return dict(
-            js=["js/BLOCKS.js", "js/jquery-ui.min.js", "js/notifications.js","js/BLOCKS_WebCam.js"],
-            css=["css/BLOCKS.css", "css/jquery-ui.css","css/animations.css","css/bootstrap.min.css"],
+            js=["js/BLOCKS.js", "js/jquery-ui.min.js",
+                "js/notifications.js", "js/BLOCKS_WebCam.js"],
+            css=["css/BLOCKS.css", "css/jquery-ui.css",
+                 "css/animations.css", "css/bootstrap.min.css"],
             less=["less/BLOCKS.less"]
         )
 
-    ##~~ SettingsPlugin mixin
+    # ~~ SettingsPlugin mixin
 
     def get_settings_defaults(self):
         return {
@@ -52,7 +53,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._settings.set(["themeType"], theme)
         self._logger.info("theme = {}".format(theme))
 
-
     def on_settings_save(self, data):
         # save settings
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
@@ -65,8 +65,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._settings.set(["Machine_Type"], machine)
             self.logger.info("Saving settings.")
 
-
-    ##~~ TemplatePlugin mixin
+    # ~~ TemplatePlugin mixin
 
         # This mixin enables me to inject my own components into the OctoPrint
         # My own templates
@@ -78,44 +77,50 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         return[
             dict(type="settings", custom_bindings=False),
             # Connection wrapper
-            dict(type="sidebar", template="blocks_connectionWrapper.jinja2", custom_bindings=True),
+            dict(type="sidebar", template="blocks_connectionWrapper.jinja2",
+                 custom_bindings=True),
             # My webcam link
-            dict(type="generic", template="webcam_tab.jinja2", custom_bindings=True),
-            dict(type="generic", template="webcam_body.jinja2", custom_bindings=True),
+            dict(type="generic", template="webcam_tab.jinja2",
+                 custom_bindings=True),
+            dict(type="generic", template="webcam_body.jinja2",
+                 custom_bindings=True),
             # dict(type="tab", custom_bindings=True),
             # Fan slider
             dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications
-            dict(type="sidebar", template="blocks_notifications_wrapper.jinja2", custom_bindings=True),
+            dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
+                 custom_bindings=True),
             # For Load Unload functions on the control section
-            dict(type="generic", template="changeFilament.jinja2", custom_bindings=True),
+            dict(type="generic", template="changeFilament.jinja2",
+                 custom_bindings=True),
             # Light Dark Theme Switch
-            dict(type="navbar", template="lightDarkSwitch.jinja2", custom_bindings=True),
+            dict(type="navbar", template="lightDarkSwitch.jinja2",
+                 custom_bindings=True),
         ]
 
-    ##~~ Softwareupdate hook
+    # ~~ Softwareupdate hook
 
     def get_update_information(self):
         # Define the configuration for your plugin to use with the Software Update
         # Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
         # for details.
         return dict(
-            BLOCKS= dict(
-                displayName= self._plugin_name,
-                displayVersion= self._plugin_version,
+            BLOCKS=dict(
+                displayName=self._plugin_name,
+                displayVersion=self._plugin_version,
 
                 # version check: github repository
-                type= "github_release",
-                user= "HugoCLSC",
-                repo= "BLOCKSUI",
-                current= self._plugin_version,
+                type="github_release",
+                user="HugoCLSC",
+                repo="BLOCKSUI",
+                current=self._plugin_version,
 
                 # update method: pip
-                pip= "https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
+                pip="https://github.com/HugoCLSC/BLOCKSUI/archive/{target_version}.zip",
             )
         )
 
-    ## ~~ EventHandlerPlugin mixin
+    # ~~ EventHandlerPlugin mixin
 
     def on_event(self, event, payload):
         # Sends messages to any listeners about certain events
@@ -129,7 +134,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "true",
                     "message": "Print Start, Heating"
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)    # sends a the message to any listeners with the plugin identification and the notification
+                # sends a the message to any listeners with the plugin identification and the notification
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
             if event == Events.PRINT_FAILED:
                 notification = {
                     "action": "popup",
@@ -137,7 +144,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "false",
                     "message": "Print Failed"
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
             # Everytime an event takes place we will send a message to any message listeners that exist
             if event == Events.CONNECTED:
                 notification = {
@@ -146,7 +154,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "true",
                     "message": event,
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
 
             if event == Events.DISCONNECTED:
                 notification = {
@@ -155,16 +164,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "true",
                     "message": event,
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
             self._logger.info(e)
 
-
-
-
-    ## ~~ ProgressPlugin mixin
+    # ~~ ProgressPlugin mixin
 
     def on_print_progress(self, storage, path, progress):
         # Sends a message to any listeners about the print progress
@@ -179,12 +186,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "message": "Print Progress: {}".format(progress)
             }
             # Sends a message to any message listeners
-            self._plugin_manager.send_plugin_message(self._identifier, notification)
+            self._plugin_manager.send_plugin_message(
+                self._identifier, notification)
 
         self._logger.info("Print Progress: {}".format(progress))
-
-
-
 
     def sent_m600(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
         try:
@@ -199,8 +204,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "false",
                     "message": "Filament Change in Progress. Follow the printer instructions"
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
-                self._logger.info("Notifications: Gcode sent {}".format("gcode"))
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
+                self._logger.info(
+                    "Notifications: Gcode sent {}".format("gcode"))
         except Exception as e:
             self._logger.info(e)
 
@@ -213,7 +220,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "hide": "false",
                     "message": printer_data["MACHINE_TYPE"]
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
 
             elif "M412" in line:
                 notification = {
@@ -222,7 +230,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     "message": "Filament Runout, Change Filament to proceed",
                     "hide": "false",
                 }
-                self._plugin_manager.send_plugin_message(self._identifier, notification)
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
             else:
 
                 return line
@@ -232,7 +241,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
 __plugin_name__ = "Blocks Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
-
 
 
 def __plugin_load__():
