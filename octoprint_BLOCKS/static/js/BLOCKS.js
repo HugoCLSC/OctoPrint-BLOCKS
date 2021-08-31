@@ -379,7 +379,7 @@ $(function() {
             $('.btn-group').css({'font-size': ''});
             $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
             //i'm going to wrap the three files triggers inside a container
-            $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid filesButtons" id="files_triggers"></div>');
+            $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid " id="files_triggers"></div>');
             $('#files > .accordion-inner').addClass('container-fluid body').removeClass('accordion-inner');
             $('#files_triggers').appendTo($('#files_heading'));
             // Fix the Css on the files

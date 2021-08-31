@@ -31,7 +31,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             js=["js/BLOCKS.js", "js/jquery-ui.min.js",
                 "js/notifications.js", "js/BLOCKS_WebCam.js"],
             css=["css/BLOCKS.css", "css/jquery-ui.css",
-                 "css/animations.css", "css/bootstrapElems.min.css", "css/bootstrap-grid.min.css"],
+                 "css/animations.css", "css/bootstrapElems.min.css"],
             less=["less/BLOCKS.less"]
         )
 

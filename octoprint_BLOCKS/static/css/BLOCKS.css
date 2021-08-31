@@ -250,6 +250,9 @@
 		overflow: unset !important;
 		height: 400px;
 	}
+	#control .jog-panel{
+		margin-right: 11px !important;
+	}
 	#control >.container-fluid > .jog-panel{
 		margin-right: 0px !important;
 	}
@@ -266,7 +269,7 @@
 	}
 	#control .control-box{
 		width: 65% !important;
-		padding: 4px 0px !important;
+		/* padding: 4px 0px !important; */
 
 	}
 	#control .box{
@@ -276,12 +279,6 @@
     padding-right: 8px !important;
 	}
 
-	#control > .container-fluid > .jog-panel>div.distance {
-	  text-align: left;
-	  position: relative;
-	  top: 0px;
-	  left: -5px;
-	}
 	#control > .container-fluid{
 		display: inline-flex;
     justify-content: center;
@@ -291,6 +288,7 @@
     flex-wrap: wrap;
 		position: relative;
 		top: 25px;
+		width: 100%;
 	}
 
 	#filament_load{
@@ -300,7 +298,7 @@
 		width: 15%;
 		position: relative;
 		top: 0%;
-		margin-left: 15px;
+		margin-left: 3px;
 		margin-right: 0px;
 	}
 	#control_filament{
@@ -466,9 +464,11 @@
 
 	#files_triggers {
 		display: flex;
+		position:relative;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: flex-end;
+		left: 430px;
 	}
 	.accordion-heading-button {
     margin-left: 10px;
@@ -506,14 +506,16 @@
 		margin-block-end: 15px;
 		margin-block-start: 40px;
 		width: auto;
+		margin-right: 10px;
+    margin-left: 10px;
 	}
 	.BotRow{
 		display: flex ;
-		/* border-top : 2px solid rgb(185, 185, 185); */
-		/* border-bottom : 2px solid rgb(185, 185, 185); */
 		align-items: flex-start;
 		flex-wrap:nowrap;
 		width: auto;
+		margin-right: 10px;
+    margin-left: 10px;
 
 	}
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
@@ -614,7 +616,7 @@
 
 	#fanRange{
 			width: 255px;
-			/* padding: 15px; */
+			padding: 6px;
 	    border-radius: 16px;
 	}
 	#fanSlider > label {
