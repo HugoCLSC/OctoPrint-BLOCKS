@@ -447,8 +447,6 @@
 
 	#files_wrapper > .container-fluid.heading {
 	  border-bottom: 1px solid #e5e5e5;
-	  position: relative;
-		display : flex;
 	}
 	#files_wrapper{
 	  /*border: 1px solid #e5e5e5;*/
@@ -468,20 +466,22 @@
 	}
 
 	#files_triggers {
-		display: flex;
-		position:relative;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-		left: 430px;
+		display: inherit;
+    /* left: 340px; */
+    position: relative;
+    margin-inline-start: 66%;
 	}
+
 	.accordion-heading-button {
     margin-left: 10px;
-    margin-right: 20px;
+    margin-right: 10px;
 	}
 	#files_heading{
 		display: inline-flex;
-		align-items: center;
+    align-items: center;
+    width: -webkit-fill-available;
+    flex-wrap: wrap;
+    flex-direction: row;
 	}
 	#files_heading > .fa.fa-list{
 		margin-inline-end: 5px;
