@@ -65,11 +65,7 @@
 	.clearfix{
 		overflow: auto;
 	 }
-	/*.clearfix::after{
-		content: "";
-		clear: both;
-		display: table;
-	} */
+
 	/* Page setUp */
 
 	.accordion-inner{
@@ -509,6 +505,7 @@
 		/* max-height: 425px; */
 		margin-block-end: 15px;
 		margin-block-start: 40px;
+		width: auto;
 	}
 	.BotRow{
 		display: flex ;
@@ -516,6 +513,7 @@
 		/* border-bottom : 2px solid rgb(185, 185, 185); */
 		align-items: flex-start;
 		flex-wrap:nowrap;
+		width: auto;
 
 	}
 	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
@@ -525,7 +523,7 @@
 		border-radius: 15px;
 	  border: 4px solid;
 		border-color: var(--border-color) !important;
-	  margin-inline-end: 10px;
+	  /* margin-inline-end: 10px; */
 		min-height: 462px;
 		color: var(--font-color) !important;
 		background-color: var(--bg-color) !important;
@@ -535,6 +533,10 @@
 	  min-height: 630px;
 	}
 
+	.TopRow > .BLOCKCol2, .BotRow > .BLOCKCol2{
+		margin-inline-start: 10px;
+		margin-inline-end: 10px;
+	}
 	/* ------------------ */
 
 	/* Blocks properties */
@@ -612,7 +614,7 @@
 
 	#fanRange{
 			width: 255px;
-			padding: 15px;
+			/* padding: 15px; */
 	    border-radius: 16px;
 	}
 	#fanSlider > label {
@@ -673,7 +675,7 @@
 		color: rgb(86,86,86);
 	}
 
-	.caret {
+	/* .caret {
 	    display: unset;
 	    width: unset;
 			height: unset;
@@ -682,12 +684,12 @@
 	    border-right: unset;
 	    border-left: unset;
 	    content: unset;
-	}
+	} */
 
 	.btn{
 		line-height: 20px !important;
-		height: 30px;
-		border: 1px solid var(--button-border-color) !important;
+		height: auto;
+		/* border: 1px solid var(--button-border-color) !important; */
 		font-size: 14px !important;
 		padding: 4px 12px !important;
 	}

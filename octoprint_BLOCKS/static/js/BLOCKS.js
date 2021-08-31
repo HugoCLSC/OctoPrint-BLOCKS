@@ -46,14 +46,14 @@ $(function() {
             }
 
 
-            // When i added bootstrap v5 all the carets got duplicated
-            // So i just remove the duplicates here
-            var elems = document.getElementsByClassName('caret');
-            var size = elems.length;
-            for(let i=0; i <= size; i++){
-              var elem = elems.item(i);
-              $(elem).remove();
-            }
+            // // When i added bootstrap v5 all the carets got duplicated
+            // // So i just remove the duplicates here
+            // var elems = document.getElementsByClassName('caret');
+            // var size = elems.length;
+            // for(let i=0; i <= size; i++){
+            //   var elem = elems.item(i);
+            //   $(elem).remove();
+            // }
           } catch (e) {
             self.logToConsole(e);
             self.logToConsole(e);
@@ -538,6 +538,7 @@ $(function() {
             $('#control').wrapInner('<div class="container-fluid"></div>');
             // Adds the gamepad icon in black and also adds the text "Controls" to the header
             $('#control_wrapper > .container-fluid.heading').append('<i class=" fas icon-black fa-gamepad"></i>').append(' Controls ');
+              $('#control_wrapper > .container-fluid.heading').wrap("<div class='container-fluid heading'></div>")
             // Need to create a row-fluid
             // $('#control > .container-fluid > div').wrapAll('<div class="container-fluid"></div>');
             // Fix the size of the control wrapper letters.
