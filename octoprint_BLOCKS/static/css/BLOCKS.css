@@ -3,16 +3,15 @@
 	--bg-color: rgb(41, 43, 42);
 	--border-color: rgb(41,43,42);
 	--font-color: rgb(255,255,255);
-	--inverted-font: rgb( 0 0 0);
+	--inverted-font: rgb( 0, 0, 0);
 	--navbar-color: #F5F5F5;
-	--shadow-text: 0 1px rgb(86,86,86);
+	--shadow-text: 0 1px rgb(86, 86, 86);
 	--switch-color: rgb(62, 62, 62);
 	--graph-image: url(../img/Blocks_VECTORIZADOBRANCO.png);
-	/* --hover-color: rgb(180, 180, 180);rgb(119 119 119 / 22%) */
 	--hover-color: rgb(119 119 119 / 22%);
 	--bs-table-hover-bg: rgb(0 0 0 / 27%) !important;
-	--flot-text-color: rgb( 255 255 255) !important;
-	--button-border-color: rgb(230 230 230 / 64%);
+	--flot-text-color: rgb( 255, 255, 255) !important;
+	--button-border-color: rgb(230, 230, 230 / 64%);
 	--bs-font-weight: 900;
 	--notification-color: white;
 }
@@ -21,7 +20,7 @@
 	--bg-color: #F5F5F5;
 	--border-color: #F5F5F5;
 	--font-color: rgb(86,86,86);
-	--inverted-font: rgb(0 0 0);
+	--inverted-font: rgb(0, 0, 0);
 	--navbar-color: #333333;
 	--shadow-text: 0 1px #ccc;
 	--switch-color:rgb(218, 218, 218);
@@ -125,7 +124,8 @@
 	/* Change the navbar/settings aspect */
 	#settings_dialog{
 		/* margin-top: -25% !important; */
-		color: var(--font-color) !important;
+		/* color: var(--font-color) !important; */
+		/* color: rgb(145 148 243); */
 		background-color: var(--primary-color) !important;
 		height: auto !important;
 		width: 55% !important;
@@ -144,6 +144,9 @@
 	}
 	.settings_users_details_value{
 		color: rgb(0 0 0);
+	}
+	.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th {
+    color: var(--primary-color) !important;
 	}
 	.tab-content{
 		background-color: var(--bg-color) !important;
@@ -363,7 +366,9 @@
 		background-size: 50%;
 		width: 100%;
 	}
-
+	#temperature-graph > .legend  td{
+		color: var(--font-color) !important;
+	}
 	/* ----------------------------- */
 	/* TABLES PROPESTIES */
 	#temperature-table{

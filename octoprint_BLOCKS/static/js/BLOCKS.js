@@ -54,6 +54,18 @@ $(function() {
             //   var elem = elems.item(i);
             //   $(elem).remove();
             // }
+            var elems = document.getElementsByTagName("td");
+            console.log(elems);
+            var size = elems.length;
+            for (let i = 0; i <= size; i++){
+              var elem = elems.item(i);
+              var BGColor = $(elem).css("background-color");
+              console.log(BGColor);
+              if(BGColor == "rgb(249, 249, 249)" || BGColor =="#f5f5f5" || BGColor=="#f9f9f9"){
+                $(elem).attr("color","var(--primary-color)");
+              }
+
+            }
           } catch (e) {
             self.logToConsole(e);
             self.logToConsole(e);
@@ -281,6 +293,8 @@ $(function() {
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
             // Remove the underline from the <a> elements
             $('.a').css("text-decoration","unset");
+
+
             self._add_subAttributeData_Theme();
           } catch (e) {
             self.logToConsole(e);
