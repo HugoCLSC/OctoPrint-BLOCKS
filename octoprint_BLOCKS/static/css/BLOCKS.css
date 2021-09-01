@@ -14,6 +14,9 @@
 	--button-border-color: rgb(230, 230, 230 / 64%);
 	--bs-font-weight: 900;
 	--notification-color: white;
+	--scrollbar-color: rgb(199, 199, 199);
+	--scrollbar-bg: rgb(86, 86, 86);
+	--scrollbar-hover: rgb(240, 240, 240);
 }
 [data-theme="light"]{
 	--primary-color: rgb(255,255,255);
@@ -31,6 +34,9 @@
 	--button-border-color: rgb(165 164 164 / 64%);
 	--bs-font-weight: 900;
 	--notification-color: black;
+	--scrollbar-color: rgb(86, 86, 86);
+	--scrollbar-bg: rgb(255,255,255);
+	--scrollbar-hover:rgb(55, 55, 55);
 }
 
 [switch-color="red"]{
@@ -64,6 +70,24 @@
 	.clearfix{
 		overflow: auto;
 	 }
+	 /* Scrollbar */
+	 body::-webkit-scrollbar{
+		 width: 10px;
+	 }
+	 body::-webkit-scrollbar-track{
+		 background: var(--scrollbar-bg);
+	 }
+	 /* Handle */
+	body::-webkit-scrollbar-thumb {
+	  background: var(--scrollbar-color);
+		border-radius: 10px;
+	}
+
+	/* Handle on hover */
+	body::-webkit-scrollbar-thumb:hover {
+	  background: var(--scrollbar-hover);
+	}
+
 
 	/* Page setUp */
 
@@ -467,7 +491,6 @@
 
 	#files_triggers {
 		display: inherit;
-    /* left: 340px; */
     position: relative;
     margin-inline-start: 66%;
 	}

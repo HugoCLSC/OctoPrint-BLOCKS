@@ -175,6 +175,7 @@ $(function() {
         self._set_fixedHeader = function(enable) {
           try {
             $('body').addClass('BLOCKSUIfixedHeader');
+            $('body').attr('data-theme', 'light');
             $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
             $('.navbar').css("position","fixed");
             $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
@@ -225,9 +226,9 @@ $(function() {
         self._buildGrid = function (settingsPlugin) {
           try {
             //What i want to do here is just create a matrix 3x3
-            $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow').addClass('px-4');
+            $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
             //add another row after the TopRow
-            $('<div class= "row-fluid BotRow px-4" ></div>').insertBefore('div.footer');
+            $('<div class= "row-fluid BotRow" ></div>').insertBefore('div.footer');
             //add an id to both rows
             $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
             $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
@@ -372,7 +373,7 @@ $(function() {
             $('.btn-group').css({'font-size': ''});
             $('#files_wrapper > div.container-fluid.heading').children().removeClass('btn-group');
             //i'm going to wrap the three files triggers inside a container
-            $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div class = "container-fluid " id="files_triggers"></div>');
+            $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div id="files_triggers"></div>');
             $('#files > .accordion-inner').addClass('container-fluid body').removeClass('accordion-inner');
             $('#files_triggers').appendTo($('#files_heading'));
             // Fix the Css on the files
