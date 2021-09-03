@@ -747,7 +747,7 @@
 
 	#goFullScreen{
 		padding: 4px 4px 0px 4px !important;
-		position: sticky;
+		position: absolute;
 		bottom: 5%;
 		right: 5%;
 		float: right;
