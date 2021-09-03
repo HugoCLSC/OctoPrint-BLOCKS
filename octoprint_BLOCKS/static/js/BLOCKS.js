@@ -108,6 +108,10 @@ $(function() {
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
+            if(data.type=="IPaddr"){
+              self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
+              console.log(data.message);
+            }
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
@@ -154,6 +158,7 @@ $(function() {
           // Since the Light/Dark theming is stored in the localStorage
           // This will get and set the correnct theming
           self._theming(settingsPlugin);
+
         };
         //---------------------------------------------------------------------------
         self.set_PrinterImg = function() {
@@ -562,6 +567,7 @@ $(function() {
             // $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
             // Add a Webcam  tab to the tabbable
             $('#webCam').appendTo($('#tabs_content'));
+            $('#goFullScreen').appendTo($('#webcam_container'));
             // The webCam only initializes if the control tab is clicked.
             // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
             // Literally the same thing has the temperature graph problem i had
@@ -768,6 +774,7 @@ $(function() {
           "#blocksWrapper",
           "#fanSlider",
           "#control_filament",
-          "#LightDarkSwitchWrapper"]
+          "#LightDarkSwitchWrapper",
+        ]
     });
 });

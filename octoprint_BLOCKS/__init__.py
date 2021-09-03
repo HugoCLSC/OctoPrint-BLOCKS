@@ -6,7 +6,7 @@ import octoprint.plugin
 import octoprint.events
 import octoprint.util.comm
 import octoprint.plugin.core
-
+import socket
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 
@@ -17,6 +17,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.StartupPlugin,
                    octoprint.plugin.ProgressPlugin,
                    octoprint.plugin.EventHandlerPlugin):
+
+
+    # Gets me the ip of the system
+    server = socket.gethostbyname(socket.gethostname())
 
    # Exceutes before the startup
     def on_after_startup(self):
@@ -96,6 +100,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Light Dark Theme Switch
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
+            # Wencam bar
+            dict(type="generic", template="webcam_bar.jinja2",
+                 custom_bindings=True),
+
         ]
 
     # ~~ Softwareupdate hook
@@ -127,6 +135,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # All available events on https://docs.octoprint.org/en/master/events/index.html#sec-events
 
         try:
+            if event == Events.STARTUP:
+                SERVER = socket.gethostbyname(socket.gethostname()) #Gets the ip address automatically
+                self._logger.info(SERVER)
+                notification={
+                    "type": "IPaddr",
+                    "message": SERVER
+                }
+                self._plugin_manager.send_plugin_message(
+                    self._identifier, notification)
             if event == Events.PRINT_STARTED:
                 notification = {
                     "action": "popup",
@@ -237,6 +254,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 return line
         except Exception as e:
             self._logger.info(e)
+
 
 
 __plugin_name__ = "Blocks Plugin"

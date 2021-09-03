@@ -735,3 +735,20 @@
 	.pagination ul {
 		padding-left:0px !important;
 	}
+
+	.fullscreen-icon{
+		background-image: url(../img/fullscreen_icon.png);
+    background-size: 150% !important;
+    background-position: center;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+	}
+
+	#goFullScreen{
+		padding: 4px 4px 0px 4px !important;
+		position: sticky;
+		bottom: 5%;
+		right: 5%;
+		float: right;
+	}

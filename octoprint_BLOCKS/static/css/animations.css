@@ -83,3 +83,30 @@
     transform-origin: 100% 0%;
   }
 }
+
+.blink {
+	-webkit-animation: blink 0.9s infinite both;
+	        animation: blink 0.9s infinite both;
+}
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
