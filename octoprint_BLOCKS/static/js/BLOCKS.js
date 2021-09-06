@@ -255,7 +255,8 @@ $(function() {
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
             // $('div.tabbable.span8').appendTo($('#BBC2'));
-            $('#webcam_link').appendTo($('#tabs'));
+            // $('#webcam_link').appendTo($('#tabs'));
+            $('#tab_plugin_BLOCKS_link > a').attr("href","#webCam");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
 
@@ -263,6 +264,7 @@ $(function() {
 
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
+            $('#cameraRecStatus').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
             // ~~ Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {

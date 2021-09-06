@@ -84,8 +84,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2",
                  custom_bindings=True),
             # My webcam link
-            dict(type="generic", template="webcam_tab.jinja2",
-                 custom_bindings=True),
+            dict(type="tab",name="WebCam", template="webcam_tab.jinja2",
+                 custom_bindings=True, data_bind="visible:loginState.hasPermissionKo(access.permissions.WEBCAM)"),
             dict(type="generic", template="webcam_body.jinja2",
                  custom_bindings=True),
             # dict(type="tab", custom_bindings=True),
@@ -103,7 +103,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Wencam bar
             dict(type="generic", template="webcam_bar.jinja2",
                  custom_bindings=True),
-
+            # Webcam recording indicator
+            dict(type="generic", template="rec.jinja2",
+                 custom_bindings=False),
         ]
 
     # ~~ Softwareupdate hook

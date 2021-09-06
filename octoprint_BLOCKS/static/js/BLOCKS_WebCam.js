@@ -16,15 +16,16 @@ $(function() {
     self.control = parameters[2];
     self.access = parameters[3];
 
+    self.iconStatus = ko.observable(false);
 
-
-    self.webcamTab = ko.observable(undefined);
-    self.webcamTab.subscribe(function(clicked){
-      if(clicked){
+    self.onTabChange = function(current, previous){
+      if(current == "#webCam"){
         clearTimeout(self.control.webcamDisableTimeout);
-        $("#webcam_image").attr("src","http://192.168.1.94/webcam/?action=stream");
-        // self.control.webcamLoaded(true);
-
+        if(OctoPrint.coreui.selectedTab == "#webCam"){
+          self.iconStatus(true);
+          $('#cameraRecStatus').addClass('blink');
+          $('#cameraRecStatus > i ').css("color","red");
+        }
         // Determine stream type and switch to corresponding webcam.
         // Took from the controlViewModel.
         var streamType = determineWebcamStreamType(self.settings.webcam_streamUrl());
@@ -35,22 +36,20 @@ $(function() {
         } else {
             throw "Unknown stream type " + streamType;
         }
-      }else if(!clicked){
-        // self.control._disableWebcam();
-        var timeout = self.settings.webcam_streamTimeout() || 5;
-        self.control.webcamDisableTimeout = setTimeout(function () {
-            log.debug("Unloading webcam stream");
-            $("#webcam_image").attr("src", "");
-            self.control.webcamLoaded(false);
-        }, timeout * 1000);
       }
-    });
+      // }else{
+      //   if(OctoPrint.coreui.selectedTab != "#webCam"){
+      //     self.iconStatus(false);
+      //     $('#cameraRecStatus').addClass('blink');
+      //     $('#cameraRecStatus > i ').css("color","red");
+      //   }
+      // }
+    };
+
+
     self.onBrowserTabVisibilityChange = function (status) {
         if (status) {
           clearTimeout(self.control.webcamDisableTimeout);
-          $("#webcam_image").attr("src","http://192.168.1.94/webcam/?action=stream");
-          // Determine stream type and switch to corresponding webcam.
-          // Took from the controlViewModel.
           var streamType = determineWebcamStreamType(self.settings.webcam_streamUrl());
           if (streamType == "mjpg") {
               self.control._switchToMjpgWebcam();
@@ -109,40 +108,22 @@ $(function() {
       if(state === true){
         self.fullScreenStyles.ON.height = document.documentElement.clientHeight;
         self.fullScreenStyles.ON.width = document.documentElement.clientWidth;
-
-        var iH = $(window).height();
-        var iW = $(window).width();
-        var aH = screen.availHeight;
-        var aW = screen.availWidth;
-        // const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-        // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-        // self.fullScreenStyles.ON.height = vw;
-        // self.fullScreenStyles.ON.width = vh;
-        console.log(aH,aW);
-        console.log(iH, iW);
-        console.log(self.fullScreenStyles.ON.height);
-        console.log(self.fullScreenStyles.ON.width);
         $('#webcam_container').css(self.fullScreenStyles.ON);
-        // $('#webcam_image').css(self.fullScreenStyles.ON);
-        // $('#webcam_rotator').css(self.fullScreenStyles.ON);
       }else{
         $('#webcam_container').css(self.fullScreenStyles.OFF);
-        // $('#webcam_image').css(self.fullScreenStyles.OFF);
-        // $('#webcam_rotator').css(self.fullScreenStyles.OFF);
       }
     };
-
     // This event listener serves for the full screen video player
     // When the user presses Escape when the video is full screen
     var bod = document.querySelector('html');
     bod.addEventListener('keydown', (e) => {
-
         if((e.key ==="Escape" || e.key === 'Esc') && self.fullScreenState()===true ){
           console.log(e);
           self.fullScreenState(false);
           self.fullScreenOperations(false);
         }
     });
+
 
   }
   OCTOPRINT_VIEWMODELS.push({
@@ -154,6 +135,7 @@ $(function() {
       "accessViewModel"],
     elements: [
       "#webcam_link",
-      "#goFullScreen"]
+      "#goFullScreen",
+      "#cameraRecStatus"]
   });
 });

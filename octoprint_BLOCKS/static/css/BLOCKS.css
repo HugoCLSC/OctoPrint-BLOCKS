@@ -744,7 +744,9 @@
     height: 20px;
     background-repeat: no-repeat;
 	}
-
+	#cameraRecStatus{
+		display: inline-block;
+	}
 	#goFullScreen{
 		padding: 4px 4px 0px 4px !important;
 		position: absolute;
