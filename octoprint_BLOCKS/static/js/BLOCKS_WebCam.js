@@ -37,13 +37,6 @@ $(function() {
             throw "Unknown stream type " + streamType;
         }
       }
-      // }else{
-      //   if(OctoPrint.coreui.selectedTab != "#webCam"){
-      //     self.iconStatus(false);
-      //     $('#cameraRecStatus').addClass('blink');
-      //     $('#cameraRecStatus > i ').css("color","red");
-      //   }
-      // }
     };
 
 
