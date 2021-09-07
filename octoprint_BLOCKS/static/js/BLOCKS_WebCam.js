@@ -16,6 +16,17 @@ $(function() {
     self.control = parameters[2];
     self.access = parameters[3];
 
+
+
+    self.webcamStatus = ko.observable(false);
+    self.webcamStatus.subscribe(function(val){
+      if(self.control.webcamLoaded()){
+        self.webcamStatus(true);
+      }else{
+        self.webcamStatus(false);
+      }
+    });
+
     self.iconStatus = ko.observable(false);
 
     self.onTabChange = function(current, previous){
@@ -36,6 +47,10 @@ $(function() {
         } else {
             throw "Unknown stream type " + streamType;
         }
+      }else{
+        self.iconStatus(false);
+        $('#cameraRecStatus').addClass('blink');
+        $('#cameraRecStatus > i ').css("color","red");
       }
     };
 
