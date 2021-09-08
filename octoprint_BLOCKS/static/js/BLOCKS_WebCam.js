@@ -19,21 +19,12 @@ $(function() {
 
 
     self.webcamStatus = ko.observable(false);
-    self.webcamStatus.subscribe(function(val){
-      if(self.control.webcamLoaded()){
-        self.webcamStatus(true);
-      }else{
-        self.webcamStatus(false);
-      }
-    });
-
-    self.iconStatus = ko.observable(false);
 
     self.onTabChange = function(current, previous){
       if(current == "#webCam"){
         clearTimeout(self.control.webcamDisableTimeout);
         if(OctoPrint.coreui.selectedTab == "#webCam"){
-          self.iconStatus(true);
+          self.webcamStatus(true);
           $('#cameraRecStatus').addClass('blink');
           $('#cameraRecStatus > i ').css("color","red");
         }
@@ -48,7 +39,7 @@ $(function() {
             throw "Unknown stream type " + streamType;
         }
       }else{
-        self.iconStatus(false);
+        self.webcamStatus(false);
         $('#cameraRecStatus').addClass('blink');
         $('#cameraRecStatus > i ').css("color","red");
       }

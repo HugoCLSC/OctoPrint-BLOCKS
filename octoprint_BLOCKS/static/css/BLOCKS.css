@@ -3,6 +3,7 @@
 	--bg-color: rgb(41, 43, 42);
 	--border-color: rgb(41,43,42);
 	--font-color: rgb(255,255,255);
+	--settings-font: rgb(86, 86, 86);
 	--inverted-font: rgb( 0, 0, 0);
 	--navbar-color: #F5F5F5;
 	--shadow-text: 0 1px rgb(86, 86, 86);
@@ -23,6 +24,7 @@
 	--bg-color: #F5F5F5;
 	--border-color: #F5F5F5;
 	--font-color: rgb(86,86,86);
+	--settings-font: rgb(86, 86, 86);
 	--inverted-font: rgb(0, 0, 0);
 	--navbar-color: #333333;
 	--shadow-text: 0 1px #ccc;
@@ -172,11 +174,40 @@
 	.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th {
     color: var(--primary-color) !important;
 	}
+	.table-striped tbody>tr:nth-child(odd):hover>td, .table-striped tbody>tr:nth-child(odd):hover>th {
+    color: var(--font-color) !important;
+	}
+
+	/* settings actions buttons colors  */
+	.table-striped tbody tr:nth-child(odd) .settings_plugin_plugin_manager_plugins_actions a {
+		color: var(--primary-color) !important;
+	}
+	.table-striped tbody tr:nth-child(odd):hover .settings_plugin_plugin_manager_plugins_actions a {
+		color: var(--font-color) !important;
+	}
+	.table-striped tbody tr:nth-child(even) .settings_plugin_plugin_manager_plugins_actions a {
+		color: var(--font-color) !important;
+	}
+
+	.table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
+    background-color: #9292924d;
+	}
+
+	.table-striped tbody tr:nth-child(odd) .settings_plugin_announcements_channels_actions a {
+		color: var(--primary-color) !important;
+	}
+	.table-striped tbody tr:nth-child(even) .settings_plugin_announcements_channels_actions a {
+		color: var(--font-color) !important;
+	}
 	.tab-content{
 		background-color: var(--bg-color) !important;
 		color: var(--font-color) !important;
 	}
-	div#terminal-filterpanel {
+	.nav-list>li>a, .nav-list .nav-header{
+		text-shadow: unset !important;
+	}
+
+	#terminal-filterpanel {
     float: unset;
 	}
 	/* For the popups that appear */
