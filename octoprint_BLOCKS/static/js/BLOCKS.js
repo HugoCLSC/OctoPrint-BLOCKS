@@ -108,10 +108,10 @@ $(function() {
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
-            if(data.type=="IPaddr"){
-              self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
-              console.log(data.message);
-            }
+            // if(data.type=="IPaddr"){
+            //   self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
+            //   console.log(data.message);
+            // }
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
@@ -165,8 +165,8 @@ $(function() {
           var printer = self.getStorage('Machine_Type');
           var img =  $("#PrinterImg > img");
           var size = img.length;
-          console.log(img);
-          console.log(printer);
+          // console.log(img);
+          // console.log(printer);
           if(printer == "undefined"){
             self.control.sendCustomCommand({type:'command', command: 'M115'});
           }
@@ -259,16 +259,14 @@ $(function() {
             // $('#tab_plugin_BLOCKS_link > a').attr("href","#webCam");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
-
             $('.BLOCKSMainTabs').appendTo($('#BBC2'));
-
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
-
+            // $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
             // ~~ Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole('Error Binding'+e);
           }
         };
         //---------------------------------------------------------------------------
@@ -521,13 +519,13 @@ $(function() {
           }
         };
         //---------------------------------------------------------------------------
-        self.new_tabs = function (settingsPlugin){
-          self.set_ControlWrapper();
+        self.new_tabs = function (){
           self.set_tabWebStream();
+          self.set_ControlWrapper();
           self.set_TemperatureWrapper();
           self.set_tabbable();
         }
-        
+
         self.set_ControlWrapper = function(settingsPlugin){
           try {
             // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -540,7 +538,7 @@ $(function() {
             $('#control').wrapInner('<div class="container-fluid"></div>');
             // Adds the gamepad icon in black and also adds the text "Controls" to the header
             $('#control_wrapper > .container-fluid.heading').append('<i class=" fas icon-black fa-gamepad"></i>').append(' Controls ');
-              $('#control_wrapper > .container-fluid.heading').wrap("<div class='container-fluid heading'></div>")
+            $('#control_wrapper > .container-fluid.heading').wrap("<div class='container-fluid heading'></div>")
             // Need to create a row-fluid
             // $('#control > .container-fluid > div').wrapAll('<div class="container-fluid"></div>');
             // Fix the size of the control wrapper letters.
@@ -548,10 +546,10 @@ $(function() {
             $('h1').css("font-weight","bold");
 
             $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
-            self.set_tabWebStream(settingsPlugin);
-            $('#control > div  > div:first-child').remove();
-            // $('#control > div > div > div:last-child').remove();
+
             // Now that i have this fna slider i really don't need the general tab.
+            $('#control > div  > div:first-child').remove();
+
             $('#control-jog-general').remove();
             $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
             // I'll add my control filament buttons here
@@ -564,13 +562,14 @@ $(function() {
         //---------------------------------------------------------------------------
         self.set_tabWebStream = function (settingsPlugin){
           try {
-            $('#webcam_hls_container').appendTo($('#webCam'));
-            $('#webcam_container').appendTo($('#webCam'));
-            // Add a Webcam  tab to the tabbable
-            $('#goFullScreen').appendTo($('#webcam_container'));
-            // The webCam only initializes if the control tab is clicked.
-            // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
-            // Literally the same thing has the temperature graph problem i had
+            $('#webcam_hls_container').appendTo($('#tab_plugin_BLOCKS'));
+            console.log("DONE HERE1");
+
+            $('#webcam_container').appendTo($('#tab_plugin_BLOCKS'));
+            console.log("DONE HERE2");
+            var element = $('#webcam_container')
+            $('#fullscreenButton').appendTo($('#webcam_container'));
+            console.log("DONE HERE3");
           } catch (e) {
             self.logToConsole(e);
           }
@@ -587,7 +586,6 @@ $(function() {
             $('div.tabbable > ul.nav.nav-tabs > #control_link').remove();
             $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
             $('div.tabbable > tabs_content > #temp');
-
           } catch (e) {
             self.logToConsole(e);
           }

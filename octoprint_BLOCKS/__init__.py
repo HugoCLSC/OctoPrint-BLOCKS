@@ -6,7 +6,6 @@ import octoprint.plugin
 import octoprint.events
 import octoprint.util.comm
 import octoprint.plugin.core
-import socket
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 
@@ -19,8 +18,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.EventHandlerPlugin):
 
 
-    # Gets me the ip of the system
-    server = socket.gethostbyname(socket.gethostname())
+
 
    # Exceutes before the startup
     def on_after_startup(self):
@@ -85,7 +83,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                  custom_bindings=True),
             # My webcam link
             dict(type="tab", name="WebCam", template="webcam_tab.jinja2",
-                 custom_bindings=True),
+                 custom_bindings=False),
             # Fan slider
             dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications
@@ -97,9 +95,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Light Dark Theme Switch
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
-            # Wencam bar
-            dict(type="generic", template="webcam_bar.jinja2",
-                 custom_bindings=True)
+            dict(type="generic", template="webcambar.jinja2", custom_bindings=True)
         ]
 
     # ~~ Softwareupdate hook

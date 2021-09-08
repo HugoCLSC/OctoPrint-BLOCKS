@@ -47,14 +47,14 @@ $(function() {
     self.onBrowserTabVisibilityChange = function (status) {
         if (status) {
           clearTimeout(self.control.webcamDisableTimeout);
-          self.webcamStatus = ko.observable(true);
+          self.webcamStatus(true);
           var streamType = determineWebcamStreamType(self.settings.webcam_streamUrl());
           if (streamType == "mjpg") {
               self.control._switchToMjpgWebcam();
           } else if (streamType == "hls") {
               self.control._switchToHlsWebcam();
           } else {
-              self.webcamStatus = ko.observable(false);
+              self.webcamStatus(false);
               throw "Unknown stream type " + streamType;
           }
         }
@@ -133,7 +133,8 @@ $(function() {
       "controlViewModel",
       "accessViewModel"],
     elements: [
-      // "#webCam",
-      "#goFullScreen"]
+      "#webCam",
+      "#fullscreenButton"
+    ]
   });
 });

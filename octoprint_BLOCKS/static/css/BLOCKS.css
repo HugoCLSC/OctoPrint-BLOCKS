@@ -775,8 +775,9 @@
     background-repeat: no-repeat;
 	}
 
-	#goFullScreen{
+	#fullscreenButton{
 		padding: 4px 4px 0px 4px !important;
+		width: fit-content;
 		position: absolute;
 		bottom: 5%;
 		right: 5%;
