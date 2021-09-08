@@ -1,3 +1,2 @@
-<li id="webcam_link" class data-bind="visible: loginState.hasPermissionKo(access.permissions.WEBCAM)">
-  <a href="#webCam" data-toggle="tab" > WebCam </a>
-</li>
+<div id="webCam" class = "tab-pane" data-bind = "visible: loginState.hasAnyPermissionKo(access.permissions.WEBCAM)">
+</div>

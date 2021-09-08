@@ -86,9 +86,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # My webcam link
             dict(type="tab",name="WebCam", template="webcam_tab.jinja2",
                  custom_bindings=True, data_bind="visible:loginState.hasPermissionKo(access.permissions.WEBCAM)"),
-            # My webcam Body
-            dict(type="generic", template="webcam_body.jinja2",
-                 custom_bindings=True),
             # Fan slider
             dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications

@@ -256,7 +256,7 @@ $(function() {
             $('#state_wrapper').appendTo($('#BTC2'));
             // $('div.tabbable.span8').appendTo($('#BBC2'));
             // $('#webcam_link').appendTo($('#tabs'));
-            $('#tab_plugin_BLOCKS_link > a').attr("href","#webCam");
+            // $('#tab_plugin_BLOCKS_link > a').attr("href","#webCam");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
 
@@ -264,7 +264,7 @@ $(function() {
 
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
-          
+
             // ~~ Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {
@@ -527,6 +527,7 @@ $(function() {
           self.set_TemperatureWrapper();
           self.set_tabbable();
         }
+        
         self.set_ControlWrapper = function(settingsPlugin){
           try {
             // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
@@ -565,15 +566,11 @@ $(function() {
           try {
             $('#webcam_hls_container').appendTo($('#webCam'));
             $('#webcam_container').appendTo($('#webCam'));
-            $('#webCam').appendTo($('#tabs_content'));
-            // $('#webCam').append('<div data-bind="visible: control.keycontrolPossible() && loginState.hasPermissionKo(access.permissions.WEBCAM)" ><small class="muted">Hint: If you move your mouse over the video, you enter keyboard control mode.</small></div>');
             // Add a Webcam  tab to the tabbable
-            $('#webCam').appendTo($('#tabs_content'));
             $('#goFullScreen').appendTo($('#webcam_container'));
             // The webCam only initializes if the control tab is clicked.
             // Since the controls won't be in the tabbable i'll have to "click" hte tab before i delete it
             // Literally the same thing has the temperature graph problem i had
-            $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
           } catch (e) {
             self.logToConsole(e);
           }

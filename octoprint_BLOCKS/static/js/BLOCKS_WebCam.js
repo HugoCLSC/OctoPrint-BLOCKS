@@ -21,7 +21,7 @@ $(function() {
     self.webcamStatus = ko.observable(false);
 
     self.onTabChange = function(current, previous){
-      if(current == "#webCam"){
+      if(current == "#tab_plugin_BLOCKS"){
         clearTimeout(self.control.webcamDisableTimeout);
         self.webcamStatus(true);
         $('#tab_plugin_BLOCKS_link > a').attr('class','blink');
@@ -55,6 +55,7 @@ $(function() {
               self.control._switchToHlsWebcam();
           } else {
               throw "Unknown stream type " + streamType;
+                self.webcamStatus = ko.observable(false);
           }
         }
     };
