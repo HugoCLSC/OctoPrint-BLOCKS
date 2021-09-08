@@ -264,7 +264,7 @@ $(function() {
 
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
-            $('#cameraRecStatus').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
+          
             // ~~ Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {

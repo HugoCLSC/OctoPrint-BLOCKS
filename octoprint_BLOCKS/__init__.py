@@ -102,10 +102,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                  custom_bindings=True),
             # Wencam bar
             dict(type="generic", template="webcam_bar.jinja2",
-                 custom_bindings=True),
-            # Webcam recording indicator
-            dict(type="generic", template="rec.jinja2",
-                 custom_bindings=False),
+                 custom_bindings=True)
         ]
 
     # ~~ Softwareupdate hook

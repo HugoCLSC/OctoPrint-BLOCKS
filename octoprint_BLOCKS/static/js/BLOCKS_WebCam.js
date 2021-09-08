@@ -23,11 +23,9 @@ $(function() {
     self.onTabChange = function(current, previous){
       if(current == "#webCam"){
         clearTimeout(self.control.webcamDisableTimeout);
-        if(OctoPrint.coreui.selectedTab == "#webCam"){
-          self.webcamStatus(true);
-          $('#cameraRecStatus').addClass('blink');
-          $('#cameraRecStatus > i ').css("color","red");
-        }
+        self.webcamStatus(true);
+        $('#tab_plugin_BLOCKS_link > a').attr('class','blink');
+        $('#tab_plugin_BLOCKS_link > a').css("color","#f56161ed");
         // Determine stream type and switch to corresponding webcam.
         // Took from the controlViewModel.
         var streamType = determineWebcamStreamType(self.settings.webcam_streamUrl());
@@ -40,8 +38,8 @@ $(function() {
         }
       }else{
         self.webcamStatus(false);
-        $('#cameraRecStatus').addClass('blink');
-        $('#cameraRecStatus > i ').css("color","red");
+        $('#tab_plugin_BLOCKS_link > a').attr('class','');
+        $('#tab_plugin_BLOCKS_link > a').css("color","");
       }
     };
 
@@ -49,6 +47,7 @@ $(function() {
     self.onBrowserTabVisibilityChange = function (status) {
         if (status) {
           clearTimeout(self.control.webcamDisableTimeout);
+          self.webcamStatus = ko.observable(true);
           var streamType = determineWebcamStreamType(self.settings.webcam_streamUrl());
           if (streamType == "mjpg") {
               self.control._switchToMjpgWebcam();
@@ -134,7 +133,6 @@ $(function() {
       "accessViewModel"],
     elements: [
       "#webcam_link",
-      "#goFullScreen",
-      "#cameraRecStatus"]
+      "#goFullScreen"]
   });
 });
