@@ -172,7 +172,7 @@
 		color: rgb(0 0 0);
 	}
 	.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th {
-    color: var(--primary-color) !important;
+    color: var(--settings-font ) !important;
 	}
 	.table-striped tbody>tr:nth-child(odd):hover>td, .table-striped tbody>tr:nth-child(odd):hover>th {
     color: var(--font-color) !important;
@@ -180,7 +180,7 @@
 
 	/* settings actions buttons colors  */
 	.table-striped tbody tr:nth-child(odd) .settings_plugin_plugin_manager_plugins_actions a {
-		color: var(--primary-color) !important;
+		color: var(--settings-font) !important;
 	}
 	.table-striped tbody tr:nth-child(odd):hover .settings_plugin_plugin_manager_plugins_actions a {
 		color: var(--font-color) !important;
@@ -194,7 +194,7 @@
 	}
 
 	.table-striped tbody tr:nth-child(odd) .settings_plugin_announcements_channels_actions a {
-		color: var(--primary-color) !important;
+		color: var(--settings-font) !important;
 	}
 	.table-striped tbody tr:nth-child(even) .settings_plugin_announcements_channels_actions a {
 		color: var(--font-color) !important;
@@ -206,7 +206,6 @@
 	.nav-list>li>a, .nav-list .nav-header{
 		text-shadow: unset !important;
 	}
-
 	#terminal-filterpanel {
     float: unset;
 	}
