@@ -133,7 +133,7 @@ $(function() {
       "controlViewModel",
       "accessViewModel"],
     elements: [
-      "#webcam_link",
+      // "#webCam",
       "#goFullScreen"]
   });
 });
