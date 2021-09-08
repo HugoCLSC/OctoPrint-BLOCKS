@@ -54,8 +54,8 @@ $(function() {
           } else if (streamType == "hls") {
               self.control._switchToHlsWebcam();
           } else {
+              self.webcamStatus = ko.observable(false);
               throw "Unknown stream type " + streamType;
-                self.webcamStatus = ko.observable(false);
           }
         }
     };
