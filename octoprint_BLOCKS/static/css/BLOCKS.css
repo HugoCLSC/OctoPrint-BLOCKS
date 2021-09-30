@@ -553,6 +553,7 @@
 	ul.dropdown-menu.dropdown-menu-right {
 		position: absolute;
 	  left: auto;
+		right: auto;
 	}
 	/* Grid properties */
 
