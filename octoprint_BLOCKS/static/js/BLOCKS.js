@@ -563,13 +563,13 @@ $(function() {
         self.set_tabWebStream = function (settingsPlugin){
           try {
             $('#webcam_hls_container').appendTo($('#tab_plugin_BLOCKS'));
-            console.log("DONE HERE1");
 
+            $('#webcam_container').addClass("container-fluid");
             $('#webcam_container').appendTo($('#tab_plugin_BLOCKS'));
-            console.log("DONE HERE2");
+            
             var element = $('#webcam_container')
             $('#fullscreenButton').appendTo($('#webcam_container'));
-            console.log("DONE HERE3");
+
           } catch (e) {
             self.logToConsole(e);
           }

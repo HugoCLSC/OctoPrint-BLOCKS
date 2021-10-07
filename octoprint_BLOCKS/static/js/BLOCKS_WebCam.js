@@ -63,8 +63,8 @@ $(function() {
 
     self.fullScreenStyles = {
       "ON":{
-        "width": "",
-        "height": "",
+        "width": "100%",
+        "height": "100%",
         "z-index": "1070",
         "position": "fixed",
         "display": "block",
@@ -83,7 +83,23 @@ $(function() {
         "bottom": "unset",
         "right": "unset",
         "left": "unset",
-      }
+      },
+      "ROTATOR_ON":{
+        "height": "calc(100% / 1.78)",
+        "top": "206px",
+        "position": "relative",
+      },
+      "ROTATOR_OFF":{
+        "height": "",
+        "top": "0px",
+        "position": "absolute",
+      },
+      "ROTATOR_ON_PAD":{
+        "padding-bottom":"0%",
+      },
+      "ROTATOR_OFF_PAD":{
+        "padding-bottom":"100%",
+      },
     };
 
     self.fullScreenState = ko.observable(false);
@@ -105,10 +121,16 @@ $(function() {
 
     self.fullScreenOperations = function(state){
       if(state === true){
-        self.fullScreenStyles.ON.height = document.documentElement.clientHeight;
-        self.fullScreenStyles.ON.width = document.documentElement.clientWidth;
+        // self.fullScreenStyles.ON.height = document.documentElement.clientHeight; // just change it to 100% with position fixed
+        // self.fullScreenStyles.ON.width = document.documentElement.clientWidth;
+
+        $('#webcam_rotator.webcam_rotated').css(self.fullScreenStyles.ROTATOR_ON_PAD);
+        // $('#webcam_rotator.webcam_rotated').css("padding-bottom","unset !important");
+        $('#webcam_rotator.webcam_rotated > .webcam_fixed_ratio').css(self.fullScreenStyles.ROTATOR_ON);
         $('#webcam_container').css(self.fullScreenStyles.ON);
       }else{
+        $('#webcam_rotator.webcam_rotated').css(self.fullScreenStyles.ROTATOR_OFF_PAD);
+        $('#webcam_rotator.webcam_rotated > .webcam_fixed_ratio').css(self.fullScreenStyles.ROTATOR_OFF);
         $('#webcam_container').css(self.fullScreenStyles.OFF);
       }
     };

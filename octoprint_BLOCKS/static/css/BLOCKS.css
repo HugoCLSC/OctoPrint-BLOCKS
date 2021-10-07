@@ -784,3 +784,9 @@
 		right: 5%;
 		float: right;
 	}
+
+
+	#webcam_container .webcam_rotated {
+		/* padding-bottom: 100% ; */
+		height: -webkit-fill-available;
+	}
