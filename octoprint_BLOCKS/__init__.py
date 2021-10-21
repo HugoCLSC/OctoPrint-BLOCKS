@@ -10,8 +10,6 @@ from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
 
-import os
-import socket
 from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
@@ -22,12 +20,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.EventHandlerPlugin):
 
 
-
+    # Assume that the system is using wifi interface at the beginning
+    self._wifi = True
 
    # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(10.0, self._wifi_status)
+        self.update_interface_list()
+        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
         self._wifi_update.start()
 
     # ~~ Wifi
@@ -41,23 +41,26 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         except:
             pass
 
+    def _wifi_flag(self):
+        return self._wifi
+
     def _wifi_status(self):
         _interface = None
         _ssid = None
-        self.update_interface_list()
 
-        # if _interface is not None:
         for _interface in self._interfaces:
             if _interface is not None:
                 try:
                     wifi = Wireless(_interface)
                     _ssid = wifi.getEssid()
-
                     if _ssid:
                         break
                 except:
                     # Log if it fails
                     pass
+
+        if _ssid is None:
+            self._wifi = False
 
         self.net_data = {
             "Interface": _interface,
