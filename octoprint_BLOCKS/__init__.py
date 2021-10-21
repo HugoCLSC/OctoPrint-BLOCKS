@@ -11,6 +11,8 @@ from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
 
 from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames
+from octoprint.printer import PrinterInterface
+
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.AssetPlugin,
@@ -20,12 +22,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.EventHandlerPlugin):
 
 
-    # Assume that the system is using wifi interface at the beginning
-    self._wifi = True
 
    # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
+        # Assume that the system is using wifi interface at the beginning
+        self._wifi = True
         self.update_interface_list()
         self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
         self._wifi_update.start()
@@ -44,6 +46,23 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def _wifi_flag(self):
         return self._wifi
 
+    def _wifi_strength_calc(self, quality):
+        _level = 0
+
+        if signalLevel is None or signalLevel <= 10:
+            _level = 2
+
+        elif signalLevel > 10 and signalLevel <= 25:
+            _level = 3
+        elif signalLevel > 25 and signalLevel <= 50:
+            _level = 4
+        elif signalLevel > 50 and signalLevel <= 85:
+            _level = 5
+        elif signalLevel > 85 and signalLevel <= 100:
+            _level = 6
+
+        return _level
+
     def _wifi_status(self):
         _interface = None
         _ssid = None
@@ -56,7 +75,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     if _ssid:
                         break
                 except:
-                    # Log if it fails
                     pass
 
         if _ssid is None:
@@ -75,6 +93,16 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         self._logger.info(self._interfaces)
         self._logger.info(self.net_data)
+        # Here i have both the wifi quality
+        """
+        Send the M550 W<value> to the printer
+
+            value = 2 ---> there is no connection
+            value =[3,6] ----> strenght of the signal 3
+        """
+        _level = self._wifi_strength_calc(self.net_data["Quality"])
+        # At this stage we send the wifi level
+        self._printer.commands("M550 W{}".format(_level))
 
     # ~~ AssetPlugin mixi
 
