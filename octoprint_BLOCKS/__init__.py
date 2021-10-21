@@ -8,7 +8,11 @@ import octoprint.util.comm
 import octoprint.plugin.core
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
+from octoprint.util import RepeatedTimer
 
+import os
+import socket
+from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.AssetPlugin,
@@ -23,6 +27,51 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
    # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
+        self._wifi_update = RepeatedTimer(10.0, self._wifi_status)
+        self._wifi_update.start()
+
+    # ~~ Wifi
+
+    def update_interface_list(self):
+        self._interfaces = []
+        try:
+            # Gets all the names of the interfaces available
+            for interface in getWNICnames():
+                self._interfaces.append(interface)
+        except:
+            pass
+
+    def _wifi_status(self):
+        _interface = None
+        _ssid = None
+        self.update_interface_list()
+
+        # if _interface is not None:
+        for _interface in self._interfaces:
+            if _interface is not None:
+                try:
+                    wifi = Wireless(_interface)
+                    _ssid = wifi.getEssid()
+
+                    if _ssid:
+                        break
+                except:
+                    # Log if it fails
+                    pass
+
+        self.net_data = {
+            "Interface": _interface,
+            "Ssid": _ssid,
+        }
+
+        if _interface is not None and _ssid is not None:
+            _,quality,_,_ = wifi.getStatistics()
+            self.net_data["Quality"] = quality.quality
+            self.net_data["Signal"] = quality.siglevel
+            self._logger.info("Wifi stats found.")
+
+        self._logger.info(self._interfaces)
+        self._logger.info(self.net_data)
 
     # ~~ AssetPlugin mixi
 
