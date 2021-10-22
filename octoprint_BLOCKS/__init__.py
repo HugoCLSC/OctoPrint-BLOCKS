@@ -33,6 +33,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
         self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
+        # Start the timer
         self._wifi_update.start()
 
     # ~~ Wifi
@@ -80,6 +81,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     wifi = Wireless(_interface)
                     _ssid = wifi.getEssid()
                     if _ssid:
+                        # Means there is a _ssid available
+                        # We can assume that we are connected to the internet
                         break
                 except:
                     pass
@@ -108,6 +111,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
                 value = 2 ---> there is no connection
                 value =[3,6] ----> strenght of the signal
+                value = 7 ----> We are using ethernet 
             """
             _level = self._wifi_strength_calc(self.net_data["Quality"])
             # At this stage we send the wifi level
