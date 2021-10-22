@@ -32,7 +32,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
+        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, run_first = True, condition = self._wifi_flag )
         # Start the timer
         self._wifi_update.start()
 
@@ -121,7 +121,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         elif self._wifi == False:
             if self._printer.is_operational():
-                # Only send the information to the printer if we are connected to it 
+                # Only send the information to the printer if we are connected to it
                 self._logger.info("We are on ethernet")
                 self._printer.commands("M550 W7")
 
