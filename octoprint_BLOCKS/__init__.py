@@ -111,16 +111,17 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
                 value = 2 ---> there is no connection
                 value =[3,6] ----> strenght of the signal
-                value = 7 ----> We are using ethernet 
+                value = 7 ----> We are using ethernet
             """
             _level = self._wifi_strength_calc(self.net_data["Quality"])
-            # At this stage we send the wifi level
+            # At this stage we send the wifi level if the printer is connected
             if self._printer.is_operational():
                 self._logger.info("Wifi quality sent")
                 self._printer.commands("M550 W{}".format(_level))
 
         elif self._wifi == False:
             if self._printer.is_operational():
+                # Only send the information to the printer if we are connected to it 
                 self._logger.info("We are on ethernet")
                 self._printer.commands("M550 W7")
 
