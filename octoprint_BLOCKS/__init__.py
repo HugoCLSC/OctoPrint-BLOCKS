@@ -88,7 +88,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._wifi = False
         elif _ssid is None and self._wifi == False:
             # This means that not even the ethernet works
-            # But we don't need to do anything here 
+            # But we don't need to do anything here
 
         self.net_data = {
             "Interface": _interface,
@@ -120,9 +120,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 self._logger.info("We are on ethernet")
                 self._printer.commands("M550 W7")
 
-
-    # def on_shutdown(self):
-    #     self._printer.commands("M550 W2")
 
     # ~~ AssetPlugin mixi
 
