@@ -11,7 +11,7 @@ from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
 
 from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames
-from octoprint.printer import PrinterInterface
+
 
 
 class BlocksPlugin(octoprint.plugin.SettingsPlugin,
@@ -19,16 +19,19 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.StartupPlugin,
                    octoprint.plugin.ProgressPlugin,
-                   octoprint.plugin.EventHandlerPlugin):
+                   octoprint.plugin.EventHandlerPlugin,
+                   octoprint.plugin.ShutdownPlugin):
 
 
+    #Try this
+    def __init__(self):
+        self._wifi = True
 
-   # Exceutes before the startup
+    # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
         # Assume that the system is using wifi interface at the beginning
-        self._wifi = True
-        self.update_interface_list()
+
         self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
         self._wifi_update.start()
 
@@ -46,12 +49,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def _wifi_flag(self):
         return self._wifi
 
-    def _wifi_strength_calc(self, quality):
+    def _wifi_strength_calc(self, signalLevel):
         _level = 0
 
         if signalLevel is None or signalLevel <= 10:
             _level = 2
-
         elif signalLevel > 10 and signalLevel <= 25:
             _level = 3
         elif signalLevel > 25 and signalLevel <= 50:
@@ -66,6 +68,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def _wifi_status(self):
         _interface = None
         _ssid = None
+        self.update_interface_list()
 
         for _interface in self._interfaces:
             if _interface is not None:
@@ -98,11 +101,17 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         Send the M550 W<value> to the printer
 
             value = 2 ---> there is no connection
-            value =[3,6] ----> strenght of the signal 3
+            value =[3,6] ----> strenght of the signal
         """
         _level = self._wifi_strength_calc(self.net_data["Quality"])
         # At this stage we send the wifi level
-        self._printer.commands("M550 W{}".format(_level))
+        if self._printer.is_operational():
+            self._logger.info("Wifi quality sent")
+            self._printer.commands("M550 W{}".format(_level))
+        else:
+
+    # def on_shutdown(self):
+    #     self._printer.commands("M550 W2")
 
     # ~~ AssetPlugin mixi
 
@@ -255,6 +264,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 }
                 self._plugin_manager.send_plugin_message(
                     self._identifier, notification)
+
+            if event == Events.DISCONNECTING:
+                self._printer.commands("M550 W2")
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
