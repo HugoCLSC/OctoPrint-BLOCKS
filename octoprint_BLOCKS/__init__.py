@@ -25,13 +25,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     #Try this
     def __init__(self):
+        # This variable is just so i can see if we are using wifi or not
+        # Initially set to True because we assume we are on wifi when we startup
         self._wifi = True
 
     # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        # Assume that the system is using wifi interface at the beginning
-
         self._wifi_update = RepeatedTimer(10.0, self._wifi_status, condition = self._wifi_flag )
         self._wifi_update.start()
 
@@ -68,7 +68,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def _wifi_status(self):
         _interface = None
         _ssid = None
-        self.update_interface_list()
+        if self._wifi == True:
+            self.update_interface_list()
+        else:
+            # Means we are on ethernet
+            _internet = "eth0"
 
         for _interface in self._interfaces:
             if _interface is not None:
@@ -80,35 +84,42 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 except:
                     pass
 
-        if _ssid is None:
+        if _ssid is None and self._wifi == True:
             self._wifi = False
+        elif _ssid is None and self._wifi == False:
+            # This means that not even the ethernet works
+            # But we don't need to do anything here 
 
         self.net_data = {
             "Interface": _interface,
             "Ssid": _ssid,
         }
+        if self._wifi == True:
+            if _interface is not None and _ssid is not None:
+                _,quality,_,_ = wifi.getStatistics()
+                self.net_data["Quality"] = quality.quality
+                self.net_data["Signal"] = quality.siglevel
+                self._logger.info("Wifi stats found.")
 
-        if _interface is not None and _ssid is not None:
-            _,quality,_,_ = wifi.getStatistics()
-            self.net_data["Quality"] = quality.quality
-            self.net_data["Signal"] = quality.siglevel
-            self._logger.info("Wifi stats found.")
+            self._logger.info(self._interfaces)
+            self._logger.info(self.net_data)
+            """
+            Send the M550 W<value> to the printer
 
-        self._logger.info(self._interfaces)
-        self._logger.info(self.net_data)
-        # Here i have both the wifi quality
-        """
-        Send the M550 W<value> to the printer
+                value = 2 ---> there is no connection
+                value =[3,6] ----> strenght of the signal
+            """
+            _level = self._wifi_strength_calc(self.net_data["Quality"])
+            # At this stage we send the wifi level
+            if self._printer.is_operational():
+                self._logger.info("Wifi quality sent")
+                self._printer.commands("M550 W{}".format(_level))
 
-            value = 2 ---> there is no connection
-            value =[3,6] ----> strenght of the signal
-        """
-        _level = self._wifi_strength_calc(self.net_data["Quality"])
-        # At this stage we send the wifi level
-        if self._printer.is_operational():
-            self._logger.info("Wifi quality sent")
-            self._printer.commands("M550 W{}".format(_level))
-        else:
+        elif self._wifi == False:
+            if self._printer.is_operational():
+                self._logger.info("We are on ethernet")
+                self._printer.commands("M550 W7")
+
 
     # def on_shutdown(self):
     #     self._printer.commands("M550 W2")
