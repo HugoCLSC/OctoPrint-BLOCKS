@@ -89,7 +89,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         if _ssid is None and self._wifi == True:
             self._wifi = False
-        
+
 
         self.net_data = {
             "Interface": _interface,
@@ -352,7 +352,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
 
 
-__plugin_name__ = "Blocks Plugin"
+__plugin_name__ = "Blocks"
 __plugin_pythoncompat__ = ">=2.7,<4"
 
 
