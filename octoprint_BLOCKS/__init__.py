@@ -1,5 +1,4 @@
 # coding=utf-8
-__license__ = "GNU Affero General Public License http://www.gnu.org/licenses/agpl.html"
 
 from __future__ import absolute_import
 
@@ -355,7 +354,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
 __plugin_name__ = "Blocks"
 __plugin_pythoncompat__ = ">=2.7,<4"
-
+__plugin_license__="AGPLv3"
 
 def __plugin_load__():
     global __plugin_implementation__
