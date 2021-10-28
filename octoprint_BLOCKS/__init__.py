@@ -1,4 +1,5 @@
 # coding=utf-8
+__license__ = "GNU Affero General Public License http://www.gnu.org/licenses/agpl.html"
 
 from __future__ import absolute_import
 
