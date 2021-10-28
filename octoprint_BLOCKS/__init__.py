@@ -54,15 +54,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         _level = 0
 
         if signalLevel is None or signalLevel <= 10:
-            _level = 2
-        elif signalLevel > 10 and signalLevel <= 25:
-            _level = 3
-        elif signalLevel > 25 and signalLevel <= 50:
             _level = 4
-        elif signalLevel > 50 and signalLevel <= 85:
+        elif signalLevel > 10 and signalLevel <= 25:
             _level = 5
-        elif signalLevel > 85 and signalLevel <= 100:
+        elif signalLevel > 25 and signalLevel <= 50:
             _level = 6
+        elif signalLevel > 50 and signalLevel <= 85:
+            _level = 7
+        elif signalLevel > 85 and signalLevel <= 100:
+            _level = 8
 
         return _level
 
@@ -107,9 +107,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             """
             Send the M550 W<value> to the printer
 
-                value = 2 ---> there is no connection
-                value =[3,6] ----> strenght of the signal
-                value = 7 ----> We are using ethernet
+                value = 4 ---> there is no connection
+                value =[5,8] ----> strenght of the signal
+                value = 9 ----> We are using ethernet
             """
             _level = self._wifi_strength_calc(self.net_data["Quality"])
             # At this stage we send the wifi level if the printer is connected
@@ -121,7 +121,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
                 self._logger.info("We are on ethernet")
-                self._printer.commands("M550 W7")
+                self._printer.commands("M550 W9")
 
 
     # ~~ AssetPlugin mixi
