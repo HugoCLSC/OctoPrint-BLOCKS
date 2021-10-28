@@ -277,7 +277,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     self._identifier, notification)
 
             if event == Events.DISCONNECTING:
-                self._printer.commands("M550 W2")
+                self._printer.commands("M550 W4")
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
