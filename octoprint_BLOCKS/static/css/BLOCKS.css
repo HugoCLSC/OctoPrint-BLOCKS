@@ -558,6 +558,9 @@
 	  left: auto;
 		right: auto;
 	}
+	.dropdown-menu-right{
+		right: 0 !important;
+	}
 	/* Grid properties */
 	.TopRow{
 		display: flex ;
