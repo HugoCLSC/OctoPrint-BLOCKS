@@ -543,20 +543,22 @@
 		background-color: var(--hover-color) !important;
 	}
 
-
-
 	/* To fix the button settings on the files */
 	.open>.dropdown-menu {
 	    /* display: table; */
 	    top: auto;
 	}
-	ul.dropdown-menu.dropdown-menu-right {
+	#files_triggers .dropdown-menu{
+		position: absolute;
+		left: auto;
+		right: 0 !important;
+	}
+	.dropdown-menu {
 		position: absolute;
 	  left: auto;
 		right: auto;
 	}
 	/* Grid properties */
-
 	.TopRow{
 		display: flex ;
 		align-items: flex-start;

@@ -382,7 +382,7 @@ $(function() {
             $('#files > .accordion-inner').addClass('container-fluid body').removeClass('accordion-inner');
             $('#files_triggers').appendTo($('#files_heading'));
             // Fix the Css on the files
-            $('.dropdown-menu').addClass("dropdown-menu-right");
+            // $('.dropdown-menu').addClass("dropdown-menu-right");
           } catch (e) {
             self.logToConsole(e);
           }
@@ -566,7 +566,7 @@ $(function() {
 
             $('#webcam_container').addClass("container-fluid");
             $('#webcam_container').appendTo($('#tab_plugin_BLOCKS'));
-            
+
             var element = $('#webcam_container')
             $('#fullscreenButton').appendTo($('#webcam_container'));
 
