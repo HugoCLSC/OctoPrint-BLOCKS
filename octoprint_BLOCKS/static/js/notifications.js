@@ -43,6 +43,10 @@ $(function () {
             if(data.type == "machine_info"){
                 console.log(data.message);
             }
+            if(data.type =="NoWifi"){
+              console.log(data.message);
+              self._PopUpNotification(data);
+            }
             if(data.message == "Print Failed"){
               self._PopUpNotification(data);
             }else if(data.message != "Disconnected" && data.message != "Print Failed"){

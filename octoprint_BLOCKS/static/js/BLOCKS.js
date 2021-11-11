@@ -112,6 +112,12 @@ $(function() {
             //   self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
             //   console.log(data.message);
             // }
+            if (data.type == "NoWifi" && data.message == false){
+              // TODO: Create a window, create a button on the task bar so i can input the information
+              // about the new connection
+              console.log("I NEED ALL THE INFO ABOUT WIFI")
+            }
+
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }

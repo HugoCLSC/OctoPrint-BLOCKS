@@ -2,6 +2,9 @@
 
 from __future__ import absolute_import
 
+import os
+import socket
+import netifaces
 import octoprint.plugin
 import octoprint.events
 import octoprint.util.comm
@@ -29,12 +32,39 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Initially set to True because we assume we are on wifi when we startup
         self._wifi = True
 
+        self._ip_addr = netifaces.ifaddresses("wlan0")
+
+    def _checkHotspot(self):
+        # _flag = os.system("service autohotspot status")
+        # _flag = os.system("systemctl is-active --quiet autohotspot")
+        # self._logger.info("SYSTEMCTL FLAG : " + str(_flag))
+        # if _flag == 0: # this means that we are not using the hotspot
+            # self._logger.info("\n\n\nYEAAAA\n\n\n")
+        # for addr in self._ip_addr[netifaces.AF_INET]:
+        #     _ip = addr["addr"]
+        #     if _ip == "10.0.0.5":
+        #
+        #         break
+        # if self._wifi == False:
+        if self._connectivity_checker.online() :
+            notification = {
+                "action": "popup",
+                "type": "NoWifi",
+                "hide": "true",
+                "message": False,
+            }
+            self._plugin_manager.send_plugin_message(
+                self._identifier, notification)
+
     # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
+
         self._wifi_update = RepeatedTimer(10.0, self._wifi_status, run_first = True, condition = self._wifi_flag )
         # Start the timer
+        # self._logger.info("\n\n{}\n\n".format(self._ip_addr[netifaces.AF_INET]))
         self._wifi_update.start()
+        self._checkHotspot()
 
     # ~~ Wifi
 
@@ -87,7 +117,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 except:
                     pass
 
-        if _ssid is None and self._wifi == True:
+        if (_ssid is None and self._wifi == True) or self._connectivity_checker.online() == False:
             self._wifi = False
 
 
