@@ -38,14 +38,10 @@ $(function () {
         // This function will automatically listen for any messages any plugin sends.
         self.onDataUpdaterPluginMessage = function (plugin, data) {
           try {
-            if ( plugin != "BLOCKS" )
+            if ( plugin != "BLOCKS" || data.type=="NoWifi")
               return;
             if(data.type == "machine_info"){
                 console.log(data.message);
-            }
-            if(data.type =="NoWifi"){
-              console.log(data.message);
-              self._PopUpNotification(data);
             }
             if(data.message == "Print Failed"){
               self._PopUpNotification(data);
@@ -59,7 +55,6 @@ $(function () {
             ko.onError(exception);
           }
         };
-        // This aint working the filter is not working. fuck
         // Filter my notifications i do not want copies while i get warnings
         self._filter = function(data){
           try {

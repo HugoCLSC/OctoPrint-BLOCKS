@@ -20,6 +20,7 @@ $(function() {
         self.access = parameters[5];
         self.printerState = parameters[6];
 
+        // self._wifi_state = true;
         // Debugger
         self.logToConsole = function(msg){
             if (!self.debug){
@@ -112,23 +113,11 @@ $(function() {
             //   self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
             //   console.log(data.message);
             // }
-            if (data.type == "NoWifi" && data.message == false){
-              // TODO: Create a window, create a button on the task bar so i can input the information
-              // about the new connection
-              console.log("I NEED ALL THE INFO ABOUT WIFI")
-            }
 
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
 
-            // Hope this corrects the bug where there are more than one tab open of the octoprint more images of the printer whould show up
-            // if(checkImg != undefined){
-            //   return;
-            // }
-            // The idea is to change the printer picture on the web interface acording to the connected Printer
-            // It only works if it's a Blocks 3D Printer
-            // At this moment there are only three models available to the public
            if(data.message == "Blocks Pro S30"){
              // $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>");
@@ -756,6 +745,41 @@ $(function() {
           self.logToConsole(e);
         }
       };
+      // -----------------------------------------------------------------------
+      // This section is related to the wifi
+      // Create a button on the navbar if there is no wifi
+      // Create a window to input a new wifi connection if there is none
+      //
+      self.ssid = ko.observable("");
+      self.password = ko.observable("");
+
+      self.setNewWifi = function(){
+
+          if(self.ssid() != "" && self.password() != ""){
+            var _dict = {
+              "ssid": self.ssid(),
+              "psk": self.password(),
+            };
+
+            $.ajax({
+              url: API_BASEURL + "/plugin/BLOCKS",
+              type: "POST",
+              dataType: "json",
+              data: JSON.stringify({
+                command:"wifi_SetUp",
+                ip: _dict,
+              }),
+              contentType: "application/json; charset=utf-8"
+            });
+            console.log("New wifi info sent" + _dict);
+
+            // self.logToConsole(_dict)
+            // self.setStorage('wifiSetUp', _dict);
+            // Now reset the observvables
+            self.ssid("");
+            self.password("");
+          }
+      };
 
     }
     //---------------------------------------------------------------------------
@@ -778,6 +802,7 @@ $(function() {
           "#fanSlider",
           "#control_filament",
           "#LightDarkSwitchWrapper",
+          "#wifiSetUpWindow",
         ]
     });
 });

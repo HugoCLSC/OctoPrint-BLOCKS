@@ -1,12 +1,10 @@
 # coding=utf-8
 
-from __future__ import absolute_import
-
 import os
 import io
 import threading
 
-class wifisetup(object):
+class Wifisetup(object):
     # These are both of the path locations where i can setup the wifi of the pi
     _pathSys = "/etc/wpa_supplicant/wpa_supplicant.conf"
     _pathOcto = "/boot/octopi-wpa-supplicant.txt"
@@ -42,7 +40,7 @@ class wifisetup(object):
                 # TODO: log exception
                 pass
 
-    def _set_wifi_info(self, _ssid = None, _psk = None):
+    def set_wifi_info(self, _ssid = None, _psk = None):
         if _ssid is None or _psk is None:
             return None
 
@@ -50,18 +48,18 @@ class wifisetup(object):
         self._psk = _psk
 
 
-    def _set_new_wifi_connection(self):
+    def set_new_wifi_connection(self):
 
-        _line = "network={\n\tssid=\"{}\"\n\tpsk=\"{}\"}\n".format(self._ssid, self._psk)
+        _line = """network={
+           	ssid=\"%s\"
+            psk=\"%s\"
+            }"""%(self._ssid, self._psk)
         try:
             # First the system supplicant
             self._openFile(filepath = _pathSys)
             self._fileHandle.write_line(line = _line)
             self._closeFile()
-            # Now the octopi supplicant
-            # self._openFile(filepath = _pathOcto)
-            # self._fileHandle.write_line(line = _line)
-            # self._closeFile()
+
         except:
             # TODO: log exception
             pass

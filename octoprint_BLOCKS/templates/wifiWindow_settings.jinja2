@@ -1,0 +1,14 @@
+<!-- Container box that has inputs for the wifi connection  -->
+<div class="container-fluid" id="wifiSetUpWindow">
+  <form class="form-horizontal">
+    <div class="mb-3">
+      <label for="ssidInfo" class="form-label"> SSID </label>
+      <input id="ssidInfo" data-bind="textInput: ssid" >
+    </div>
+    <div class="mb-3">
+      <label for="pskInfo" class="form-label"> Password </label>
+      <input type="password" id="pskInfo" data-bind="textInput: password">
+    </div>
+    <button  class="btn btn-primary" data-bind="click: setNewWifi()">Confirm</button>
+  </form>
+</div>
