@@ -38,8 +38,7 @@ $(function () {
         // This function will automatically listen for any messages any plugin sends.
         self.onDataUpdaterPluginMessage = function (plugin, data) {
           try {
-            if ( plugin != "BLOCKS" || data.type=="NoWifi")
-              return;
+            
             if(data.type == "machine_info"){
                 console.log(data.message);
             }

@@ -20,7 +20,6 @@ $(function() {
         self.access = parameters[5];
         self.printerState = parameters[6];
 
-        // self._wifi_state = true;
         // Debugger
         self.logToConsole = function(msg){
             if (!self.debug){
@@ -127,6 +126,9 @@ $(function() {
            }else if (data.message == "Blocks One MKII" ){
              // $("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>");
+           }else{
+            // For the Virtual Printer i'll just show the MKII
+            self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>");
            }
 
            self.set_PrinterImg();

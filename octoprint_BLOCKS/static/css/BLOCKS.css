@@ -325,8 +325,8 @@
 	  border-radius: 4px;
 	}
 	#control .control-box{
-		width: 65% !important;
-		/* padding: 4px 0px !important; */
+		width: 73% !important;
+
 
 	}
 	#control .box{
@@ -349,7 +349,7 @@
 	}
 
 	#filament_load{
-		padding-left: 2px;
+		padding-left: 2px !important;
 	}
 	#filamentStep{
 		width: 15%;
@@ -783,7 +783,8 @@
 
 	#fullscreenButton{
 		padding: 4px 4px 0px 4px !important;
-		width: fit-content;
+		/* width: fit-content; */
+		width: auto;
 		position: absolute;
 		bottom: 5%;
 		right: 5%;

@@ -29,10 +29,19 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     #Try this
     def __init__(self):
-        self._wifi = True
+        self._wifi = None
         # self._ip_addr = netifaces.ifaddresses("wlan0")
         self._wifiSetUp = Wifisetup()
 
+    # Exceutes before the startup
+    def on_after_startup(self):
+        self._logger.info("Blocks initializing...")
+        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, run_first = True, condition = self._connectivity_checker.online)
+        # Start the timer
+        self._wifi_update.start()
+
+
+    # ~~ Wifi
     def _checkHotspot(self):
         """
             Send a message about the wifi state to any listeners there might be
@@ -57,18 +66,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._logger.info(_data["ip"])
         # self._logger.info(_data["psk"])
         self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
-        self._wifiSetUp.set_new_wifi_connection()
+        self._logger.info(_data["ip"]["ssid"])
 
+        # Set a new internet connection
+        output = self._wifiSetUp.set_wifi_ssid_psk()
+        self._logger.info(output)
 
-    # Exceutes before the startup
-    def on_after_startup(self):
-        self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, run_first = True, condition = self._wifi_flag )
-        # Start the timer
-        self._wifi_update.start()
-
-
-    # ~~ Wifi
+        # List all the network connections we already have 
+        _output = self._wifiSetUp.list_existing_networks()
+        self._logger.info(_output)
 
     def update_interface_list(self):
         self._interfaces = []
@@ -101,6 +107,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def _wifi_status(self):
         _interface = None
         _ssid = None
+
+        self._wifi = self._connectivity_checker.online
+
         if self._wifi == True:
             self.update_interface_list()
         else:
@@ -164,6 +173,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_api_command(self, command, data):
         if command == "wifi_SetUp":
+            self._logger.info("WIFI SETUP GITTIB")
             self._setNewWifi(data)
 
     # ~~ AssetPlugin mixi
@@ -209,9 +219,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         if 'Machine_Type' in data and data['Machine_Type']:
             self._settings.set(["Machine_Type"], machine)
             self._logger.info("Saving settings.")
-        if 'wifiSetUp' in data and data['wifiSetUp']:
-            self._setNewWifi(data)
-            self._logger.info("New wifi connection added")
+
 
     # ~~ TemplatePlugin mixin
 
