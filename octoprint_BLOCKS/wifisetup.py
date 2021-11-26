@@ -2,11 +2,12 @@
 
 import os
 import io
-import threading
-from configparser import ConfigParser
-import subprocess
+import re
 import shlex
 import codecs
+import threading
+import subprocess
+
 
 class Wifisetup(object):
 
@@ -14,7 +15,7 @@ class Wifisetup(object):
 
         self._psk = None
         self._ssid = None
-        self._config_handle = ConfigParser()
+
 
     def set_wifi_info(self, _ssid = None, _psk = None):
         if _ssid is None or _psk is None:
@@ -32,7 +33,7 @@ class Wifisetup(object):
 
     def set_wifi_ssid_psk(self):
         """
-            Adds a new network and configures the network
+            Adds a new network to the pi and saves the confifuration
         """
         _output = self.run_command("wpa_cli -i wlan0 add_network")
         _network_id = _output.decode(encoding="UTF-8")
@@ -45,13 +46,34 @@ class Wifisetup(object):
         return False
 
     def list_existing_networks(self):
-
+        """
+            Gets the already added networks
+            Returns a list with all the already configured networks on the device
+        """
         _output = self.run_command("wpa_cli -i wlan0 list_networks")
         return _output.decode(encoding="UTF-8").split("\n")
 
+    def list_available_networks(self):
+        """
+            Gets a list with all the networks available for connection
+            Returns that list
+        """
+        _network_scan_regex = re.compile(r"]\t(...+)\n")
+        _network = []
+
+        self.run_command("wpa_cli -i wlan0 scan")
+        self.run_command("wpa_cli -i wlan0 scan")
+        _output = self.run_command("wpa_cli -i wlan0 scan_results")
+        # I have here the entire scan that was made for the networks
+        _output_decoded = _output.decode(encoding="UTF-8")
+        _network = re.findall(_network_scan_regex, _output_decoded)
+        return _network
 
     def run_command(self, command):
-        # Runs a shell command and returns the response if any
+        """
+            Runs a command on the pi terminal
+            Returns the output of that command
+        """
         cmd = shlex.split(command)
         exec = cmd[0]
         exec_options = cmd[1:]

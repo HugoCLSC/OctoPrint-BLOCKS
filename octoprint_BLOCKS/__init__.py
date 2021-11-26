@@ -7,13 +7,13 @@ import socket
 import netifaces
 import octoprint.plugin
 import octoprint.events
-import octoprint.util.comm
+# import octoprint.util.comm
 import octoprint.plugin.core
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
 
-from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames
+from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
 from .wifisetup import Wifisetup
 
 
@@ -29,64 +29,45 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     #Try this
     def __init__(self):
-        self._wifi = None
-        # self._ip_addr = netifaces.ifaddresses("wlan0")
         self._wifiSetUp = Wifisetup()
+        self._AP_result = []
+        self._interfaces = []
 
     # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(10.0, self._wifi_status, run_first = True, condition = self._connectivity_checker.online)
+        self._wifi_update = RepeatedTimer(6.0, self._wifi_status, run_first = True)
         # Start the timer
         self._wifi_update.start()
 
 
     # ~~ Wifi
-    def _checkHotspot(self):
-        """
-            Send a message about the wifi state to any listeners there might be
-        """
-        self._logger.info(self._connectivity_checker.online)
-        if not self._connectivity_checker.online :
-            notification = {
-                "action": "popup",
-                "type": "NoWifi",
-                "hide": "true",
-                "message": "false",
-            }
-            self._plugin_manager.send_plugin_message(
-                self._identifier, notification)
-            return True
 
     def _setNewWifi(self, _data = None):
         if _data is None:
-            return
-
-
-        self._logger.info(_data["ip"])
-        # self._logger.info(_data["psk"])
-        self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
-        self._logger.info(_data["ip"]["ssid"])
-
+            return None
+        self._logger.info("Setting up new Wifi Connection")
+        self._logger.info(_data)
         # Set a new internet connection
+        self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
         output = self._wifiSetUp.set_wifi_ssid_psk()
         self._logger.info(output)
 
-        # List all the network connections we already have 
+        # List all the network connections we already have
         _output = self._wifiSetUp.list_existing_networks()
         self._logger.info(_output)
 
-    def update_interface_list(self):
-        self._interfaces = []
-        try:
-            # Gets all the names of the interfaces available
-            for interface in getWNICnames():
-                self._interfaces.append(interface)
-        except:
-            pass
+        # List all networks the pi detects
+        # _output1 = self._available_networks()
+        # self._logger.info(self._AP_result)
+        _output, _another = self._wifiSetUp.list_available_networks()
+        self._logger.info(_output)
+        self._logger.info(_another)
 
-    def _wifi_flag(self):
-        return self._wifi
+    def update_interface_list(self):
+        interface = None
+        # Gets all the names of the interfaces available
+        self._interfaces.append(getWNICnames())
 
     def _wifi_strength_calc(self, signalLevel):
         _level = 0
@@ -108,9 +89,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         _interface = None
         _ssid = None
 
-        self._wifi = self._connectivity_checker.online
-
-        if self._wifi == True:
+        # self._wifi = self._connectivity_checker.online
+        self._logger.info(self._connectivity_checker.online)
+        if self._connectivity_checker.online:
             self.update_interface_list()
         else:
             # Means we are on ethernet
@@ -121,21 +102,18 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 try:
                     wifi = Wireless(_interface)
                     _ssid = wifi.getEssid()
+
                     if _ssid:
                         # Means there is a _ssid available
                         # We can assume that we are connected to the internet
                         break
-                except:
-                    pass
-
-        if (_ssid is None and self._wifi == True) or not self._connectivity_checker.online :
-            self._wifi = False
-
+                except Exception:
+                    self._logger("Unexpected exception wifi")
         self.net_data = {
             "Interface": _interface,
             "Ssid": _ssid,
         }
-        if self._wifi == True and self._connectivity_checker.online :
+        if self._connectivity_checker.online :
             if _interface is not None and _ssid is not None:
                 _,quality,_,_ = wifi.getStatistics()
                 self.net_data["Quality"] = quality.quality
@@ -156,11 +134,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             if self._printer.is_operational():
                 self._logger.info("Wifi quality sent")
                 self._printer.commands("M550 W{}".format(_level))
-
-        elif self._wifi == False and not self._connectivity_checker.online :
-            self._checkHotspot()
+        else:
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
+                # We either don't have intenet, are on hotspot or
                 self._logger.info("We are on ethernet")
                 self._printer.commands("M550 W9")
 
