@@ -38,10 +38,24 @@ class Wifisetup(object):
         self.run_command("wpa_cli -i wlan0 set_network %s ssid \'\"%s\"\' " % (_network_id, self._ssid))
         self.run_command("wpa_cli -i wlan0 set_network %s psk \'\"%s\"\' " % (_network_id, self._psk))
         self.run_command("wpa_cli -i wlan0 enable_network %s" % (_network_id))
+        self.set_pass_encryp(_id = _network_id, _ssid = self._ssid, _password = self._psk)
         _returnSave = self.run_command("wpa_cli -i wlan0 save config")
         if "OK" in _returnSave.decode(encoding="UTF-8"):
             return True
         return False
+
+    def set_pass_encryp(self, _id = None, _ssid = None, _password = None):
+        """
+            For a given _ssid and _password
+            Return a encrypted key for that password
+        """
+        _regex = re.compile(r"psk=(...+)\n}$")
+
+        _output = self.run_command("wpa_passphrase %s %s" %(_ssid, _password))
+        _output_decoded = _output.decode(encoding="UTF-8").rstrip()
+        _encrypted_pass = re.findall(_regex, _output_decoded)
+        self.run_command("wpa_cli -i wlan0 set_network %s psk %s " % (_id, _encrypted_pass[0]))
+
 
     def list_existing_networks(self):
         """
