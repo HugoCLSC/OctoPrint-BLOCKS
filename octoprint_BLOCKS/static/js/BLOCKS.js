@@ -108,15 +108,13 @@ $(function() {
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
-            // if(data.type=="IPaddr"){
-            //   self.control.sendCustomCommand({type:'command', command: 'M117'+data.message});
-            //   console.log(data.message);
-            // }
 
+            if (data.type = "WifiSetUp"){
+              self.get_network_list(data.message)
+            }
             if(plugin != "BLOCKS" && data.type!="machine_info"){
               return;
             }
-
            if(data.message == "Blocks Pro S30"){
              // $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>");
@@ -783,6 +781,23 @@ $(function() {
           }
       };
 
+      self.network_list = ko.observableArray([]);
+      self.get_network_list = function(data){
+        try{
+          self.network_list.removeAll();
+          var aux = ""
+          for (var i = 0; i < data.length; i++){
+            if (aux === data[i])
+              continue;
+            else{
+              aux = data[i]
+              self.network_list.push(data[i]);
+            }
+          }
+        }catch (e){
+
+        }
+      };
     }
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------

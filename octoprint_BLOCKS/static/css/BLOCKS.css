@@ -796,3 +796,11 @@
 		/* padding-bottom: 100% ; */
 		height: -webkit-fill-available;
 	}
+
+	#wifiSetUpWindow{
+		display: inline-flex;
+
+	}
+	#network_list{
+		padding-left: 30px !important;
+	}

@@ -36,109 +36,80 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     # Exceutes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(6.0, self._wifi_status, run_first = True)
+        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first = True)
         # Start the timer
+        self._wifi_networks_list = RepeatedTimer(7.0, self._available_networks, run_first = True)
         self._wifi_update.start()
-
+        self._wifi_networks_list.start()
 
     # ~~ Wifi
 
-    def _setNewWifi(self, _data = None):
+    def get_available_wifi_networks(self):
+        return self._wifiSetUp.list_available_networks()
+
+    def get_saved_networks(self):
+        return self._wifiSetUp.list_existing_networks()
+
+    def _available_networks(self):
+        self._AP_result = []
+        self._AP_result = self._wifiSetUp.list_available_networks()
+        self._logger.info(self._AP_result)
+        # Now i need to send this to the web page
+        notification = {
+            "type": "WifiSetUp",
+            "hide": "true",
+            "message": self._AP_result
+        }
+        # Sends a message to any message listeners
+        self._plugin_manager.send_plugin_message(
+            self._identifier, notification)
+        self._logger.info("Available networks fetched.")
+
+    def setNewWifi(self, _data = None):
         if _data is None:
             return None
-        self._logger.info("Setting up new Wifi Connection")
         self._logger.info(_data)
+        # Get and send the list of available networks to connect
+        self._available_networks()
         # Set a new internet connection
         self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
-        output = self._wifiSetUp.set_wifi_ssid_psk()
-        self._logger.info(output)
+        _output = self._wifiSetUp.set_wifi_ssid_psk()
+        if _output:
+            self._logger.info("Successfully added %s network" % _data["ip"]["ssid"])
+        else:
+            self._logger.info("Error while adding %s network" % _data["ip"]["ssid"])
 
-        # List all the network connections we already have
-        _output = self._wifiSetUp.list_existing_networks()
-        self._logger.info(_output)
-
-        # List all networks the pi detects
-        # _output1 = self._available_networks()
-        # self._logger.info(self._AP_result)
-        _output, _another = self._wifiSetUp.list_available_networks()
-        self._logger.info(_output)
-        self._logger.info(_another)
-
-    def update_interface_list(self):
-        interface = None
-        # Gets all the names of the interfaces available
-        self._interfaces.append(getWNICnames())
-
-    def _wifi_strength_calc(self, signalLevel):
-        _level = 0
-
-        if signalLevel is None or signalLevel <= 10:
-            _level = 4
-        elif signalLevel > 10 and signalLevel <= 25:
-            _level = 5
-        elif signalLevel > 25 and signalLevel <= 50:
-            _level = 6
-        elif signalLevel > 50 and signalLevel <= 85:
-            _level = 7
-        elif signalLevel > 85 and signalLevel <= 100:
-            _level = 8
-
-        return _level
-
-    def _wifi_status(self):
+    def wifiStatus(self):
         _interface = None
         _ssid = None
+        _interface, __ssid = self._wifiSetUp.find_connection()
 
-        # self._wifi = self._connectivity_checker.online
-        self._logger.info(self._connectivity_checker.online)
-        if self._connectivity_checker.online:
-            self.update_interface_list()
-        else:
-            # Means we are on ethernet
-            _internet = "eth0"
-
-        for _interface in self._interfaces:
-            if _interface is not None:
-                try:
-                    wifi = Wireless(_interface)
-                    _ssid = wifi.getEssid()
-
-                    if _ssid:
-                        # Means there is a _ssid available
-                        # We can assume that we are connected to the internet
-                        break
-                except Exception:
-                    self._logger("Unexpected exception wifi")
         self.net_data = {
             "Interface": _interface,
             "Ssid": _ssid,
         }
         if self._connectivity_checker.online :
             if _interface is not None and _ssid is not None:
-                _,quality,_,_ = wifi.getStatistics()
-                self.net_data["Quality"] = quality.quality
-                self.net_data["Signal"] = quality.siglevel
-                self._logger.info("Wifi stats found.")
+                self._wifiSetUp.get_connection_stats(_stats = self.net_data)
+                self._logger.info("Wifi stats found!")
 
-            self._logger.info(self._interfaces)
             self._logger.info(self.net_data)
             """
             Send the M550 W<value> to the printer
 
                 value = 4 ---> there is no connection
                 value =[5,8] ----> strenght of the signal
-                value = 9 ----> We are using ethernet
+                value = 9 ----> We are using ethernet/Hotspot
             """
-            _level = self._wifi_strength_calc(self.net_data["Quality"])
             # At this stage we send the wifi level if the printer is connected
             if self._printer.is_operational():
-                self._logger.info("Wifi quality sent")
-                self._printer.commands("M550 W{}".format(_level))
+                self._printer.commands("M550 W{}".format(self.net_data["WifiLevel"]))
+                self._logger.info("Wifi quality level sent.")
         else:
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
-                # We either don't have intenet, are on hotspot or
-                self._logger.info("We are on ethernet")
+                # We either don't have intenet, are on hotspot
+                self._logger.info("Currently on ethernet/Hotspot.")
                 self._printer.commands("M550 W9")
 
     # ~~ SimpleApiPlugin
@@ -150,8 +121,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_api_command(self, command, data):
         if command == "wifi_SetUp":
-            self._logger.info("WIFI SETUP GITTIB")
-            self._setNewWifi(data)
+            self._logger.info("Wifi setup in progress.")
+            self.setNewWifi(data)
 
     # ~~ AssetPlugin mixi
 

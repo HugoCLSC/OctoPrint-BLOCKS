@@ -1,6 +1,7 @@
 <!-- Container box that has inputs for the wifi connection  -->
 <div class="container-fluid" id="wifiSetUpWindow">
   <form class="form-horizontal">
+    <h3>Add New Connection</h3>
     <div class="mb-3">
       <label for="ssidInfo" class="form-label"> SSID </label>
       <input id="ssidInfo" data-bind="textInput: ssid" >
@@ -11,4 +12,12 @@
     </div>
     <button  class="btn btn-primary" data-bind="click: setNewWifi()">Confirm</button>
   </form>
+  <div id="network_list">
+    <h3>Available Networks</h3>
+    <div data-bind="visible: $root.network_list().length > 0">
+      <div data-bind="foreach: network_list">
+        <li class="network_entry" data-bind="text: $data"></li>
+      </div>
+    </div>
+  </div>
 </div>
