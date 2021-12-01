@@ -51,9 +51,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         return self._wifiSetUp.list_existing_networks()
 
     def _available_networks(self):
+        """
+            Sends a message with all the available AP results to any
+            message listeners there might be
+        """
         self._AP_result = []
         self._AP_result = self._wifiSetUp.list_available_networks()
-        self._logger.info(self._AP_result)
         # Now i need to send this to the web page
         notification = {
             "type": "WifiSetUp",
@@ -68,14 +71,23 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     def setNewWifi(self, _data = None):
         if _data is None:
             return None
-        self._logger.info(_data)
         # Get and send the list of available networks to connect
         self._available_networks()
         # Set a new internet connection
         self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
         _output = self._wifiSetUp.set_wifi_ssid_psk()
+
         if _output:
             self._logger.info("Successfully added %s network" % _data["ip"]["ssid"])
+            notification = {
+                "type": "info",
+                "action": "popup",
+                "hide": "true",
+                "message": "Successfully added %s network" % _data["ip"]["ssid"]
+            }
+            # Sends a message to any message listeners
+            self._plugin_manager.send_plugin_message(
+                self._identifier, notification)
         else:
             self._logger.info("Error while adding %s network" % _data["ip"]["ssid"])
 
@@ -197,9 +209,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Light Dark Theme Switch
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
-            dict(type="generic", template="webcambar.jinja2", custom_bindings=True),
+            dict(type="generic", template="webcambar.jinja2",
+                 custom_bindings=True),
             # Wifi set up
-            dict(type="settings",name="Wifi Set Up", template="wifiWindow_settings.jinja2", custom_bindings=True),
+            dict(type="settings",name="Wifi Set Up", template="wifiWindow_settings.jinja2",
+                 custom_bindings=True),
+
+            dict(type="navbar", template="wifiWarning_navbar.jinja2", custom_bindings=True)
         ]
 
     # ~~ Softwareupdate hook

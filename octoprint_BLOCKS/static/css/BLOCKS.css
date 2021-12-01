@@ -804,3 +804,7 @@
 	#network_list{
 		padding-left: 30px !important;
 	}
+
+	.red-color{
+		color: red;
+	}

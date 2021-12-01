@@ -8,9 +8,10 @@
     </div>
     <div class="mb-3">
       <label for="pskInfo" class="form-label"> Password </label>
-      <input type="password" id="pskInfo" data-bind="textInput: password">
+      <input type="password" id="pskInfo" data-bind="textInput: attemptValue">
+      <label class="error" data-bind="visible: !pskValid()">Password must be 8 characters or more.</label>
     </div>
-    <button  class="btn btn-primary" data-bind="click: setNewWifi()">Confirm</button>
+    <button  class="btn btn-primary" data-bind="click: setNewWifi(),visible: pskValid(), enable: pskValid() ">Confirm</button>
   </form>
   <div id="network_list">
     <h3>Available Networks</h3>

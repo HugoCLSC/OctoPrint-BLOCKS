@@ -38,7 +38,7 @@ class Wifisetup(object):
         self.run_command("wpa_cli -i wlan0 set_network %s ssid \'\"%s\"\' " % (_network_id, self._ssid))
         self.run_command("wpa_cli -i wlan0 set_network %s psk \'\"%s\"\' " % (_network_id, self._psk))
         self.run_command("wpa_cli -i wlan0 enable_network %s" % (_network_id))
-        self.set_pass_encryp(_id = _network_id, _ssid = self._ssid, _password = self._psk)
+        _pass = self.set_pass_encryp(_id = _network_id, _ssid = self._ssid, _password = self._psk)
         _returnSave = self.run_command("wpa_cli -i wlan0 save config")
         if "OK" in _returnSave.decode(encoding="UTF-8"):
             return True
@@ -55,7 +55,7 @@ class Wifisetup(object):
         _output_decoded = _output.decode(encoding="UTF-8").rstrip()
         _encrypted_pass = re.findall(_regex, _output_decoded)
         self.run_command("wpa_cli -i wlan0 set_network %s psk %s " % (_id, _encrypted_pass[0]))
-
+        return _encrypted_pass
 
     def list_existing_networks(self):
         """
@@ -103,6 +103,7 @@ class Wifisetup(object):
         return _level
 
     @property
+
     def interfaces(self):
         self._interfaces = []
         self._interfaces.append(getWNICnames())

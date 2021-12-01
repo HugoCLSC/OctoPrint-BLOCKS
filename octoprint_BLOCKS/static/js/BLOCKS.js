@@ -108,7 +108,9 @@ $(function() {
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
-
+            if (data.type == "info"){
+              return;
+            }
             if (data.type = "WifiSetUp"){
               self.get_network_list(data.message)
             }
@@ -752,7 +754,19 @@ $(function() {
       //
       self.ssid = ko.observable("");
       self.password = ko.observable("");
-
+      self.pskValid = ko.observable(false);
+      self.attemptValue = ko.pureComputed ({
+        read: self.password,
+        write: function(value){
+            if (value.length >= 8){
+              self.pskValid(true);
+              self.password(value);
+            }else{
+              self.pskValid(false);
+            };
+          },
+          owner: self
+      });
       self.setNewWifi = function(){
 
           if(self.ssid() != "" && self.password() != ""){
@@ -799,6 +813,11 @@ $(function() {
         }
       };
     }
+
+    self.offline = ko.observable(!ONLINE);
+
+
+
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------
     //                            BlocksViewModel END
@@ -820,6 +839,7 @@ $(function() {
           "#control_filament",
           "#LightDarkSwitchWrapper",
           "#wifiSetUpWindow",
+          "#navbar_show_wifi_setup"
         ]
     });
 });
