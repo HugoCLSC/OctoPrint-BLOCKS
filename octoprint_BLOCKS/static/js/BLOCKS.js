@@ -29,6 +29,9 @@ $(function() {
                 console.log('BLOCKS:',msg);
             }
         };
+        ko.onError = function(error){
+          console.log("KnockoutJS error:", error);
+        };
         //---------------------------------------------------------------------------
         self.onAllBound = function(){
           try {
@@ -101,6 +104,7 @@ $(function() {
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
+            if (data == null) return;
             if (data.type == "info"){
               return;
             }
@@ -122,7 +126,7 @@ $(function() {
            }
            self.set_PrinterImg();
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Error while choosing printer image" + e);
           }
         };
 
@@ -378,7 +382,7 @@ $(function() {
               self.logToConsole("Printer Disconnecting...");
             }
           } catch (e) {
-            self.logToConsole(e);
+            ko.onError(e);
           }
         });
         // ~~ Change the text on my connection trigger switch
@@ -396,7 +400,7 @@ $(function() {
                 return gettext("Connected");
               }
           } catch (e) {
-            self.logToConsole(e);
+            ko.onError(e);
           }
         });
         // This function replaces the color of the button acording to the switch state
@@ -453,7 +457,7 @@ $(function() {
               self.control.sendCustomCommand({type: 'command', command:'M18'});
             }
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Disable steppers error" + e);
           }
         });
         // The following set of functions serves for the load/unload filament buttons
@@ -472,7 +476,7 @@ $(function() {
               self.temperature.setTargetsToZero();
             }
           } catch (e) {
-            self.logToConsole(e);
+            ko.onError("change filament error" + e);
           }
         });
         // Executed everytime the user selects one of the temperatures on the Change Filament Button
@@ -486,7 +490,7 @@ $(function() {
               self.newTarget(210);
             }
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("FIlament change temperature change error" + e);
           }
         };
         //---------------------------------------------------------------------------
@@ -523,7 +527,7 @@ $(function() {
             $('#control_filament').appendTo($('#filamentStep'));
             $('#fanSlider').appendTo($('#control'));
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Control wrapper set error" + e);
           }
         };
         //---------------------------------------------------------------------------
@@ -536,7 +540,7 @@ $(function() {
             $('#fullscreenButton').appendTo($('#webcam_container'));
 
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Error on relocating webcam" + e);
           }
         };
         self.set_tabbable = function(settingsPlugin){
@@ -552,7 +556,7 @@ $(function() {
             $('div.tabbable > ul.nav.nav-tabs > #temp_link').remove();
             $('div.tabbable > tabs_content > #temp');
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Remove tabs error" + e);
           }
         };
         //---------------------------------------------------------------------------
@@ -578,7 +582,7 @@ $(function() {
             $('.temperature_tool').css('width','9%');
             $('#temp_link > a').trigger('click');
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Temperature wrapper error" + e);
           }
         };
         //---------------------------------------------------------------------------
@@ -609,7 +613,7 @@ $(function() {
             $('#files').removeClass('in').removeClass('collapse').addClass('container-fluid body');
             $('#files_wrapper > div.heading > a').removeAttr('data-toggle');
           } catch (e) {
-            self.logToConsole(e);
+            self.logToConsole("Remove collapsible error" + e);
           }
         };
         //---------------------------------------------------------------------------
@@ -638,7 +642,7 @@ $(function() {
             self._set_theme(val);
           });
         } catch (e) {
-          self.logToConsole(e);
+          self.logToConsole("Error on getting theme" + e);
         }
       };
       self.themeSwitchText = ko.pureComputed( function() {
@@ -650,7 +654,7 @@ $(function() {
             return gettext("Light");
           }
         } catch (e) {
-          self.logToConsole(e);
+          self.logToConsole("Theme switch error:" + e);
         }
       });
       self._set_theme = function(val){
@@ -673,7 +677,7 @@ $(function() {
             self.setStorage('themeType', val);
           }
         } catch (e) {
-          self.logToConsole(e);
+          self.logToConsole("Set theme error" + e);
         }
       };
       // -----------------------------------------------------------------------
@@ -715,9 +719,7 @@ $(function() {
         }
       };
       // -----------------------------------------------------------------------
-      // This section is related to the wifi
-      // Create a button on the navbar if there is no wifi
-      // Create a window to input a new wifi connection if there is none
+      // This section is related to the wifi set up
 
       self.ssid = ko.observable("");
       self.password = ko.observable("");
@@ -735,7 +737,7 @@ $(function() {
           owner: self
       });
       self.setNewWifi = function(){
-
+        try{
           if(self.ssid() != "" && self.password() != ""){
             var _dict = {
               "ssid": self.ssid(),
@@ -756,11 +758,15 @@ $(function() {
             self.ssid("");
             self.password("");
           }
+        }catch(e){
+          self.logToConsole("Set wifi error" + e)
+        }
       };
 
       self.network_list = ko.observableArray([]);
       self.get_network_list = function(data){
         try{
+          if (data == null) return;
           self.network_list.removeAll();
           var aux = ""
           for (var i = 0; i < data.length; i++){
@@ -772,7 +778,7 @@ $(function() {
             }
           }
         }catch (e){
-
+          ko.onError("Network list Getter error" + e);
         }
       };
     }

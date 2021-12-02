@@ -69,9 +69,7 @@
 		font-size: 14px !important;
 		font-weight: 900 !important;
 	 }
-	.clearfix{
-		overflow: auto;
-	 }
+
 	 /* Scrollbar */
 	 body::-webkit-scrollbar{
 		 width: 10px;

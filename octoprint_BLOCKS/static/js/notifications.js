@@ -14,8 +14,7 @@ $(function () {
         self.blocksNotifications = ko.observableArray([]);
 
         ko.onError = function(error) {
-
-            console.log("knockout error", error);
+            console.log("KnockoutJS error:", error);
         };
 
         self.onEventConnecting = function() {
@@ -105,7 +104,7 @@ $(function () {
               console.log("Notifications Cleared");
             });
           } catch (exception) {
-            ko.onError(exception);
+            ko.onError("Clear notifications error" + exception);
           }
         };
   }
