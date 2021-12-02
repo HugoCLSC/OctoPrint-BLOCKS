@@ -10,7 +10,7 @@ $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
 
-        self.debug = false;
+        self.debug = true;
 
         self.settings = parameters[0];
         self.connection = parameters[1];
@@ -26,7 +26,7 @@ $(function() {
                 return true;
             }
             if (typeof console.log == "function"){
-                console.log('BLOCKS:',msg)
+                console.log('BLOCKS:',msg);
             }
         };
         //---------------------------------------------------------------------------
@@ -34,19 +34,15 @@ $(function() {
           try {
             // Load custom layout
             self.UpdateLayout(self.settings.settings.plugins.BLOCKS);
-
             // Refresh all
             window.setTimeout(function() {
                 $(window).trigger('resize');
             },500);
-
-            // This helps prevent a bug on the connection switch
+            // This helps prevent the connect switch position if it is connected or disconnected
             if(self.connection.isOperational()){
               $('#blocks_printer_connect').prop('checked', 'checked');
             }
-
           } catch (e) {
-            self.logToConsole(e);
             self.logToConsole(e);
           }
         };
@@ -55,8 +51,6 @@ $(function() {
         self.onStartupComplete = function () {
           $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
           self.set_PrinterImg();
-
-
         };
 
         self.onEventConnecting = function () {
@@ -70,7 +64,7 @@ $(function() {
 
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
-          console.log('Connected');
+          self.logToConsole("Connected");
         };
 
         self.onEventDisconnecting = function () {
@@ -78,7 +72,6 @@ $(function() {
           if(self.connectIt()){
             $('#blocks_printer_connect').removeAttr('checked','disabled');
           }
-
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
         };
 
@@ -86,9 +79,9 @@ $(function() {
           // I'll reset the fan slider here
           self.fanControl(0);
           $('#blocks_printer_connect').removeAttr('disabled');
+          // Remove the printer image since we are now disconnected
           $('#PrinterImg > img').remove();
-          // self.setStorage('Machine_Type', 'undefined');
-          console.log('Disconnected');
+          self.logToConsole("Disconnect");
         };
 
         self.fromCurrentData = function (data) {
@@ -118,19 +111,15 @@ $(function() {
               return;
             }
            if(data.message == "Blocks Pro S30"){
-             // $("<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_PS30.png'>");
            }else if (data.message == "Blocks zero"){
-             // $("<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_zero.png'>");
            }else if (data.message == "Blocks One MKII" ){
-             // $("<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>").appendTo($('#PrinterImg'));
              self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>");
            }else{
-            // For the Virtual Printer i'll just show the MKII
+            // For the Virtual Printer i'll just show the MKII and any other printers
             self.setStorage('Machine_Type', "<img src='./plugin/BLOCKS/static/img/Blocks_mkii2.png'>");
            }
-
            self.set_PrinterImg();
           } catch (e) {
             self.logToConsole(e);
@@ -162,8 +151,6 @@ $(function() {
           var printer = self.getStorage('Machine_Type');
           var img =  $("#PrinterImg > img");
           var size = img.length;
-          // console.log(img);
-          // console.log(printer);
           if(printer == "undefined"){
             self.control.sendCustomCommand({type:'command', command: 'M115'});
           }
@@ -210,14 +197,12 @@ $(function() {
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
           self._buildGrid(settingsPlugin);
-          //In these set of instructions i set what each container on my grid has
-
+          // In these set of instructions i set what each container on my grid has
           self.set_blocksWrapper(settingsPlugin);
-          //Rearranges the tabs
+          // Rearranges the tabs
           self.new_tabs(settingsPlugin);
-          // ~~ Bind the remaining wrappers to the grid
+          // Bind the remaining wrappers to the grid
           self._bindWrappers(settingsPlugin);
-
           self._set_NewAppearence(settingsPlugin);
           self.remove_accordion(settingsPlugin);
           self.fix_gcode_viewer();
@@ -251,15 +236,11 @@ $(function() {
             $('#sidebar_plugin_firmware_check_info_wrapper').appendTo($('#BTC1'));
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
-            // $('div.tabbable.span8').appendTo($('#BBC2'));
-            // $('#webcam_link').appendTo($('#tabs'));
-            // $('#tab_plugin_BLOCKS_link > a').attr("href","#webCam");
             // Finally i place my new control wrapper in my grid and correct the webcam
             $('#control_wrapper').appendTo($('#BTC3'));
             $('.BLOCKSMainTabs').appendTo($('#BBC2'));
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
-            // $('div.tabbable > ul.nav.nav-tabs > #control_link > a').click();
             // ~~ Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {
@@ -269,14 +250,11 @@ $(function() {
         //---------------------------------------------------------------------------
         self._set_NewAppearence = function () {
           try {
-            // Fix Navbar
             // Makes the border color and shadow disappear
             $(".navbar-inner").css({"box-shadow":"unset","-webkit-box-shadow": "unset", "border":"1px"});
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
             // Remove the underline from the <a> elements
             $('.a').css("text-decoration","unset");
-
-
             self._add_subAttributeData_Theme();
           } catch (e) {
             self.logToConsole(e);
@@ -290,7 +268,6 @@ $(function() {
             $('.help-block').attr('data-theme', 'light');
             $('.help-inline').attr('data-theme', 'light');
             $('#settings_dialog').attr('data-theme', 'light');
-            // $('.modal').attr('data-theme', 'light');
             $('.modal-header').attr('data-theme', 'light');
             $('.modal-footer').attr('data-theme', 'light');
             $('.modal-body').attr('data-theme', 'light');
@@ -298,9 +275,9 @@ $(function() {
             $('.table').attr("data-theme","light");
             $('.gcode_files').attr("data-theme","light");
             var elemGroup1 = document.getElementsByClassName('nav');
-            var groupSize = elems.length;
+            var groupSize = elemGroup1.length;
             var elemGroup2 = document.getElementsByClassName('tab-content');
-            var groupSize2 = elems2.length;
+            var groupSize2 = elemGroup2.length;
             for(let i=0; i <= groupSize ; i++){
               var elem = elemGroup1.item(i);
               $(elem).attr('data-theme', 'dark');
@@ -378,8 +355,6 @@ $(function() {
             $('#files_wrapper > .container-fluid >  div.accordion-heading-button').wrapAll('<div id="files_triggers"></div>');
             $('#files > .accordion-inner').addClass('container-fluid body').removeClass('accordion-inner');
             $('#files_triggers').appendTo($('#files_heading'));
-            // Fix the Css on the files
-            // $('.dropdown-menu').addClass("dropdown-menu-right");
           } catch (e) {
             self.logToConsole(e);
           }
@@ -397,10 +372,10 @@ $(function() {
           try {
             if(newVal){
               OctoPrint.connection.connect();
-              console.log("Printer connecting....");
+              self.logToConsole("Printer Connecting....");
             }else{
               OctoPrint.connection.disconnect();
-              console.log("Printer disconnecting....");
+              self.logToConsole("Printer Disconnecting...");
             }
           } catch (e) {
             self.logToConsole(e);
@@ -487,7 +462,6 @@ $(function() {
         self.filamentType = ko.observable(['180°', '200°', '210°']);
         // The default temperature is set to 180 Celsius
         self.newTarget = ko.observable(180);
-        // console.log(self.newTarget());
         self.loadFilament.subscribe(function(Val){
           try {
             if(Val){
@@ -529,15 +503,12 @@ $(function() {
             $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
             // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
             $('#control').removeClass('tab-pane').addClass('body');
-            // This is for the heading, also gives it  the possibility to collapse.
             $('<div class="container-fluid heading" ></div>').insertBefore('#control');
             // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
             $('#control').wrapInner('<div class="container-fluid"></div>');
             // Adds the gamepad icon in black and also adds the text "Controls" to the header
             $('#control_wrapper > .container-fluid.heading').append('<i class=" fas icon-black fa-gamepad"></i>').append(' Controls ');
             $('#control_wrapper > .container-fluid.heading').wrap("<div class='container-fluid heading'></div>")
-            // Need to create a row-fluid
-            // $('#control > .container-fluid > div').wrapAll('<div class="container-fluid"></div>');
             // Fix the size of the control wrapper letters.
             $('h1').css("font-size","15px");
             $('h1').css("font-weight","bold");
@@ -546,7 +517,6 @@ $(function() {
 
             // Now that i have this fna slider i really don't need the general tab.
             $('#control > div  > div:first-child').remove();
-
             $('#control-jog-general').remove();
             $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
             // I'll add my control filament buttons here
@@ -560,10 +530,8 @@ $(function() {
         self.set_tabWebStream = function (settingsPlugin){
           try {
             $('#webcam_hls_container').appendTo($('#tab_plugin_BLOCKS'));
-
             $('#webcam_container').addClass("container-fluid");
             $('#webcam_container').appendTo($('#tab_plugin_BLOCKS'));
-
             var element = $('#webcam_container')
             $('#fullscreenButton').appendTo($('#webcam_container'));
 
@@ -605,7 +573,6 @@ $(function() {
             // Basically it presses the button on the tabs to create the grid
             // After the grid is created the tab is deleted from the tab container
             // because i don't need that tab there anymore
-            // $(".flot-text").css("color","rgb(255, 255, 255)");
             $('.temperature_target').css('width','42%');
             $('.temperature_offset').css('width','42%');
             $('.temperature_tool').css('width','9%');
@@ -751,7 +718,7 @@ $(function() {
       // This section is related to the wifi
       // Create a button on the navbar if there is no wifi
       // Create a window to input a new wifi connection if there is none
-      //
+
       self.ssid = ko.observable("");
       self.password = ko.observable("");
       self.pskValid = ko.observable(false);
@@ -785,11 +752,7 @@ $(function() {
               }),
               contentType: "application/json; charset=utf-8"
             });
-            console.log("New wifi info sent" + _dict);
-
-            // self.logToConsole(_dict)
-            // self.setStorage('wifiSetUp', _dict);
-            // Now reset the observvables
+            self.logToConsole("Wifi info sent." )
             self.ssid("");
             self.password("");
           }

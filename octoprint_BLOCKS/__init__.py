@@ -26,19 +26,18 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.ShutdownPlugin,
                    octoprint.plugin.SimpleApiPlugin):
 
-
-    #Try this
     def __init__(self):
         self._wifiSetUp = Wifisetup()
         self._AP_result = []
         self._interfaces = []
 
-    # Exceutes before the startup
+    # Executes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first = True)
-        # Start the timer
-        self._wifi_networks_list = RepeatedTimer(7.0, self._available_networks, run_first = True)
+        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first=True)
+        self._wifi_networks_list = RepeatedTimer(
+            7.0, self._available_networks, run_first=True)
+
         self._wifi_update.start()
         self._wifi_networks_list.start()
 
@@ -51,9 +50,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         return self._wifiSetUp.list_existing_networks()
 
     def _available_networks(self):
-        """
-            Sends a message with all the available AP results to any
-            message listeners there might be
+        """Get a list with all the networks from a BSS scan
+            and send a notification with that list to any message listeners.
+
         """
         self._AP_result = []
         self._AP_result = self._wifiSetUp.list_available_networks()
@@ -68,17 +67,30 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._identifier, notification)
         self._logger.info("Available networks fetched.")
 
-    def setNewWifi(self, _data = None):
+    def setNewWifi(self, _data=None):
+        """Set a new wifi connection on the pi
+
+        Args:
+            _data (type: dict): A dictionary with the ssid and password of the
+                new conection to be made. Defaults to None.
+
+        Returns:
+            type: Description of returned object.
+            type: None. If the argument _data is None.
+        Raises:
+            ExceptionName: Why the exception is raised.
+
+        """
         if _data is None:
             return None
         # Get and send the list of available networks to connect
         self._available_networks()
         # Set a new internet connection
-        self._wifiSetUp.set_wifi_info(_ssid = _data["ip"]["ssid"], _psk = _data["ip"]["psk"])
+        self._wifiSetUp.set_wifi_info(
+            _ssid=_data["ip"]["ssid"], _psk=_data["ip"]["psk"])
         _output = self._wifiSetUp.set_wifi_ssid_psk()
 
         if _output:
-            self._logger.info("Successfully added %s network" % _data["ip"]["ssid"])
             notification = {
                 "type": "info",
                 "action": "popup",
@@ -88,10 +100,16 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Sends a message to any message listeners
             self._plugin_manager.send_plugin_message(
                 self._identifier, notification)
+            self._logger.info("Successfully added %s network" %
+                              _data["ip"]["ssid"])
         else:
-            self._logger.info("Error while adding %s network" % _data["ip"]["ssid"])
+            self._logger.info("Error while adding %s network" %
+                              _data["ip"]["ssid"])
 
     def wifiStatus(self):
+        """Controls the wifi status, sends a wifi signal strength integer to marlin.
+
+        """
         _interface = None
         _ssid = None
         _interface, __ssid = self._wifiSetUp.find_connection()
@@ -100,9 +118,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "Interface": _interface,
             "Ssid": _ssid,
         }
-        if self._connectivity_checker.online :
+        if self._connectivity_checker.online:
             if _interface is not None and _ssid is not None:
-                self._wifiSetUp.get_connection_stats(_stats = self.net_data)
+                self._wifiSetUp.get_connection_stats(_stats= self.net_data)
                 self._logger.info("Wifi stats found!")
 
             self._logger.info(self.net_data)
@@ -115,7 +133,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             """
             # At this stage we send the wifi level if the printer is connected
             if self._printer.is_operational():
-                self._printer.commands("M550 W{}".format(self.net_data["WifiLevel"]))
+                self._printer.commands(
+                    "M550 W{}".format(self.net_data["WifiLevel"]))
+
                 self._logger.info("Wifi quality level sent.")
         else:
             if self._printer.is_operational():
@@ -180,7 +200,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._settings.set(["Machine_Type"], machine)
             self._logger.info("Saving settings.")
 
-
     # ~~ TemplatePlugin mixin
 
         # This mixin enables me to inject my own components into the OctoPrint
@@ -188,34 +207,37 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # More information on the dictionaries on:
         # https://docs.octoprint.org/en/master/plugins/mixins.html#templateplugin
 
+
     def get_template_configs(self):
 
         return[
-            # dict(type="settings", custom_bindings=False),
-            # Connection wrapper
+            # Connection wrapper template
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2",
                  custom_bindings=True),
-            # My webcam link
+            # My webcam link template
             dict(type="tab", name="WebCam", template="webcam_tab.jinja2",
                  custom_bindings=False),
-            # Fan slider
+            # Fan slider template
             dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
-            # Custom Notifications
+            # Custom Notifications template
             dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
                  custom_bindings=True),
-            # For Load Unload functions on the control section
+            # For Load Unload filament template
             dict(type="generic", template="changeFilament.jinja2",
                  custom_bindings=True),
-            # Light Dark Theme Switch
+            # Light Dark Theme Switch template
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
+            # Fullscreen button for webcam template
             dict(type="generic", template="webcambar.jinja2",
                  custom_bindings=True),
-            # Wifi set up
-            dict(type="settings",name="Wifi Set Up", template="wifiWindow_settings.jinja2",
+            # Wifi set up window template
+            dict(type="settings", name="Wifi Set Up", template="wifiWindow_settings.jinja2",
                  custom_bindings=True),
+            # No Wifi warning on the navbar template
+            dict(type="navbar", template="wifiWarning_navbar.jinja2",
+                 custom_bindings=True)
 
-            dict(type="navbar", template="wifiWarning_navbar.jinja2", custom_bindings=True)
         ]
 
     # ~~ Softwareupdate hook
@@ -248,9 +270,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         try:
             if event == Events.STARTUP:
-                SERVER = socket.gethostbyname(socket.gethostname()) #Gets the ip address automatically
+                SERVER = socket.gethostbyname(socket.gethostname())  # Gets the ip address automatically
                 self._logger.info(SERVER)
-                notification={
+                notification ={
                     "type": "IPaddr",
                     "message": SERVER
                 }
@@ -371,10 +393,10 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._logger.info(e)
 
 
-
 __plugin_name__ = "Blocks"
 __plugin_pythoncompat__ = ">=2.7,<4"
-__plugin_license__="AGPLv3"
+__plugin_license__ = "AGPLv3"
+
 
 def __plugin_load__():
     global __plugin_implementation__

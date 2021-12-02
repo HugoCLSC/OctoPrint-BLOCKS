@@ -53,11 +53,14 @@ $(function () {
               self._PopUpNotification(data);
             }
           } catch (exception) {
-            ko.onError(exception);
+            ko.onError("Error on notification received" + exception);
           }
         };
         // Filter my notifications i do not want copies while i get warnings
         self._filter = function(data){
+          if(data.message == Event.DISCONNECTED){
+            return;
+          }
           try {
             var flag = false;
             ko.utils.arrayForEach(self.blocksNotifications(), function(blocksNotification) {
@@ -72,7 +75,7 @@ $(function () {
             }
             return;
           }catch (e) {
-            ko.onError(e);
+            ko.onError("Error on filtering notifications" + e);
           }
         };
         // Lets me display a PopUp on the page about the notification
