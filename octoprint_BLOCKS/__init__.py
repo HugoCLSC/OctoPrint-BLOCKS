@@ -173,8 +173,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def get_settings_defaults(self):
         return {
-            # For Light and Dark Theme
-            # The default is the Light Theme
+            # Settings that are saved on machine shutdown
             "themeType": False,
             "Machine_Type": "undefined",
         }
@@ -207,7 +206,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # More information on the dictionaries on:
         # https://docs.octoprint.org/en/master/plugins/mixins.html#templateplugin
 
-
     def get_template_configs(self):
 
         return[
@@ -237,7 +235,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # No Wifi warning on the navbar template
             dict(type="navbar", template="wifiWarning_navbar.jinja2",
                  custom_bindings=True)
-
         ]
 
     # ~~ Softwareupdate hook
@@ -250,13 +247,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             BLOCKS=dict(
                 displayName=self._plugin_name,
                 displayVersion=self._plugin_version,
-
                 # version check: github repository
                 type="github_release",
                 user="HugoCLSC",
                 repo="OctoPrint-BLOCKS",
                 current=self._plugin_version,
-
                 # update method: pip
                 pip="https://github.com/HugoCLSC/OctoPrint-BLOCKS/archive/{target_version}.zip",
             )
@@ -323,7 +318,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
-            self._logger.info(e)
+            self._logger.info("Erro on event change notifications: {}".format(e))
 
     # ~~ ProgressPlugin mixin
 
@@ -363,7 +358,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 self._logger.info(
                     "Notifications: Gcode sent {}".format("gcode"))
         except Exception as e:
-            self._logger.info(e)
+            self._logger.info("Error on M600 send: {}".format(e))
 
     def detect_commands(self, comm, line, *args, **kwargs):
         try:
@@ -387,10 +382,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 self._plugin_manager.send_plugin_message(
                     self._identifier, notification)
             else:
-
                 return line
         except Exception as e:
-            self._logger.info(e)
+            self._logger.info("Detect Machine type and Filament Runout erro: {}".format(e))
 
 
 __plugin_name__ = "Blocks"
