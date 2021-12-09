@@ -49,26 +49,26 @@
     </div>
 
     <div class = "container-fluid" id ="fanSlider">
-    <div class="container-fluid" style="align-self: center;
-      display: inline-flex;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      align-content: flex-start;
-      align-items: center;">
-      <div class="col-md-auto" >
-        <!-- style="margin-inline-start: 80px;" -->
-        <h1 class=""> Fan </h1>
+      <div class="container-fluid" style="align-self: center;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-content: flex-start;
+        align-items: center;">
+        <div class="col-md-auto" >
+          <!-- style="margin-inline-start: 80px;" -->
+          <h1 class=""> Fan </h1>
+        </div>
+        <div class="col-md-auto">
+          <input type = "range" class = "form-range col" id = "fanRange" min = "0" max = "100" step = "1" data-bind="enable: control.isOperational(), value: fanControl"  style="align-self: center">
+        </div>
+        <div class="col-md-auto">
+          <label for = "fanRange" class = "form-label col" data-bind = "text: fanText"  style="align-self: center">{{_('0')}}</label>
+        </div>
+        <div class="col-md-auto" >
+          <button  class = "btn " data-bind = "enable: control.isOperational() && !control.isPrinting(), click:  motorDisable " style="align-self: center" > Motors Off </button>
+        </div>
       </div>
-      <div class="col-md-auto">
-        <input type = "range" class = "form-range col" id = "fanRange" min = "0" max = "100" step = "1" data-bind="enable: control.isOperational(), value: fanControl"  style="align-self: center">
-      </div>
-      <div class="col-md-auto">
-        <label for = "fanRange" class = "form-label col" data-bind = "text: fanText"  style="align-self: center">{{_('0')}}</label>
-      </div>
-      <div class="col-md-auto" >
-        <button  class = "btn " data-bind = "enable: control.isOperational() && !control.isPrinting(), click:  motorDisable " style="align-self: center" > Motors Off </button>
-      </div>
-    </div>
     </div>
   </div>
 

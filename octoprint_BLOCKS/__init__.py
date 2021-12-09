@@ -15,7 +15,7 @@ from octoprint.util import RepeatedTimer
 try:
     from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
 except:
-    pass 
+    pass
 from .wifisetup import Wifisetup
 
 
@@ -223,14 +223,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # My webcam link template
             dict(type="tab", name="WebCam", template="webcam_tab.jinja2",
                  custom_bindings=False),
-            # Fan slider template
-            # dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications template
             dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
                  custom_bindings=True),
-            # For Load Unload filament template
-            # dict(type="generic", template="changeFilament.jinja2",
-            #      custom_bindings=True),
             # Light Dark Theme Switch template
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
