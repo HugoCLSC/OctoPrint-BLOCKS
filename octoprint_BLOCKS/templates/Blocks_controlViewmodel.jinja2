@@ -1,28 +1,76 @@
 <div class="jog-panel" id="Blocks_control">
-  <!-- Buttons for XY and home -->
-  <div class="container-fluid" id="control_xy">
-    <!-- x left -->
-    <div class="container-fluid upper_row">
-      <button type="button" class="btn" name="button_y_up">
-        <i></i>
-      </button>
+  <!-- HEADING -->
+  <div class="container-fluid heading">
+    <div class="container-fluid heading">
+      <i class="fas icon-black fa-gamepad"></i>
+       Controls
     </div>
-    <div class="container-fluid middle_row">
-      <button type="button" class="btn" name="button_x_left">
-        <i></i>
-      </button>
-      <button type="button" class="btn" name="button_x_right">
-        <i></i>
-      </button>
-      <button type="button" class="btn" name="button_home">
-        <i></i>
-      </button>
+  </div>
+  <!-- MODULE BODY -->
+  <div class="container-fluid body">
+    <div class="row-fluid">
+
+      <div class="col-md-auto" id="control_xy">
+      </div>
+      <div class="col-md-auto" id="control_z">
+      </div>
+      <div class="col-md-auto" id="control_extrusion">
+
+      </div>
+      <div class="filamentOperations col-md-auto" id="control_filament"style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        " >
+        <h1> Filament </h1>
+        <div class="container-fluid btn-group" id="control_filament_buttons" data-bind="enable: (!control.isPrinting() && control.isOperational())">
+          <button class="btn btn-block control-box" id="filament_load" data-bind="enable: (!control.isPrinting() && control.isOperational()) , click: loadFilament"> Change </button>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span class="caret" data-theme="dark"></span>
+          </button>
+          <ul class="dropdown-menu" data-bind="foreach: filamentType">
+            <li>
+                <a href="javascript:void(0)" data-bind="click: $parent.filamentOper, text: $data"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
     </div>
-    <div class="container-fluid bottom_row">
-      <button type="button" class="btn" name="button_y_down">
-        <i></i>
-      </button>
+    <div class="row-fluid" >
+      <!-- This is for the  Feed rate modifier and flow rate modifier-->
+      <div class="col-md-auto" id ="feed_rate_mod" >
+
+      </div>
+      <div class="col-md-auto" id ="flow_rate_mod">
+
+      </div>
     </div>
 
+    <div class = "container-fluid" id ="fanSlider">
+    <div class="container-fluid" style="align-self: center;
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-content: flex-start;
+      align-items: center;">
+      <div class="col-md-auto" >
+        <!-- style="margin-inline-start: 80px;" -->
+        <h1 class=""> Fan </h1>
+      </div>
+      <div class="col-md-auto">
+        <input type = "range" class = "form-range col" id = "fanRange" min = "0" max = "100" step = "1" data-bind="enable: control.isOperational(), value: fanControl"  style="align-self: center">
+      </div>
+      <div class="col-md-auto">
+        <label for = "fanRange" class = "form-label col" data-bind = "text: fanText"  style="align-self: center">{{_('0')}}</label>
+      </div>
+      <div class="col-md-auto" >
+        <button  class = "btn " data-bind = "enable: control.isOperational() && !control.isPrinting(), click:  motorDisable " style="align-self: center" > Motors Off </button>
+      </div>
+    </div>
+    </div>
   </div>
+
+
 </div>

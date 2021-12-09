@@ -241,7 +241,8 @@ $(function() {
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
             // Finally i place my new control wrapper in my grid and correct the webcam
-            $('#control_wrapper').appendTo($('#BTC3'));
+            // $('#control_wrapper').appendTo($('#BTC3'));
+            $('#Blocks_control').appendTo($('#BTC3')); // TODO
             $('.BLOCKSMainTabs').appendTo($('#BBC2'));
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
@@ -525,9 +526,22 @@ $(function() {
 
             // Now that i have this fna slider i really don't need the general tab.
             $('#control > div  > div:first-child').remove();
+
             $('#control-jog-general').remove();
-            $('#fanSlider').appendTo($('#control'));
-            self._set_filament_panel();
+            //$('#fanSlider').appendTo($('#control'));
+            //self._set_filament_panel();
+
+            $('#control-jog-xy').appendTo($('#control_xy'));
+            $('#control-jog-z').appendTo($('#control_z'));
+            $('#jog_distance').appendTo($('#control_xy'));
+            $('#control-jog-feedrate').appendTo($('#feed_rate_mod'));
+            $('#control-jog-extrusion').appendTo($('#control_extrusion'));
+            $('#control-jog-flowrate').appendTo($('#flow_rate_mod'));
+
+            // $('#control_wrapper').remove();
+
+            // Set the xy controls
+
           } catch (e) {
             self.logToConsole("Control wrapper set error" + e);
           }
@@ -822,7 +836,8 @@ $(function() {
           "#control_filament",
           "#LightDarkSwitchWrapper",
           "#wifiSetUpWindow",
-          "#navbar_show_wifi_setup"
+          "#navbar_show_wifi_setup",
+          "#Blocks_controlViewmodel"
         ]
     });
 });

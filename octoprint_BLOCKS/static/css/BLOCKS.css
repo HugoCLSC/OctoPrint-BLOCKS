@@ -298,69 +298,19 @@
 	}
 
 	/* -------------------------*/
-
-
-	/* Control wrapper properties */
-	#control{
-		/* overflow: unset !important; */
-		overflow-y : auto !important;
-		overflow-x : hidden !important;
-		height: 400px;
-	}
-	#control .jog-panel{
-		margin-right: 11px !important;
-	}
-	#control >.container-fluid > .jog-panel{
-		margin-right: 0px !important;
-	}
-	#control_wrapper > .container-fluid.heading > a.container-fluid {
-	  /* display: inline-block; */
-	  padding: 8px 15px;
-	}
-	#control_wrapper > .container-fluid.heading {
-	  border-bottom: 1px solid #e5e5e5;
-	  position: relative;
-	}
-	#control_wrapper {
-	  border-radius: 4px;
-	}
-	#control .control-box{
-		width: 73% !important;
-
-
-	}
-	#control .box{
-		width: unset !important;
-		height: unset !important;
-		padding-left: 8px !important;
-    padding-right: 8px !important;
-	}
-
-	#control > .container-fluid{
-		display: inline-flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-direction: row;
-    align-content: flex-start;
-    flex-wrap: wrap;
-		position: relative;
-		top: 25px;
-		width: 100%;
-	}
-	/* Control module scrollbar  */
-	#control::-webkit-scrollbar{
+	#Blocks_control::-webkit-scrollbar{
 		width: 10px;
 	}
-	#control::-webkit-scrollbar-track{
+	#Blocks_control::-webkit-scrollbar-track{
 		background: var(--bg-color);
 	}
 	/* Handle */
- #control::-webkit-scrollbar-thumb {
+ #Blocks_control::-webkit-scrollbar-thumb {
 	 background: var(--scrollbar-color);
 	 border-radius: 10px;
  }
  /* Handle on hover */
- #control::-webkit-scrollbar-thumb:hover {
+ #Blocks_control::-webkit-scrollbar-thumb:hover {
 	 background: var(--scrollbar-hover);
  }
 
@@ -374,16 +324,13 @@
 		margin-left: 3px;
 		margin-right: 0px;
 	}
-	#control_filament{
-		width: 100%;
-	}
+
 	#control_filament_buttons{
 		display: inline-flex;
 	  align-items: flex-start;
+		margin-top: 5px;
 	}
-	#control-jog-extrusion{
-		width: 26%;
-	}
+
 	#control-jog-feedrate > label > .popover{
 		color: rgb(86,86,86);
 	}
@@ -577,8 +524,7 @@
 
 	/* To fix the button settings on the files */
 	.open>.dropdown-menu {
-	    /* display: table; */
-	    top: auto;
+		right: 1px !important;
 	}
 	#files_triggers .dropdown-menu{
 		position: absolute;
@@ -689,17 +635,10 @@
 		text-align: center;
 	}
 
-	/* #refreshButton.refresh-trigger{
-			position: relative;
-			left: 45%;
-	} */
 	label.form-check-text {
 		font-weight: bold;
 		/* display: inline; */
 	}
-
-
-
 
 	/* Just so i don't see the black outline on the toggle switch*/
 	select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
@@ -844,4 +783,79 @@
 
 	.red-color{
 		color: red;
+	}
+
+/* ----------------- */
+	#control_xy {
+		display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+	}
+	#control-jog-xy{
+		/* display: contents;
+		 */
+	 	display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+	}
+
+
+
+	#Blocks_control > .container-fluid.body {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+
+	#Blocks_control > .container-fluid.body > .row > .container-fluid{
+		display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+	}
+
+	#Blocks_control > .container-fluid.body > .row-fluid {
+		display: inline-flex;
+    align-items: stretch;
+    justify-content: space-evenly;
+		margin-bottom: 15px;
+	}
+
+	#control-jog-xy .btn {
+		margin: 5px;
+	}
+
+	#control-jog-z{
+		display: flex;
+    flex-direction: column;
+    align-items: center;
+	}
+	#control-jog-z .btn {
+		margin: 5px;
+	}
+
+	#control-jog-extrusion{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	#control-jog-extrusion .btn.btn-block.control-box{
+		margin-bottom: 5px;
+		margin-top : 10px !important;
+	}
+
+
+	#control-jog-extrusion > div > div.input-append{
+		margin : 5px !important;
+		margin-left: 12px !important;
+	}
+
+	#Blocks_control > .container-fluid.heading{
+		border-bottom: 1px solid #e5e5e5;
+	  position: relative;
 	}

@@ -12,8 +12,10 @@ import octoprint.plugin.core
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
-
-from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
+try:
+    from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
+except:
+    pass 
 from .wifisetup import Wifisetup
 
 
@@ -30,11 +32,12 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._wifiSetUp = Wifisetup()
         self._AP_result = []
         self._interfaces = []
+        self._printer_name = None
 
     # Executes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first=True)
+        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first=True)#, condition = self._wifi_reporting_enabled)
         self._wifi_networks_list = RepeatedTimer(
             7.0, self._available_networks, run_first=True)
 
@@ -42,6 +45,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._wifi_networks_list.start()
 
     # ~~ Wifi
+
+    def _wifi_reporting_enabled(self):
+        if self._printer_name == "R21":
+            return True
+        return False
 
     def get_available_wifi_networks(self):
         return self._wifiSetUp.list_available_networks()
@@ -216,13 +224,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="tab", name="WebCam", template="webcam_tab.jinja2",
                  custom_bindings=False),
             # Fan slider template
-            dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
+            # dict(type="generic", template="fanSlider.jinja2", custom_bindings=True),
             # Custom Notifications template
             dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
                  custom_bindings=True),
             # For Load Unload filament template
-            dict(type="generic", template="changeFilament.jinja2",
-                 custom_bindings=True),
+            # dict(type="generic", template="changeFilament.jinja2",
+            #      custom_bindings=True),
             # Light Dark Theme Switch template
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
@@ -234,6 +242,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                  custom_bindings=True),
             # No Wifi warning on the navbar template
             dict(type="navbar", template="wifiWarning_navbar.jinja2",
+                 custom_bindings=True),
+
+            dict(type="generic", template="Blocks_controlViewmodel.jinja2",
                  custom_bindings=True)
         ]
 
@@ -364,6 +375,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         try:
             if "MACHINE_TYPE" in line:
                 printer_data = parse_firmware_line(line)
+                self._printer_name = printer_data["MACHINE_TYPE"]
                 notification = {
                     "type": "machine_info",
                     "hide": "false",
