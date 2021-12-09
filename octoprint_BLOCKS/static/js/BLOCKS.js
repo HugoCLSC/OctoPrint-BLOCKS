@@ -490,9 +490,13 @@ $(function() {
               self.newTarget(210);
             }
           } catch (e) {
-            self.logToConsole("FIlament change temperature change error" + e);
+            self.logToConsole("Filament change temperature change error" + e);
           }
         };
+
+
+
+
         //---------------------------------------------------------------------------
         self.new_tabs = function (){
           self.set_tabWebStream();
@@ -522,14 +526,26 @@ $(function() {
             // Now that i have this fna slider i really don't need the general tab.
             $('#control > div  > div:first-child').remove();
             $('#control-jog-general').remove();
-            $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
-            // I'll add my control filament buttons here
-            $('#control_filament').appendTo($('#filamentStep'));
             $('#fanSlider').appendTo($('#control'));
+            self._set_filament_panel();
           } catch (e) {
             self.logToConsole("Control wrapper set error" + e);
           }
         };
+
+        self._set_filament_panel = function (){
+          try{
+            $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
+            // I'll add my control filament buttons here
+            $('#control_filament').appendTo($('#filamentStep'));
+            $('#control').append($('#control-jog-custom'));
+          }catch(e){
+            self.logToConsole(e)
+          }
+        };
+
+
+
         //---------------------------------------------------------------------------
         self.set_tabWebStream = function (settingsPlugin){
           try {
@@ -781,12 +797,10 @@ $(function() {
           ko.onError("Network list Getter error" + e);
         }
       };
-    }
 
-    self.offline = ko.observable(!ONLINE);
+      self.offline = ko.observable(!ONLINE);
 
-
-
+    };
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------
     //                            BlocksViewModel END

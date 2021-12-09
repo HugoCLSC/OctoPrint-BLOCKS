@@ -71,20 +71,20 @@
 	 }
 
 	 /* Scrollbar */
-	 body::-webkit-scrollbar{
+	 ::-webkit-scrollbar{
 		 width: 10px;
 	 }
-	 body::-webkit-scrollbar-track{
+	 ::-webkit-scrollbar-track{
 		 background: var(--scrollbar-bg);
 	 }
 	 /* Handle */
-	body::-webkit-scrollbar-thumb {
+	::-webkit-scrollbar-thumb {
 	  background: var(--scrollbar-color);
 		border-radius: 10px;
 	}
 
 	/* Handle on hover */
-	body::-webkit-scrollbar-thumb:hover {
+	::-webkit-scrollbar-thumb:hover {
 	  background: var(--scrollbar-hover);
 	}
 
@@ -302,7 +302,9 @@
 
 	/* Control wrapper properties */
 	#control{
-		overflow: unset !important;
+		/* overflow: unset !important; */
+		overflow-y : auto !important;
+		overflow-x : hidden !important;
 		height: 400px;
 	}
 	#control .jog-panel{
@@ -345,6 +347,22 @@
 		top: 25px;
 		width: 100%;
 	}
+	/* Control module scrollbar  */
+	#control::-webkit-scrollbar{
+		width: 10px;
+	}
+	#control::-webkit-scrollbar-track{
+		background: var(--bg-color);
+	}
+	/* Handle */
+ #control::-webkit-scrollbar-thumb {
+	 background: var(--scrollbar-color);
+	 border-radius: 10px;
+ }
+ /* Handle on hover */
+ #control::-webkit-scrollbar-thumb:hover {
+	 background: var(--scrollbar-hover);
+ }
 
 	#filament_load{
 		padding-left: 2px !important;
@@ -495,6 +513,22 @@
 	  flex-direction: column;
 	  flex-wrap: nowrap;
 	  margin-block-start: 5%;
+	}
+	/* Files scrollbar */
+	.scroll-wrapper::-webkit-scrollbar{
+		width: 10px;
+	}
+	.scroll-wrapper::-webkit-scrollbar-track{
+		background: var(--bg-color);
+	}
+	/* Handle */
+	.scroll-wrapper::-webkit-scrollbar-thumb {
+	 background: var(--scrollbar-color);
+	 border-radius: 10px;
+	}
+	/* Handle on hover */
+	.scroll-wrapper::-webkit-scrollbar-thumb:hover {
+	 background: var(--scrollbar-hover);
 	}
 
 	#files_wrapper > .container-fluid.heading {
@@ -680,9 +714,20 @@
 			width: 255px;
 			padding: 6px;
 	    border-radius: 16px;
+			align-self:  center !important;
 	}
 	#fanSlider > label {
 		width: 7%;
+		align-self: center;
+	}
+	#fanSlider{
+		display: inline-flex !important;
+	  align-items: center !important;
+	  justify-content: space-evenly !important;
+	  flex-wrap: wrap !important;
+	}
+	#fanSlider > h1 {
+		margin-left : auto;
 	}
 	  /* This is for my gradient on the fan controler slider */
 		/* It only displays the gradient when the printer is connected */
@@ -692,12 +737,6 @@
 	}
 
 
-	#fanSlider{
-		display: inline-flex !important;
-	  align-items: center !important;
-	  justify-content: space-evenly !important;
-	  flex-wrap: nowrap !important;
-	}
 
 	/* All Popovers about warnings will have the correct size */
 	.modal.hide.fade.modal-overflow.in{
