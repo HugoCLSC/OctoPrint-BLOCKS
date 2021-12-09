@@ -49,813 +49,737 @@
 	--bg-color: rgb(85,247,92);
 	--border-color: rgb(85,247,92);
 }
-
 /* @media (min-width: 1420px){ */
-
-	html{
-		/* Obriga o tamanho da página nunca ser menor que 1420px de largura */
-		min-width: 1420px;
-	}
-	@font-face {
-		font-family: 'montserrat-light';
-    src: url("../Fonts/montserrat-light-webfont.woff2") format('woff2'),
-         url("../Fonts/montserrat-light-webfont.woff") format('woff');
-    font-weight: var(--bs-font-weight);
-    font-style: normal;
-	}
-	body{
-		font-family: 'montserrat-light', sans-serif !important;
-		line-height: 25px !important;
-		font-size: 14px !important;
-		font-weight: 900 !important;
-	 }
-
-	 /* Scrollbar */
-	 ::-webkit-scrollbar{
-		 width: 10px;
-	 }
-	 ::-webkit-scrollbar-track{
-		 background: var(--scrollbar-bg);
-	 }
-	 /* Handle */
-	::-webkit-scrollbar-thumb {
-	  background: var(--scrollbar-color);
-		border-radius: 10px;
-	}
-
-	/* Handle on hover */
-	::-webkit-scrollbar-thumb:hover {
-	  background: var(--scrollbar-hover);
-	}
-
-
-	/* Page setUp */
-
-	.accordion-inner{
-		border-top: unset;
-	}
-	.container-fluid.heading > .container-fluid.heading {
-	    padding: 5px;
-	}
-	.BLOCKSMainContainer{
-		padding-left: 0px;
-		padding-right: 0px;
-		height: -webkit-fill-available;
-		background-color: var(--primary-color);
-		color: var(--font-color);
-	}
-	.BLOCKSMainContainer > .tab-content > .tab-pane > h1 {
-		color: var(--font-color);
-
-	}
-	.octoprint-container .tab-content h1{
-		color: var(--font-color);
-	}
-
-
-	/* text color of the footer links  */
-	.footer ul li a {
-		color: var(--font-color);
-	}
-	/* .footer #footer_links, .footer #footer_version {
-	    max-width: 26%;
-	} */
-	.footer > ul {
-		margin-right: 25px;
-		margin-bottom: 0px;
-	}
-	#blocks_link{
-		width: 65px;
-	}
-	#blocks_link > img{
-		width: 60px;
-	}
-
-	.container-fluid {
-		align-content: baseline;
-		padding-left: 0px !important;
-		padding-right: 0px !important;
-	}
-
-	a{
-		color: rgb(136, 154, 255);
-		font-family: "montserrat-light";
-		text-decoration: unset !important;
-	}
-
-
-	/* --------------------------------- */
-	/* Change the navbar/settings aspect */
-	#settings_dialog{
-		/* margin-top: -25% !important; */
-		/* color: var(--font-color) !important; */
-		/* color: rgb(145 148 243); */
-		background-color: var(--primary-color) !important;
-		height: auto !important;
-		width: 55% !important;
-		opacity: inherit !important;
-	 	/* margin-left: 400px; */
-	}
-	#settings_dialog_menu > .nav {
-		flex-direction: column;
-	}
-	#settings {
-		display: flex;
-	  flex-direction: column;
-	}
-	.settings_users_details_key{
-		color: rgb(0 0 0);
-	}
-	.settings_users_details_value{
-		color: rgb(0 0 0);
-	}
-	.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th {
-    color: var(--settings-font ) !important;
-	}
-	.table-striped tbody>tr:nth-child(odd):hover>td, .table-striped tbody>tr:nth-child(odd):hover>th {
-    color: var(--font-color) !important;
-	}
-
-	/* settings actions buttons colors  */
-	.table-striped tbody tr:nth-child(odd) .settings_plugin_plugin_manager_plugins_actions a {
-		color: var(--settings-font) !important;
-	}
-	.table-striped tbody tr:nth-child(odd):hover .settings_plugin_plugin_manager_plugins_actions a {
-		color: var(--font-color) !important;
-	}
-	.table-striped tbody tr:nth-child(even) .settings_plugin_plugin_manager_plugins_actions a {
-		color: var(--font-color) !important;
-	}
-
-	.table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
-    background-color: #9292924d;
-	}
-
-	.table-striped tbody tr:nth-child(odd) .settings_plugin_announcements_channels_actions a {
-		color: var(--settings-font) !important;
-	}
-	.table-striped tbody tr:nth-child(even) .settings_plugin_announcements_channels_actions a {
-		color: var(--font-color) !important;
-	}
-	.tab-content{
-		background-color: var(--bg-color) !important;
-		color: var(--font-color) !important;
-	}
-	.nav-list>li>a, .nav-list .nav-header{
-		text-shadow: unset !important;
-	}
-	#terminal-filterpanel {
-    float: unset;
-	}
-	/* For the popups that appear */
-	.modal-header{
-		background-color: var(--primary-color) !important;
-		color: var(--font-color) !important;
-	}
-	.modal-footer{
-		background-color: var(--primary-color) !important;
-		color: var(--font-color) !important;
-	}
-	.modal-body{
-		background-color: var(--bg-color) !important;
-		color: var(--font-color) !important;
-	}
-
- .modal{
-		/* background-color: var(--bg-color) !important; */
-		/* color: var(--font-color) !important; */
-		top: 45% !important;
-		opacity: 1 !important;
-		left: 720px !important;
-		width: 50% !important;
-		height: fit-content !important;
-	}
-	.modal.large{
-		margin-left: -290px;
-	}
-	legend{
-		color: var(--font-color) !important;
-	}
-	.span{
-		color: var(--font-color) !important;
-		height: 33px !important;
-	}
-	.progress-text-back{
-		color: rgb(0 0 0);
-	}
-	.help-block, .help-inline{
-		color: var(--font-color) !important;
-	}
-	#navbar > .navbar-inner > .container-fluid{
-		background-color: var(--primary-color) !important;
-		color: var(--navbar-color) !important;
-	}
-
-	#navbar .navbar-inner .brand {
-	  padding: 10px 30px 6px;
-	}
-	#navbar .navbar-inner .brand, #navbar .navbar-inner .nav>li>a{
-		color: var(--navbar-color);
-		text-shadow: var(--shadow-text) !important;
-	}
-	#navbar .navbar-inner .nav>li>a:hover{
-		background-color: var(--hover-color) !important;
-		color: #22005f;
-		background-image: unset;
-	}
-	#navbar > .navbar-inner{
-		background-color: unset;
-		background-image: unset;
-	}
-	#LightDarkSwitchWrapper{
-		display: inline-flex;
-    position: relative;
-    height: fit-content;
-    width: 5%;
-    float: right;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-    align-content: flex-start;
-	}
-	.popover, .popover-title{
-		color: var(--font-color) !important;
-		background-color: var(--bg-color) !important;
-	}
-
-	#LightDarkSwitch{
-		background-color: var(--switch-color) !important;
-		border-color: var(--switch-color) !important;
-	}
-	#LightDarkSwitch:checked{
-		background-color: var(--switch-color) !important;
-		border-color: var(--switch-color) !important;
-	}
-	#LightDarkSwitch:focus{
-		background-color: var(--switch-color) !important;
-		box-shadow: var(--switch-color) !important;
-	}
-
-	/* -------------------------*/
-	#Blocks_control::-webkit-scrollbar{
-		width: 10px;
-	}
-	#Blocks_control::-webkit-scrollbar-track{
-		background: var(--bg-color);
-	}
-	/* Handle */
- #Blocks_control::-webkit-scrollbar-thumb {
-	 background: var(--scrollbar-color);
-	 border-radius: 10px;
+html{
+	min-width: 1420px;
+}
+@font-face {
+	font-family: 'montserrat-light';
+  src: url("../Fonts/montserrat-light-webfont.woff2") format('woff2'),
+       url("../Fonts/montserrat-light-webfont.woff") format('woff');
+  font-weight: var(--bs-font-weight);
+  font-style: normal;
+}
+body{
+	font-family: 'montserrat-light', sans-serif !important;
+	line-height: 25px !important;
+	font-size: 14px !important;
+	font-weight: 900 !important;
  }
- /* Handle on hover */
- #Blocks_control::-webkit-scrollbar-thumb:hover {
-	 background: var(--scrollbar-hover);
+ /* Scrollbar */
+ ::-webkit-scrollbar{
+	 width: 10px;
  }
+ ::-webkit-scrollbar-track{
+	 background: var(--scrollbar-bg);
+ }
+ /* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-color);
+	border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+/* Page setUp */
+.accordion-inner{
+	border-top: unset;
+}
+.container-fluid.heading > .container-fluid.heading {
+    padding: 5px;
+}
+.BLOCKSMainContainer{
+	padding-left: 0px;
+	padding-right: 0px;
+	height: -webkit-fill-available;
+	background-color: var(--primary-color);
+	color: var(--font-color);
+}
+.BLOCKSMainContainer > .tab-content > .tab-pane > h1 {
+	color: var(--font-color);
 
-	#filament_load{
-		padding-left: 2px !important;
-	}
-	#filamentStep{
-		width: 15%;
-		position: relative;
-		top: 0%;
-		margin-left: 3px;
-		margin-right: 0px;
-	}
+}
+.octoprint-container .tab-content h1{
+	color: var(--font-color);
+}
+/* text color of the footer links  */
+.footer ul li a {
+	color: var(--font-color);
+}
+.footer > ul {
+	margin-right: 25px;
+	margin-bottom: 0px;
+}
+#blocks_link{
+	width: 65px;
+}
+#blocks_link > img{
+	width: 60px;
+}
 
-	#control_filament_buttons{
-		display: inline-flex;
-	  align-items: flex-start;
-		margin-top: 5px;
-	}
+.container-fluid {
+	align-content: baseline;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+a{
+	color: rgb(136, 154, 255);
+	font-family: "montserrat-light";
+	text-decoration: unset !important;
+}
+/* --------------------------------- */
+/* Change the navbar/settings aspect */
+#settings_dialog{
+	background-color: var(--primary-color) !important;
+	height: auto !important;
+	width: 55% !important;
+	opacity: inherit !important;
+}
+#settings_dialog_menu > .nav {
+	flex-direction: column;
+}
+#settings {
+	display: flex;
+  flex-direction: column;
+}
+.settings_users_details_key{
+	color: rgb(0 0 0);
+}
+.settings_users_details_value{
+	color: rgb(0 0 0);
+}
+.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th {
+  color: var(--settings-font ) !important;
+}
+.table-striped tbody>tr:nth-child(odd):hover>td, .table-striped tbody>tr:nth-child(odd):hover>th {
+  color: var(--font-color) !important;
+}
 
-	#control-jog-feedrate > label > .popover{
-		color: rgb(86,86,86);
-	}
-	#control-jog-flowrate > label > .popover{
-		color: rgb(86,86,86);
-	}
-	.blocks_notifications_entry{
-		display: flex;
-		align-items: center;
-		padding: 5px;
-		line-height: 20px;
-		border-bottom: 1px solid #ddd;
-	}
-	.blocks_notifications_scrollable{
-		overflow-x: hidden;
-		overflow-y: auto;
-    max-height: 269px;
-	}
-	.blocks_notifications_timestamp{
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-	#blocks_notifications_wrapper{
-		padding: 8px 15px;
-	}
-	/* ----------------------------*/
+/* settings actions buttons colors  */
+.table-striped tbody tr:nth-child(odd) .settings_plugin_plugin_manager_plugins_actions a {
+	color: var(--settings-font) !important;
+}
+.table-striped tbody tr:nth-child(odd):hover .settings_plugin_plugin_manager_plugins_actions a {
+	color: var(--font-color) !important;
+}
+.table-striped tbody tr:nth-child(even) .settings_plugin_plugin_manager_plugins_actions a {
+	color: var(--font-color) !important;
+}
 
-	/* Temperature wrapper properties */
-	#temp_wrapper > .container-fluid.heading > a.container-fluid {
-		padding: 8px 15px;
-	}
-	#temp_wrapper > .container-fluid.heading {
-		border-bottom: 1px solid #e5e5e5;
-		position: relative;
-	}
-	#temp_wrapper {
-		border-radius: 4px;
-		height : 577px;
-	}
-	#temp {
-		padding: 8px 15px;
-		/* display: block; */
-	}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
+  background-color: #9292924d;
+}
 
-	#temperature-graph{
-		background-image: var(--graph-image) !important;
-		background-size: cover;
-		opacity: 0.6;
-		background-position: center;
-		background-size: 50%;
-		width: 100%;
-	}
-	#temperature-graph > .legend  td{
-		color: var(--font-color) !important;
-	}
-	/* ----------------------------- */
-	/* TABLES PROPESTIES */
-	#temperature-table{
-		margin-top: 20px !important;
-	}
+.table-striped tbody tr:nth-child(odd) .settings_plugin_announcements_channels_actions a {
+	color: var(--settings-font) !important;
+}
+.table-striped tbody tr:nth-child(even) .settings_plugin_announcements_channels_actions a {
+	color: var(--font-color) !important;
+}
+.tab-content{
+	background-color: var(--bg-color) !important;
+	color: var(--font-color) !important;
+}
+.nav-list>li>a, .nav-list .nav-header{
+	text-shadow: unset !important;
+}
+#terminal-filterpanel {
+  float: unset;
+}
+/* For the popups that appear */
+.modal-header{
+	background-color: var(--primary-color) !important;
+	color: var(--font-color) !important;
+}
+.modal-footer{
+	background-color: var(--primary-color) !important;
+	color: var(--font-color) !important;
+}
+.modal-body{
+	background-color: var(--bg-color) !important;
+	color: var(--font-color) !important;
+}
 
-	.table{
-		color: var(--font-color) !important;
-	}
-	.flot-text{
-		color: var(--flot-text-color) !important;
-	}
-	#temperature-table > tbody,#temperature-table >tbody > tr  {
-		border-bottom: 1px solid var(--font-color) !important;
-	}
-	/* ----------------------------- */
+.modal{
+	top: 45% !important;
+	opacity: 1 !important;
+	left: 720px !important;
+	width: 50% !important;
+	height: fit-content !important;
+}
+.modal.large{
+	margin-left: -290px;
+}
+legend{
+	color: var(--font-color) !important;
+}
+.span{
+	color: var(--font-color) !important;
+	height: 33px !important;
+}
+.progress-text-back{
+	color: rgb(0 0 0);
+}
+.help-block, .help-inline{
+	color: var(--font-color) !important;
+}
+#navbar > .navbar-inner > .container-fluid{
+	background-color: var(--primary-color) !important;
+	color: var(--navbar-color) !important;
+}
 
-	/* State wrapper properties */
-	#state_wrapper > .container-fluid.heading > a.container-fluid {
-	  /* display: inline-block; */
-	  padding: 8px 15px;
-	}
-	#state_wrapper > .container-fluid.heading {
-	  border-bottom: 1px solid #e5e5e5;
-	  position: relative;
-	}
-	#state_wrapper {
-	  border-radius: 4px;
-	}
-	#state {
+#navbar .navbar-inner .brand {
+  padding: 10px 30px 6px;
+}
+#navbar .navbar-inner .brand, #navbar .navbar-inner .nav>li>a{
+	color: var(--navbar-color);
+	text-shadow: var(--shadow-text) !important;
+}
+#navbar .navbar-inner .nav>li>a:hover{
+	background-color: var(--hover-color) !important;
+	color: #22005f;
+	background-image: unset;
+}
+#navbar > .navbar-inner{
+	background-color: unset;
+	background-image: unset;
+}
+#LightDarkSwitchWrapper{
+	display: inline-flex;
+  position: relative;
+  height: fit-content;
+  width: 5%;
+  float: right;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  align-content: flex-start;
+}
+.popover, .popover-title{
+	color: var(--font-color) !important;
+	background-color: var(--bg-color) !important;
+}
 
-	  /* display: flex; */
-		flex-direction: column;
-	}
+#LightDarkSwitch{
+	background-color: var(--switch-color) !important;
+	border-color: var(--switch-color) !important;
+}
+#LightDarkSwitch:checked{
+	background-color: var(--switch-color) !important;
+	border-color: var(--switch-color) !important;
+}
+#LightDarkSwitch:focus{
+	background-color: var(--switch-color) !important;
+	box-shadow: var(--switch-color) !important;
+}
 
-	/* ----------------------------- */
+/* -------------------------*/
+#Blocks_control::-webkit-scrollbar{
+	width: 10px;
+}
+#Blocks_control::-webkit-scrollbar-track{
+	background: var(--bg-color);
+}
+/* Handle */
+#Blocks_control::-webkit-scrollbar-thumb {
+ background: var(--scrollbar-color);
+ border-radius: 10px;
+}
+/* Handle on hover */
+#Blocks_control::-webkit-scrollbar-thumb:hover {
+ background: var(--scrollbar-hover);
+}
 
-	/* notification properties */
-	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
-	  /* display: inline-block; */
-	  padding: 8px 15px;
-	}
-	#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
-	  border-bottom: 1px solid #e5e5e5;
-	  position: relative;
-	}
-	#sidebar_plugin_action_command_notification_wrapper{
-	  /*border: 1px solid #e5e5e5;*/
-	  border-radius: 4px;
-	}
-	#sidebar_plugin_action_command_notification{
-	  padding: 8px 15px;
-	  /* display: flex; */
-		flex-direction: column;
-	}
-	#sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
-	  overflow-x: hidden;
-	  overflow-y: auto;
-	  /*max-height: 306px;*/
-	}
-	/* Fixes the problem of the notifications making the grid all wonky when there are alot of notifications*/
-	#sidebar_plugin_action_command_notification > .accordion-inner{
-		max-height: 344px;
-	}
-	/* ----------------------------- */
+#filament_load{
+	padding-left: 2px !important;
+}
+#filamentStep{
+	width: 15%;
+	position: relative;
+	top: 0%;
+	margin-left: 3px;
+	margin-right: 0px;
+}
 
-	/* Files wrapper css styles */
+#control_filament_buttons{
+	display: inline-flex;
+  align-items: flex-start;
+	margin-top: 5px;
+}
 
-	#files_wrapper > .container-fluid > .container-fluid.body {
-		display: flex;
-		align-items: stretch;
-	  flex-direction: column;
-	  flex-wrap: nowrap;
-	  margin-block-start: 5%;
-	}
-	/* Files scrollbar */
-	.scroll-wrapper::-webkit-scrollbar{
-		width: 10px;
-	}
-	.scroll-wrapper::-webkit-scrollbar-track{
-		background: var(--bg-color);
-	}
-	/* Handle */
-	.scroll-wrapper::-webkit-scrollbar-thumb {
-	 background: var(--scrollbar-color);
-	 border-radius: 10px;
-	}
-	/* Handle on hover */
-	.scroll-wrapper::-webkit-scrollbar-thumb:hover {
-	 background: var(--scrollbar-hover);
-	}
+#control-jog-feedrate > label > .popover{
+	color: rgb(86,86,86);
+}
+#control-jog-flowrate > label > .popover{
+	color: rgb(86,86,86);
+}
+.blocks_notifications_entry{
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	line-height: 20px;
+	border-bottom: 1px solid #ddd;
+}
+.blocks_notifications_scrollable{
+	overflow-x: hidden;
+	overflow-y: auto;
+  max-height: 269px;
+}
+.blocks_notifications_timestamp{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+#blocks_notifications_wrapper{
+	padding: 8px 15px;
+}
+/* ----------------------------*/
 
-	#files_wrapper > .container-fluid.heading {
-	  border-bottom: 1px solid #e5e5e5;
-	}
-	#files_wrapper{
-	  /*border: 1px solid #e5e5e5;*/
-	  border-radius: 4px;
-	}
-	#files{
-	  padding: 8px 15px;
-	  /* display: flex; */
-		/* flex-direction: column; */
-	}
-	/* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
-	#files .gcode_files .scroll-wrapper {
-	  overflow-x: hidden;
-	  overflow-y: auto;
-		padding-right: 2px;
-	  /*height: 306px;*/
-	}
+/* Temperature wrapper properties */
+#temp_wrapper > .container-fluid.heading > a.container-fluid {
+	padding: 8px 15px;
+}
+#temp_wrapper > .container-fluid.heading {
+	border-bottom: 1px solid #e5e5e5;
+	position: relative;
+}
+#temp_wrapper {
+	border-radius: 4px;
+	height : 577px;
+}
+#temp {
+	padding: 8px 15px;
+}
 
-	#files_triggers {
-		display: inherit;
-    position: relative;
-    margin-inline-start: 66%;
-	}
+#temperature-graph{
+	background-image: var(--graph-image) !important;
+	background-size: cover;
+	opacity: 0.6;
+	background-position: center;
+	background-size: 50%;
+	width: 100%;
+}
+#temperature-graph > .legend  td{
+	color: var(--font-color) !important;
+}
+/* ----------------------------- */
+/* TABLES PROPESTIES */
+#temperature-table{
+	margin-top: 20px !important;
+}
+.table{
+	color: var(--font-color) !important;
+}
+.flot-text{
+	color: var(--flot-text-color) !important;
+}
+#temperature-table > tbody,#temperature-table >tbody > tr  {
+	border-bottom: 1px solid var(--font-color) !important;
+}
+/* ----------------------------- */
 
-	.accordion-heading-button {
-    margin-left: 10px;
-    margin-right: 10px;
-	}
-	#files_heading{
-		display: inline-flex;
-    align-items: center;
-    width: -webkit-fill-available;
-    flex-wrap: wrap;
-    flex-direction: row;
-	}
-	#files_heading > .fa.fa-list{
-		margin-inline-end: 5px;
-	}
-	#files .gcode_files .entry:hover {
-		background-color: var(--hover-color) !important;
-	}
+/* State wrapper properties */
+#state_wrapper > .container-fluid.heading > a.container-fluid {
+  padding: 8px 15px;
+}
+#state_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+#state_wrapper {
+  border-radius: 4px;
+}
+#state {
+	flex-direction: column;
+}
 
-	/* To fix the button settings on the files */
-	.open>.dropdown-menu {
-		right: 1px !important;
-	}
-	#files_triggers .dropdown-menu{
-		position: absolute;
-		left: auto;
-		right: 0 !important;
-	}
-	.dropdown-menu {
-		position: absolute;
-	  left: auto;
-		right: auto;
-	}
-	.dropdown-menu-right{
-		right: 0 !important;
-	}
-	/* Grid properties */
-	.TopRow{
-		display: flex ;
-		align-items: flex-start;
-		flex-wrap:nowrap;
-		/* max-height: 425px; */
-		margin-block-end: 15px;
-		margin-block-start: 40px;
-		width: auto;
-		margin-right: 10px;
-    margin-left: 10px;
-	}
-	.BotRow{
-		display: flex ;
-		align-items: flex-start;
-		flex-wrap:nowrap;
-		width: auto;
-		margin-right: 10px;
-    margin-left: 10px;
+/* ----------------------------- */
 
-	}
-	.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
-		flex-basis: 100%;
-		padding: 4px;
-		min-width: 1%;
-		border-radius: 15px;
-	  border: 4px solid;
-		border-color: var(--border-color) !important;
-	  /* margin-inline-end: 10px; */
-		min-height: 462px;
-		color: var(--font-color) !important;
-		background-color: var(--bg-color) !important;
-	}
+/* notification properties */
+#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading > a.container-fluid {
+  padding: 8px 15px;
+}
+#sidebar_plugin_action_command_notification_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+#sidebar_plugin_action_command_notification_wrapper{
+  border-radius: 4px;
+}
+#sidebar_plugin_action_command_notification{
+  padding: 8px 15px;
+	flex-direction: column;
+}
+#sidebar_plugin_action_command_notification > .accordion-inner > div > .sidebar_plugin_action_command_notification_scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* Fixes the problem of the notifications making the grid all wonky when there are alot of notifications*/
+#sidebar_plugin_action_command_notification > .accordion-inner{
+	max-height: 344px;
+}
+/* ----------------------------- */
 
-	.BotRow > .BLOCKCol1, .BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
-	  min-height: 630px;
-	}
+/* Files wrapper css styles */
 
-	.TopRow > .BLOCKCol2, .BotRow > .BLOCKCol2{
-		margin-inline-start: 10px;
-		margin-inline-end: 10px;
-	}
-	/* ------------------ */
+#files_wrapper > .container-fluid > .container-fluid.body {
+	display: flex;
+	align-items: stretch;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-block-start: 5%;
+}
+/* Files scrollbar */
+.scroll-wrapper::-webkit-scrollbar{
+	width: 10px;
+}
+.scroll-wrapper::-webkit-scrollbar-track{
+	background: var(--bg-color);
+}
+/* Handle */
+.scroll-wrapper::-webkit-scrollbar-thumb {
+ background: var(--scrollbar-color);
+ border-radius: 10px;
+}
+/* Handle on hover */
+.scroll-wrapper::-webkit-scrollbar-thumb:hover {
+ background: var(--scrollbar-hover);
+}
 
-	/* Blocks properties */
+#files_wrapper > .container-fluid.heading {
+  border-bottom: 1px solid #e5e5e5;
+}
+#files_wrapper{
+  border-radius: 4px;
+}
+#files{
+  padding: 8px 15px;
+}
+/* Eliminates the scroll bar from the files wrapper when there is nothing to scroll */
+#files .gcode_files .scroll-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+	padding-right: 2px;
+}
 
-	#PrinterImg{
-		position: relative;
-		margin-left: auto;
-	}
+#files_triggers {
+	display: inherit;
+  position: relative;
+  margin-inline-start: 66%;
+}
 
-	#blocksWrapper {
-		border-radius: 4px;
-	}
-	#blocksWrapper > .container-fluid.heading {
-		position: relative;
-	  border-bottom: 1px solid #e5e5e5;
-	  display: flex;
-	  align-items: center;
-	  justify-content: flex-start;
-	  flex-wrap: wrap;
-	  flex-direction: row;
-	}
-	#blocks_printer_connect{
-		border: 2px solid;
-		border-color: var(--border-color) !important;
-	}
-	#blocks_printer_connect:checked{
-		background-color: var(--bg-color) !important;
-	}
-	.form-switch {
-	    padding: 7px 3px 2px 50px;
-	}
-	.form-check-input{
-		background-color: var(--bg-color) !important;
-	}
+.accordion-heading-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#files_heading{
+	display: inline-flex;
+  align-items: center;
+  width: -webkit-fill-available;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+#files_heading > .fa.fa-list{
+	margin-inline-end: 5px;
+}
+#files .gcode_files .entry:hover {
+	background-color: var(--hover-color) !important;
+}
 
-	/* ----------------- */
+/* To fix the button settings on the files */
+.open>.dropdown-menu {
+	right: 1px !important;
+}
+#files_triggers .dropdown-menu{
+	position: absolute;
+	left: auto;
+	right: 0 !important;
+}
+.dropdown-menu {
+	position: absolute;
+  left: auto;
+	right: auto;
+}
+.dropdown-menu-right{
+	right: 0 !important;
+}
+/* Grid properties */
+.TopRow{
+	display: flex ;
+	align-items: flex-start;
+	flex-wrap:nowrap;
+	margin-block-end: 15px;
+	margin-block-start: 40px;
+	width: auto;
+	margin-right: 10px;
+  margin-left: 10px;
+}
+.BotRow{
+	display: flex ;
+	align-items: flex-start;
+	flex-wrap:nowrap;
+	width: auto;
+	margin-right: 10px;
+  margin-left: 10px;
 
-	select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
-	input[type="month"], input[type="time"], input[type="week"], input[type="email"],input[type="number"], input[type="url"],
-	input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-	    height: auto;
-			/* width: auto; */
-	}
+}
+.BLOCKCol1, .BLOCKCol2, .BLOCKCol3  {
+	flex-basis: 100%;
+	padding: 4px;
+	min-width: 1%;
+	border-radius: 15px;
+  border: 4px solid;
+	border-color: var(--border-color) !important;
+	min-height: 462px;
+	color: var(--font-color) !important;
+	background-color: var(--bg-color) !important;
+}
 
-	.input-append .add-on, .input-prepend .add-on {
-	    width: auto;
-	    height: auto !important;
-	}
+.BotRow > .BLOCKCol1, .BotRow > .BLOCKCol2, .BotRow> .BLOCKCol3 {
+  min-height: 630px;
+}
 
-	input[type=number].input-nospin{
-		width: 45px !important;
-		text-align: center;
-	}
+.TopRow > .BLOCKCol2, .BotRow > .BLOCKCol2{
+	margin-inline-start: 10px;
+	margin-inline-end: 10px;
+}
+/* ------------------ */
 
-	label.form-check-text {
-		font-weight: bold;
-		/* display: inline; */
-	}
+#PrinterImg{
+	position: relative;
+	margin-left: auto;
+}
 
-	/* Just so i don't see the black outline on the toggle switch*/
-	select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
-	    outline: thin dotted #000;
-	    outline: 0px auto -webkit-focus-ring-color;
-	    /* outline-offset: -2px; */
-	}
+#blocksWrapper {
+	border-radius: 4px;
+}
+#blocksWrapper > .container-fluid.heading {
+	position: relative;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+#blocks_printer_connect{
+	border: 2px solid;
+	border-color: var(--border-color) !important;
+}
+#blocks_printer_connect:checked{
+	background-color: var(--bg-color) !important;
+}
+.form-switch {
+    padding: 7px 3px 2px 50px;
+}
+.form-check-input{
+	background-color: var(--bg-color) !important;
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
+input[type="month"], input[type="time"], input[type="week"], input[type="email"],input[type="number"], input[type="url"],
+input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    height: auto;
+}
+.input-append .add-on, .input-prepend .add-on {
+    width: auto;
+    height: auto !important;
+}
 
-	/* Fan Slider */
+input[type=number].input-nospin{
+	width: 45px !important;
+	text-align: center;
+}
+label.form-check-text {
+	font-weight: bold;
+}
+/* Just so i don't see the black outline on the toggle switch*/
+select:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
+    outline: thin dotted #000;
+    outline: 0px auto -webkit-focus-ring-color;
+}
+/* Fan Slider */
+#fanRange{
+		width: 255px;
+		padding: 6px;
+    border-radius: 16px;
+		align-self:  center !important;
+}
+#fanSlider > label {
+	width: 7%;
+	align-self: center;
+}
+#fanSlider{
+	display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-evenly !important;
+  flex-wrap: wrap !important;
+}
+#fanSlider > h1 {
+	margin-left : auto;
+}
+  /* This is for my gradient on the fan controler slider */
+	/* It only displays the gradient when the printer is connected */
+input[type="range"]:enabled::-webkit-slider-runnable-track{
+	-webkit-appearance: none;
+	background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
+}
 
-	#fanRange{
-			width: 255px;
-			padding: 6px;
-	    border-radius: 16px;
-			align-self:  center !important;
-	}
-	#fanSlider > label {
-		width: 7%;
-		align-self: center;
-	}
-	#fanSlider{
-		display: inline-flex !important;
-	  align-items: center !important;
-	  justify-content: space-evenly !important;
-	  flex-wrap: wrap !important;
-	}
-	#fanSlider > h1 {
-		margin-left : auto;
-	}
-	  /* This is for my gradient on the fan controler slider */
-		/* It only displays the gradient when the printer is connected */
-	input[type="range"]:enabled::-webkit-slider-runnable-track{
-		-webkit-appearance: none;
-		background: linear-gradient(270deg, rgba(244,0,0,1) 0%, rgba(255,149,0,1) 25%, rgba(255,222,0,1) 43%, rgba(198,255,0,1) 59%, rgba(121,255,0,1) 74%, rgba(0,255,29,1) 100%);
-	}
+/* All Popovers about warnings will have the correct size */
+.modal.hide.fade.modal-overflow.in{
+	height: fit-content;
+  text-align: center
+}
+/* Changes the background color of the buttons when i hover over them */
+a:hover {
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+}
+/* Notifications icon color  */
+.fas.fa-exclamation{
+	color: var(--notification-color);
+}
 
+.hero-unit{
+	color: black;
+}
 
+#gcode >div > .progress {
+	width: 100%;
+}
+#gcode_canvas{
+	width: 100%;
+	height: 100%;
+}
+.slider.slider-vertical .slider-track{
+	margin-left: 0px;
+}
+span.add-on{
+	color: rgb(86,86,86);
+}
+.btn{
+	line-height: 20px !important;
+	height: auto;
+	font-size: 14px !important;
+	padding: 4px 12px !important;
+}
+.btn-check:focus+.btn, .btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(13 110 253 / 25%) !important;
+  border-radius: 4px !important;
+}
+.h1{
+	font-weight: bold !important;
+}
 
-	/* All Popovers about warnings will have the correct size */
-	.modal.hide.fade.modal-overflow.in{
-		height: fit-content;
-    /* width: fit-content; */
-		/* width: 45px !important; */
-    text-align: center
-	}
+.pagination ul {
+	padding-left:0px !important;
+}
 
-	/* Changes the background color of the buttons when i hover over them */
-	a:hover {
-		color: rgb(0, 0, 0);
-		text-decoration: none;
-	}
-	/* Notifications icon color  */
-	.fas.fa-exclamation{
-		color: var(--notification-color);
-	}
+.fullscreen-icon{
+	background-image: url(../img/fullscreen_icon.png);
+  background-size: 150% !important;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+}
 
-	.hero-unit{
-		color: black;
-	}
+#fullscreenButton{
+	padding: 4px 4px 0px 4px !important;
+	/* width: fit-content; */
+	width: auto;
+	position: absolute;
+	bottom: 5%;
+	right: 5%;
+	float: right;
+}
 
-	#gcode >div > .progress {
-		width: 100%;
-	}
-	#gcode_canvas{
-		width: 100%;
-		height: 100%;
-	}
-	.slider.slider-vertical .slider-track{
-		margin-left: 0px;
-	}
+#webcam_container .webcam_rotated {
+	height: -webkit-fill-available;
+}
 
+#wifiSetUpWindow{
+	display: inline-flex;
 
+}
+#network_list{
+	padding-left: 30px !important;
+}
 
-
-	span.add-on{
-		color: rgb(86,86,86);
-	}
-
-	/* .caret {
-	    display: unset;
-	    width: unset;
-			height: unset;
-	    vertical-align: unset;
-	    border-top: unset;
-	    border-right: unset;
-	    border-left: unset;
-	    content: unset;
-	} */
-
-	.btn{
-		line-height: 20px !important;
-		height: auto;
-		/* border: 1px solid var(--button-border-color) !important; */
-		font-size: 14px !important;
-		padding: 4px 12px !important;
-	}
-	.btn-check:focus+.btn, .btn:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgb(13 110 253 / 25%) !important;
-    border-radius: 4px !important;
-	}
-	.h1{
-		font-weight: bold !important;
-	}
-
-	.pagination ul {
-		padding-left:0px !important;
-	}
-
-	.fullscreen-icon{
-		background-image: url(../img/fullscreen_icon.png);
-    background-size: 150% !important;
-    background-position: center;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-	}
-
-	#fullscreenButton{
-		padding: 4px 4px 0px 4px !important;
-		/* width: fit-content; */
-		width: auto;
-		position: absolute;
-		bottom: 5%;
-		right: 5%;
-		float: right;
-	}
-
-
-	#webcam_container .webcam_rotated {
-		/* padding-bottom: 100% ; */
-		height: -webkit-fill-available;
-	}
-
-	#wifiSetUpWindow{
-		display: inline-flex;
-
-	}
-	#network_list{
-		padding-left: 30px !important;
-	}
-
-	.red-color{
-		color: red;
-	}
+.red-color{
+	color: red;
+}
 
 /* ----------------- */
-	#control_xy {
-		display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-around;
-	}
-	#control-jog-xy{
-		/* display: contents;
-		 */
-	 	display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
-    align-content: center;
-	}
+#control_xy {
+	display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-around;
+}
+#control-jog-xy{
+	/* display: contents;
+	 */
+ 	display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
+#Blocks_control > .container-fluid.body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+#Blocks_control > .container-fluid.body > .row > .container-fluid{
+	display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+#Blocks_control > .container-fluid.body > .row-fluid {
+	display: inline-flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+	margin-bottom: 15px;
+}
+
+#control-jog-xy .btn {
+	margin: 5px;
+}
+
+#control-jog-z{
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#control-jog-z .btn {
+	margin: 5px;
+}
+
+#control-jog-extrusion{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#control-jog-extrusion .btn.btn-block.control-box{
+	margin-bottom: 5px;
+	margin-top : 10px !important;
+}
 
 
+#control-jog-extrusion > div > div.input-append{
+	margin : 5px !important;
+	margin-left: 12px !important;
+}
 
-	#Blocks_control > .container-fluid.body {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-	}
-
-	#Blocks_control > .container-fluid.body > .row > .container-fluid{
-		display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-	}
-
-	#Blocks_control > .container-fluid.body > .row-fluid {
-		display: inline-flex;
-    align-items: stretch;
-    justify-content: space-evenly;
-		margin-bottom: 15px;
-	}
-
-	#control-jog-xy .btn {
-		margin: 5px;
-	}
-
-	#control-jog-z{
-		display: flex;
-    flex-direction: column;
-    align-items: center;
-	}
-	#control-jog-z .btn {
-		margin: 5px;
-	}
-
-	#control-jog-extrusion{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	#control-jog-extrusion .btn.btn-block.control-box{
-		margin-bottom: 5px;
-		margin-top : 10px !important;
-	}
-
-
-	#control-jog-extrusion > div > div.input-append{
-		margin : 5px !important;
-		margin-left: 12px !important;
-	}
-
-	#Blocks_control > .container-fluid.heading{
-		border-bottom: 1px solid #e5e5e5;
-	  position: relative;
-	}
+#Blocks_control > .container-fluid.heading{
+	border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}

@@ -221,8 +221,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2",
                  custom_bindings=True),
             # My webcam link template
-            dict(type="tab", name="WebCam", template="webcam_tab.jinja2",
-                 custom_bindings=False),
+            dict(type="tab", name="WebCam", custom_bindings=False),
             # Custom Notifications template
             dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
                  custom_bindings=True),
@@ -238,7 +237,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # No Wifi warning on the navbar template
             dict(type="navbar", template="wifiWarning_navbar.jinja2",
                  custom_bindings=True),
-
+            # Template for my Control module section
             dict(type="generic", template="Blocks_controlViewmodel.jinja2",
                  custom_bindings=True)
         ]

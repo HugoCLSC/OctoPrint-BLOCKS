@@ -241,7 +241,6 @@ $(function() {
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
             // Finally i place my new control wrapper in my grid and correct the webcam
-            // $('#control_wrapper').appendTo($('#BTC3'));
             $('#Blocks_control').appendTo($('#BTC3')); // TODO
             $('.BLOCKSMainTabs').appendTo($('#BBC2'));
             $('#files_wrapper').appendTo($('#BBC3'));
@@ -495,9 +494,6 @@ $(function() {
           }
         };
 
-
-
-
         //---------------------------------------------------------------------------
         self.new_tabs = function (){
           self.set_tabWebStream();
@@ -506,60 +502,26 @@ $(function() {
           self.set_tabbable();
         }
 
-        self.set_ControlWrapper = function(settingsPlugin){
+        self.set_ControlWrapper = function(){
           try {
-            // Wrap my #control ( Made by OctoPrint ) on a new division with the ID="control_wrapper"
-            $('#control').wrap('<div id="control_wrapper" class="container-fluid" data-bind="visible: loginState.hasAnyPermissionKo(access.permissions.CONTROL) && control.isOperational() "></div>');
             // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
             $('#control').removeClass('tab-pane').addClass('body');
-            $('<div class="container-fluid heading" ></div>').insertBefore('#control');
-            // I needed a inner wrapper so i used the query function wrapInner to wrap everything inside the #control
-            $('#control').wrapInner('<div class="container-fluid"></div>');
-            // Adds the gamepad icon in black and also adds the text "Controls" to the header
-            $('#control_wrapper > .container-fluid.heading').append('<i class=" fas icon-black fa-gamepad"></i>').append(' Controls ');
-            $('#control_wrapper > .container-fluid.heading').wrap("<div class='container-fluid heading'></div>")
             // Fix the size of the control wrapper letters.
             $('h1').css("font-size","15px");
             $('h1').css("font-weight","bold");
-
-            $('#control > .container-fluid > .row-fluid > .jog-panel').removeClass().addClass("panel");
-
-            // Now that i have this fna slider i really don't need the general tab.
-            $('#control > div  > div:first-child').remove();
-
-            $('#control-jog-general').remove();
-            //$('#fanSlider').appendTo($('#control'));
-            //self._set_filament_panel();
-
+            // Now that i have this fan slider i really don't need the general tab.
+            $('#control-jog-general').remove();                                 // Remove the general pane from control.
             $('#control-jog-xy').appendTo($('#control_xy'));
-            $('#control-jog-z').appendTo($('#control_z'));
             $('#jog_distance').appendTo($('#control_xy'));
+            $('#control-jog-z').appendTo($('#control_z'));
             $('#control-jog-feedrate').appendTo($('#feed_rate_mod'));
             $('#control-jog-extrusion').appendTo($('#control_extrusion'));
             $('#control-jog-flowrate').appendTo($('#flow_rate_mod'));
-
-            // $('#control_wrapper').remove();
-
-            // Set the xy controls
-
+            $('#control').remove();                                             // Remove the old control from the ui
           } catch (e) {
             self.logToConsole("Control wrapper set error" + e);
           }
         };
-
-        self._set_filament_panel = function (){
-          try{
-            $('#control > .container-fluid').append('<div class="container-fluid jog-panel" id="filamentStep"></div>');
-            // I'll add my control filament buttons here
-            $('#control_filament').appendTo($('#filamentStep'));
-            $('#control').append($('#control-jog-custom'));
-          }catch(e){
-            self.logToConsole(e)
-          }
-        };
-
-
-
         //---------------------------------------------------------------------------
         self.set_tabWebStream = function (settingsPlugin){
           try {
@@ -573,6 +535,7 @@ $(function() {
             self.logToConsole("Error on relocating webcam" + e);
           }
         };
+        //---------------------------------------------------------------------------
         self.set_tabbable = function(settingsPlugin){
           try {
             // Remove the container borders.
@@ -620,9 +583,6 @@ $(function() {
         // I'll set my containers fluid here
         self._set_removeCollapsible = function(enable){
           try {
-            $('#control_wrapper > div ').each( function() {
-              $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
-            });
             $('#temp_wrapper > div ').each( function() {
               $(this).removeClass('accordion-group').removeClass('accordion-heading').addClass('container-fluid');
             });
