@@ -11,10 +11,6 @@ import octoprint.plugin.core
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
-try:
-    from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
-except:
-    pass
 from .wifisetup import Wifisetup
 
 
