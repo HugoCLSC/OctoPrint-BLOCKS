@@ -46,7 +46,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     # ~~ Wifi
 
     def _wifi_reporting_enabled(self):
-        # TODO: Pick up this 
+        # TODO: Pick up this
         if self._printer_name == "":
             return True
         return False
@@ -124,30 +124,36 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "Ssid": _ssid,
         }
         if self._connectivity_checker.online:
+            # Means we really have internet connection. So either wifi or ethernet i guess
             if _interface is not None and _ssid is not None:
                 self._wifiSetUp.get_connection_stats(_stats= self.net_data)
                 self._logger.info("Wifi stats found!")
 
-            self._logger.info(self.net_data)
-            """
-            Send the M550 W<value> to the printer
+                self._logger.info(self.net_data)
+                """
+                Send the M550 W<value> to the printer
 
-                value = 4 ---> there is no connection
-                value =[5,8] ----> strenght of the signal
-                value = 9 ----> We are using ethernet/Hotspot
-            """
-            # At this stage we send the wifi level if the printer is connected
-            if self._printer.is_operational():
-                self._printer.commands(
-                    "M550 W{}".format(self.net_data["WifiLevel"]))
-                self._logger.info("Wifi quality level sent.")
+                    value = 4 ---> there is no connection
+                    value =[5,8] ----> strenght of the signal
+                    value = 9 ----> We are using ethernet/Hotspot
+                """
+                # At this stage we send the wifi level if the printer is connected
+                if self._printer.is_operational():
+                    self._printer.commands(
+                        "M550 W{}".format(self.net_data["WifiLevel"]))
+                    self._logger.info("Wifi quality level sent.")
+            elif _ssid is None:
+                # Probably are on Ethernet
+                if self._printer.is_operational():
+                    self._printer.commands("M550 W9")
+                    self._logger.info("Using ethernet.")
         else:
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
-                # We either don't have intenet or are on hotspot
+                # We don't have internet and probably are on hotspot if the functionality exists.
                 self._logger.info("No internet, but still operational")
                 # Report that to the printer
-                self._printer.commands("M550 W9")
+                self._printer.commands("M550 W4")
 
     # ~~ SimpleApiPlugin
 

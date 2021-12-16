@@ -150,7 +150,7 @@ $(function() {
       "controlViewModel",
       "accessViewModel"],
     elements: [
-      "#webCam",
+      // "#webCam",
       "#fullscreenButton"
     ]
   });

@@ -48,6 +48,9 @@ $(function() {
           } catch (e) {
             self.logToConsole(e);
           }
+
+          // Try and auto connect to the printer when everything is ready.
+          OctoPrint.connection.connect("autoconnect");
         };
         //---------------------------------------------------------------------------
         // Literally just changes the name on the top left corner, probably should change that
@@ -805,7 +808,6 @@ $(function() {
           "#LightDarkSwitchWrapper",
           "#wifiSetUpWindow",
           "#navbar_show_wifi_setup",
-          "#Blocks_controlViewmodel"
         ]
     });
 });
