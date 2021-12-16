@@ -68,9 +68,6 @@ class Wifisetup(object):
             _id=_network_id, _ssid=self._ssid, _password=self._psk)
         _returnSave = self.run_command("wpa_cli -i wlan0 save config")
 
-        # if "OK" in _returnSave.decode(encoding="UTF-8"):
-        #     return True
-        # return False
         return True if "OK" in _returnSave.decode(encoding="UTF-8") else False
 
     def set_pass_encryp(self, _id=None, _ssid=None, _password=None):

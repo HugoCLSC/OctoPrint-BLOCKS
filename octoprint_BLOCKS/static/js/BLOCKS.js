@@ -203,7 +203,7 @@ $(function() {
             //Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {
-            self.logToConsole('Error Binding'+e);
+            self.logToConsole('Error binding wrappers'+e);
           }
         };
         //---------------------------------------------------------------------------

@@ -7,7 +7,6 @@ import socket
 import netifaces
 import octoprint.plugin
 import octoprint.events
-# import octoprint.util.comm
 import octoprint.plugin.core
 from octoprint.events import Events
 from octoprint.util.comm import parse_firmware_line
@@ -47,7 +46,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     # ~~ Wifi
 
     def _wifi_reporting_enabled(self):
-        if self._printer_name == "R21":
+        # TODO: Pick up this 
+        if self._printer_name == "":
             return True
         return False
 
