@@ -25,15 +25,14 @@ $(function () {
           self.clearNotifications();
         };
         self.getTime = ko.pureComputed (function(){
-          // Just a normal function to get me the time
           var date = new Date();
           var hh = date.getHours();
           var mm = date.getMinutes();
           var sec = date.getSeconds();
-
           var time = hh + ':' + mm + ':' + sec;
           return gettext(time);
         });
+        
         // This function will automatically listen for any messages any plugin sends.
         self.onDataUpdaterPluginMessage = function (plugin, data) {
           try {

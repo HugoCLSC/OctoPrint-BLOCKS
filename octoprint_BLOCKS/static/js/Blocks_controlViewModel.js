@@ -1,5 +1,9 @@
-
-
+/*,
+ * View model for Notifications used in the Blocks Plugin
+ *
+ * Author: Hugo C. Lopes Santos Costa
+ * License: AGPLv3
+ */
 
 
 $(function(){
@@ -22,25 +26,7 @@ $(function(){
       }
     };
 
-    //
-    // self.isErrorOrClosed = ko.observable(undefined);
-    // self.isOperational = ko.observable(undefined);
-    // self.isPaused = ko.observable(undefined);
-    // self.isPrinting = ko.observable(undefined);
-    // self.isError = ko.observable(undefined);
-    // self.isReady = ko.observable(undefined);
-    // self.isLoading = ko.observable(undefined);
-    // // Callback, called when current printer status data is received from the server with the data as single parameter.
-    // self.fromCurrentData = function (data){
-    //
-    // };
-    // self._processData = function (data){
-    //   self.isErrorOrClosed(data.flags.closedOrError);
-    //   self.isOperational(data.flags.operational);
-    //   self.isPaused(data.flags.paused);
-    //   self.isPrinting(data.flags.printing);
-    // };
-
+    // Probably not even using this anywhere.
     self.distances = ko.observableArray([0.1, 1, 10, 100]);
     self.distance = ko.observable(0.1);
 

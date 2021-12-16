@@ -49,13 +49,14 @@ $(function() {
             self.logToConsole(e);
           }
         };
-        //                    onAllBound END
         //---------------------------------------------------------------------------
+        // Literally just changes the name on the top left corner, probably should change that
         self.onStartupComplete = function () {
           $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
           self.set_PrinterImg();
         };
 
+        //---------------------------------------------------------------------------
         self.onEventConnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
           if(!self.connectIt()){
@@ -65,11 +66,12 @@ $(function() {
           $('#PrinterImg').removeClass('scale-down-center').addClass('scale-in-center');
         };
 
+        //---------------------------------------------------------------------------
         self.onEventConnected = function () {
           $('#blocks_printer_connect').removeAttr('disabled');
           self.logToConsole("Connected");
         };
-
+        //---------------------------------------------------------------------------
         self.onEventDisconnecting = function () {
           $('#blocks_printer_connect').prop('disabled','disabled');
           if(self.connectIt()){
@@ -77,7 +79,7 @@ $(function() {
           }
           $('#PrinterImg').removeClass('scale-in-center').addClass('scale-down-center');
         };
-
+        //---------------------------------------------------------------------------
         self.onEventDisconnected = function () {
           // I'll reset the fan slider here
           self.fanControl(0);
@@ -86,7 +88,7 @@ $(function() {
           $('#PrinterImg > img').remove();
           self.logToConsole("Disconnect");
         };
-
+        //---------------------------------------------------------------------------
         self.fromCurrentData = function (data) {
           try {
             // If the printer was connected and then the user refreshed the page the trigger switch
@@ -100,7 +102,7 @@ $(function() {
             self.logToConsole(e);
           }
         };
-
+        //---------------------------------------------------------------------------
         // This function listens for any messages sent
         self.onDataUpdaterPluginMessage = function(plugin, data){
           try {
@@ -126,7 +128,7 @@ $(function() {
            }
            self.set_PrinterImg();
           } catch (e) {
-            self.logToConsole("Error while choosing printer image" + e);
+            self.logToConsole("Error while setting printer image" + e);
           }
         };
 
@@ -148,55 +150,8 @@ $(function() {
           // Since the Light/Dark theming is stored in the localStorage
           // This will get and set the correnct theming
           self._theming(settingsPlugin);
+        };
 
-        };
-        //---------------------------------------------------------------------------
-        self.set_PrinterImg = function() {
-          var printer = self.getStorage('Machine_Type');
-          var img =  $("#PrinterImg > img");
-          var size = img.length;
-          if(printer == "undefined"){
-            self.control.sendCustomCommand({type:'command', command: 'M115'});
-          }
-          if(size == 0){
-            $(printer).appendTo($('#PrinterImg'));
-          }
-        };
-        //---------------------------------------------------------------------------
-        // Saw this on UICustumizer
-        // https://github.com/LazeMSS/OctoPrint-UICustomizer
-        self._set_fixedHeader = function(enable) {
-          try {
-            $('body').addClass('BLOCKSUIfixedHeader');
-            $('body').attr('data-theme', 'light');
-            $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            $('.navbar').css("position","fixed");
-            $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        };
-        //---------------------------------------------------------------------------
-        // Fix fluid layout
-        // Saw this on UICustomizer
-        // https://github.com/LazeMSS/OctoPrint-UICustomizer
-        self._set_fluidLayout = function(enabled){
-          try {
-            $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
-            $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        };
-        //---------------------------------------------------------------------------
-        self._set_blocksFooterInfo = function(enable) {
-          // Just adds a hyperlink to the Blocks website and an image with the company Logo on the footer
-          try {
-            $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" id="blocks_link" target="_blank" rel="noreferrer noopener"> <img src="./plugin/BLOCKS/static/img/Blocks_Logo.png"> </a></li>');
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        };
         //---------------------------------------------------------------------------
         // In this function where i can change the layout of the main container
         self.set_mainLayout = function(settingsPlugin) {
@@ -216,11 +171,11 @@ $(function() {
         // https://getbootstrap.com/docs/5.0/layout/grid/
         self._buildGrid = function (settingsPlugin) {
           try {
-            //What i want to do here is just create a matrix 3x3
+            // Create a 2x3 grid
             $('div.BLOCKSMainContainer > div.row').removeClass('row').addClass('row-fluid').addClass('TopRow');
             //add another row after the TopRow
             $('<div class= "row-fluid BotRow" ></div>').insertBefore('div.footer');
-            //add an id to both rows
+            //Id the two rows
             $('div.BLOCKSMainContainer > div.row-fluid.TopRow').attr('id','BLOCKSRowTop');
             $('div.BLOCKSMainContainer > div.row-fluid.BotRow').attr('id','BLOCKSRowBot');
             // All that is left to do is just create my collumns.
@@ -241,11 +196,11 @@ $(function() {
             $('#sidebar_plugin_firmware_check_warning_wrapper').appendTo($('#BTC1'));
             $('#state_wrapper').appendTo($('#BTC2'));
             // Finally i place my new control wrapper in my grid and correct the webcam
-            $('#Blocks_control').appendTo($('#BTC3')); // TODO
+            $('#Blocks_control').appendTo($('#BTC3'));
             $('.BLOCKSMainTabs').appendTo($('#BBC2'));
             $('#files_wrapper').appendTo($('#BBC3'));
             $('#LightDarkSwitchWrapper').appendTo('#navbar > .navbar-inner > .container-fluid > .nav-collapse');
-            // ~~ Remove the sidebar, i don't need it anymore
+            //Remove the sidebar, i don't need it anymore
             $('#sidebar').remove();
           } catch (e) {
             self.logToConsole('Error Binding'+e);
@@ -259,14 +214,64 @@ $(function() {
             $('.navbar-fixed-top > .navbar-inner').css({"-webkit-box-shadow":"unset", "box-shadow": "unset"});
             // Remove the underline from the <a> elements
             $('.a').css("text-decoration","unset");
-            self._add_subAttributeData_Theme();
+            self._add_subAttribute_data_theme();
           } catch (e) {
             self.logToConsole(e);
           }
         };
-        self._add_subAttributeData_Theme = function(){
+        //---------------------------------------------------------------------------
+        self.set_PrinterImg = function() {
+          var printer = self.getStorage('Machine_Type');
+          var img =  $("#PrinterImg > img");
+          var size = img.length;
+          if(printer == "undefined"){
+            // Try to figure what the printer name is.
+            self.control.sendCustomCommand({type:'command', command: 'M115'});
+          }
+          if(size == 0){
+            $(printer).appendTo($('#PrinterImg'));
+          }
+        };
+        //---------------------------------------------------------------------------
+        // Fix fluid layout
+        // Saw this on UICustomizer
+        // https://github.com/LazeMSS/OctoPrint-UICustomizer
+        self._set_fluidLayout = function(enabled){
+          try {
+            $('#navbar > div.navbar-inner > div:first').removeClass("container").addClass("container-fluid").removeAttr("style","");
+            $('div.BLOCKSMainContainer').removeClass("container").addClass("container-fluid");
+          } catch (e) {
+            self.logToConsole(e);
+          }
+        };
+        //---------------------------------------------------------------------------
+        // Saw this on UICustumizer
+        // https://github.com/LazeMSS/OctoPrint-UICustomizer
+        self._set_fixedHeader = function(enable) {
+          try {
+            $('body').addClass('BLOCKSUIfixedHeader');
+            // $('body').attr('data-theme', 'light');
+            $('#navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $('.navbar').css("position","fixed");
+            $('#navbar').css('overflow','visible').css('padding-top','0').css('display','block');
+          } catch (e) {
+            self.logToConsole(e);
+          }
+        };
+        //---------------------------------------------------------------------------
+        self._set_blocksFooterInfo = function(enable) {
+          // Just adds a hyperlink to the Blocks website and an image with the company Logo on the footer
+          try {
+            $('#footer_links').prepend('<li><a href="https://www.blockstec.com/" id="blocks_link" target="_blank" rel="noreferrer noopener"> <img src="./plugin/BLOCKS/static/img/Blocks_Logo.png"> </a></li>');
+          } catch (e) {
+            self.logToConsole(e);
+          }
+        };
+        //---------------------------------------------------------------------------
+        self._add_subAttribute_data_theme = function(){
           try {
             $('.BLOCKSMainContainer').attr('data-theme','light');
+            $('body').attr('data-theme', 'light');
             $('#navbar > .navbar-inner > .container-fluid').attr('data-theme','light');
             $('span').attr('data-theme', 'light');
             $('.help-block').attr('data-theme', 'light');
@@ -294,6 +299,7 @@ $(function() {
             self.logToConsole(e);
           }
         };
+        //---------------------------------------------------------------------------
         // This functions replaces all elements on the containers heading from <a> to <div>
         self._replaceHeadingElements = function () {
           try {
@@ -339,7 +345,7 @@ $(function() {
         //---------------------------------------------------------------------------
         self.set_blocksWrapper = function(settingsPlugin){
           try {
-            // The idea od this wrapper is to have the button for the connection and all the printer notifications
+            // The idea of this wrapper is to have the button for the connection and all the printer notifications
             // on the same space. So i'll just append the wrappers to the correct place
             $('#blocksWrapper').appendTo($('#BTC1'));
             // I want the printer notifications and be able to connect to the printer in the same space
@@ -363,137 +369,6 @@ $(function() {
             self.logToConsole(e);
           }
         };
-        //---------------------------------------------------------------------------
-        // Connection switch trigger functionality, this set of instructions is what
-        // make the switch work
-        //---------------------------------------------------------------------------
-        // ~~ My observable trigger, lets me know if the connection switch is
-        // ~~ on or off
-        self.connectIt = ko.observable(undefined);
-        // ~~ subscribes my switch to a funcion, this function will always run when the
-        // ~~ switch state changes (When it's pressed or not)
-        self.connectIt.subscribe(function(newVal){
-          try {
-            if(newVal){
-              OctoPrint.connection.connect();
-              self.logToConsole("Printer Connecting....");
-            }else{
-              OctoPrint.connection.disconnect();
-              self.logToConsole("Printer Disconnecting...");
-            }
-          } catch (e) {
-            ko.onError(e);
-          }
-        });
-        // ~~ Change the text on my connection trigger switch
-        // ~~ Will display Connected/Disconnected
-        // ~~ it also changes the color of the connection trigger
-        // ~~ Connected =:= Green
-        // ~~ Disconnected =:= Red
-        self.connection_labelText = ko.pureComputed(function () {
-          try {
-            if (self.connection.isErrorOrClosed()){
-                self.set_ConnectionSwitch(false);
-                return gettext("Disconnected");
-              }else{
-                self.set_ConnectionSwitch(true);
-                return gettext("Connected");
-              }
-          } catch (e) {
-            ko.onError(e);
-          }
-        });
-        // This function replaces the color of the button acording to the switch state
-        // It also stores the switch state in the localStorage
-        self.set_ConnectionSwitch = function(val){
-          try {
-            var elems = document.querySelectorAll("[switch-color]");
-            var size = elems.length;
-            if(val === 'true' || val == true){
-              for(let i=0; i<= size; i++){
-                var elem = elems.item(i);
-                $(elem).attr("switch-color", "green");
-              }
-              $('#blocks_printer_connect').prop("checked", true);
-              self.setStorage('ConnectionState', true);
-            }else{
-              for(let i=0; i <= size; i++){
-                var elem = elems.item(i);
-                $(elem).attr("switch-color", "red");
-              }
-              $('#blocks_printer_connect').prop("checked", false);
-              self.setStorage('ConnectionState', false);
-            }
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        };
-        //---------------------------------------------------------------------------
-        // This is for my fan slider, i can increment the fan speed by ~~1%
-        self.fanControl = ko.observable(0);
-        // This function is triggered everytime the value of fanControl changes
-        self.fanControl.subscribe(function(rangeVal){
-          try {
-            var fanSpeed = 2.6*rangeVal;
-            var fanCommand = 'M106 S'+fanSpeed;
-            self.control.sendCustomCommand({type:'command', command: fanCommand});
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        });
-        self.fanText = ko.pureComputed( function() {
-          try {
-            var fanSpeed = self.fanControl();
-            return gettext(fanSpeed +'%');
-          } catch (e) {
-            self.logToConsole(e);
-          }
-        });
-        // This is for my disable motors button, sends the M18 GCode to disable the steppers.
-        self.motorDisable = ko.observable(undefined);
-        self.motorDisable.subscribe(function(Val){
-          try {
-            if(Val){
-              self.control.sendCustomCommand({type: 'command', command:'M18'});
-            }
-          } catch (e) {
-            self.logToConsole("Disable steppers error" + e);
-          }
-        });
-        // The following set of functions serves for the load/unload filament buttons
-        // and all the buttons to select which type of filament we have
-        self.loadFilament = ko.observable(undefined);
-        self.filamentType = ko.observable(['180°', '200°', '210°']);
-        // The default temperature is set to 180 Celsius
-        self.newTarget = ko.observable(180);
-        self.loadFilament.subscribe(function(Val){
-          try {
-            if(Val){
-              var newCommand = 'M109 S' + self.newTarget();
-              self.control.sendCustomCommand({type: 'command', command: newCommand});
-              self.control.sendCustomCommand({type: 'command', command: 'M600'});
-              // Coolsdown the hotend
-              self.temperature.setTargetsToZero();
-            }
-          } catch (e) {
-            ko.onError("change filament error" + e);
-          }
-        });
-        // Executed everytime the user selects one of the temperatures on the Change Filament Button
-        self.filamentOper = function (data){
-          try {
-            if (data == '180°'){
-              self.newTarget(180);
-            }else if (data == '200°'){
-              self.newTarget(200);
-            }else if (data == '210°') {
-              self.newTarget(210);
-            }
-          } catch (e) {
-            self.logToConsole("Filament change temperature change error" + e);
-          }
-        };
-
         //---------------------------------------------------------------------------
         self.new_tabs = function (){
           self.set_tabWebStream();
@@ -619,6 +494,139 @@ $(function() {
             self.logToConsole(e);
           }
         };
+      //---------------------------------------------------------------------------
+      //---------------------------------------------------------------------------
+      // Connection switch trigger functionality, this set of instructions is what
+      // make the switch work
+      //---------------------------------------------------------------------------
+      // ~~ My observable trigger, lets me know if the connection switch is
+      // ~~ on or off
+      self.connectIt = ko.observable(undefined);
+      // ~~ subscribes my switch to a funcion, this function will always run when the
+      // ~~ switch state changes (When it's pressed or not)
+      self.connectIt.subscribe(function(newVal){
+        try {
+          if(newVal){
+            OctoPrint.connection.connect();
+            self.logToConsole("Printer Connecting....");
+          }else{
+            OctoPrint.connection.disconnect();
+            self.logToConsole("Printer Disconnecting...");
+          }
+        } catch (e) {
+          ko.onError(e);
+        }
+      });
+      // ~~ Change the text on my connection trigger switch
+      // ~~ Will display Connected/Disconnected
+      // ~~ it also changes the color of the connection trigger
+      // ~~ Connected =:= Green
+      // ~~ Disconnected =:= Red
+      self.connection_labelText = ko.pureComputed(function () {
+        try {
+          if (self.connection.isErrorOrClosed()){
+              self.set_ConnectionSwitch(false);
+              return gettext("Disconnected");
+            }else{
+              self.set_ConnectionSwitch(true);
+              return gettext("Connected");
+            }
+        } catch (e) {
+          ko.onError(e);
+        }
+      });
+      // This function replaces the color of the button acording to the switch state
+      // It also stores the switch state in the localStorage
+      self.set_ConnectionSwitch = function(val){
+        try {
+          var elems = document.querySelectorAll("[switch-color]");
+          var size = elems.length;
+          if(val === 'true' || val == true){
+            for(let i=0; i<= size; i++){
+              var elem = elems.item(i);
+              $(elem).attr("switch-color", "green");
+            }
+            $('#blocks_printer_connect').prop("checked", true);
+            self.setStorage('ConnectionState', true);
+          }else{
+            for(let i=0; i <= size; i++){
+              var elem = elems.item(i);
+              $(elem).attr("switch-color", "red");
+            }
+            $('#blocks_printer_connect').prop("checked", false);
+            self.setStorage('ConnectionState', false);
+          }
+        } catch (e) {
+          self.logToConsole(e);
+        }
+      };
+      //---------------------------------------------------------------------------
+      // This is for my fan slider, i can increment the fan speed by ~~1%
+      self.fanControl = ko.observable(0);
+      // This function is triggered everytime the value of fanControl changes
+      self.fanControl.subscribe(function(rangeVal){
+        try {
+          var fanSpeed = 2.6*rangeVal;
+          var fanCommand = 'M106 S'+fanSpeed;
+          self.control.sendCustomCommand({type:'command', command: fanCommand});
+        } catch (e) {
+          self.logToConsole(e);
+        }
+      });
+      self.fanText = ko.pureComputed( function() {
+        try {
+          var fanSpeed = self.fanControl();
+          return gettext(fanSpeed +'%');
+        } catch (e) {
+          self.logToConsole(e);
+        }
+      });
+      //---------------------------------------------------------------------------
+      // This is for my disable motors button, sends the M18 GCode to disable the steppers.
+      self.motorDisable = ko.observable(undefined);
+      self.motorDisable.subscribe(function(Val){
+        try {
+          if(Val){
+            self.control.sendCustomCommand({type: 'command', command:'M18'});
+          }
+        } catch (e) {
+          self.logToConsole("Disable steppers error" + e);
+        }
+      });
+      //---------------------------------------------------------------------------
+      // The following set of functions serves for the load/unload filament buttons
+      // and all the buttons to select which type of filament we have
+      self.loadFilament = ko.observable(undefined);
+      self.filamentType = ko.observable(['180°', '200°', '210°']);
+      // The default temperature is set to 180 Celsius
+      self.newTarget = ko.observable(180);
+      self.loadFilament.subscribe(function(Val){
+        try {
+          if(Val){
+            var newCommand = 'M109 S' + self.newTarget();
+            self.control.sendCustomCommand({type: 'command', command: newCommand});
+            self.control.sendCustomCommand({type: 'command', command: 'M600'});
+            // Coolsdown the hotend
+            self.temperature.setTargetsToZero();
+          }
+        } catch (e) {
+          ko.onError("Change filament error" + e);
+        }
+      });
+      // Executed everytime the user selects one of the temperatures on the Change Filament Button
+      self.filamentOper = function (data){
+        try {
+          if (data == '180°'){
+            self.newTarget(180);
+          }else if (data == '200°'){
+            self.newTarget(200);
+          }else if (data == '210°') {
+            self.newTarget(210);
+          }
+        } catch (e) {
+          self.logToConsole("Filament change temperature change error" + e);
+        }
+      };
       //---------------------------------------------------------------------------
       // This next set of functions are responsible for the Light/Dark switch
       self.selectThemeColors = ko.observable(false);

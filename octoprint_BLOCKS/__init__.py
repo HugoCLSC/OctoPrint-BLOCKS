@@ -77,17 +77,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
     def setNewWifi(self, _data=None):
         """Set a new wifi connection on the pi
-
         Args:
             _data (type: dict): A dictionary with the ssid and password of the
                 new conection to be made. Defaults to None.
-
         Returns:
             type: Description of returned object.
             type: None. If the argument _data is None.
         Raises:
             ExceptionName: Why the exception is raised.
-
         """
         if _data is None:
             return None
@@ -115,8 +112,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                               _data["ip"]["ssid"])
 
     def wifiStatus(self):
-        """Controls the wifi status, sends a wifi signal strength integer to marlin.
-
+        """
+            Controls the wifi status, sends a wifi signal strength integer to marlin.
         """
         _interface = None
         _ssid = None
@@ -143,13 +140,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             if self._printer.is_operational():
                 self._printer.commands(
                     "M550 W{}".format(self.net_data["WifiLevel"]))
-
                 self._logger.info("Wifi quality level sent.")
         else:
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
-                # We either don't have intenet, are on hotspot
-                self._logger.info("Currently on ethernet/Hotspot.")
+                # We either don't have intenet or are on hotspot
+                self._logger.info("No internet, but still operational")
+                # Report that to the printer
                 self._printer.commands("M550 W9")
 
     # ~~ SimpleApiPlugin
