@@ -9,7 +9,7 @@
 - You can message me for any information.
 
 ## Also See
-  [![Blocks](/extras/tinyBlocks.png)](https://www.blockstec.com/)
+  [![Blocks](/extras/Blocks_VECTORIZADOBRANCO.png)](https://www.blockstec.com/)
   [![Youtube](/extras/youtube_icon.png)](https://www.youtube.com/c/BlocksTec)
   [![Instagram](/extras/instagram_icon.png)](https://www.instagram.com/blockstec/)
   [![Twitter](/extras/twitter_icon.png)](https://twitter.com/blockstec)
