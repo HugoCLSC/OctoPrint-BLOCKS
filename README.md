@@ -1,6 +1,6 @@
 # BLOCKS
 
-- A plugin for Octoprint that offers a differents UI and some additional functionalities.
+- A plugin for Octoprint that offers a different UI and some additional functionalities.
 
 - To make the most of the plugin it's recommended to check out this [guide](https://medium.com/@kennethjiang/painless-wi-fi-for-octoprint-4e6b68005400)
   on how to set up a wifi hotspot on a pi when no wifi connection can be made.
