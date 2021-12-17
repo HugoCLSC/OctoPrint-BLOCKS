@@ -393,7 +393,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
 
 __plugin_name__ = "Blocks"
-__plugin_pythoncompat__ = ">=2.7,<4"
+__plugin_pythoncompat__ = ">=3.3,<4"
 __plugin_license__ = "AGPLv3"
 
 
