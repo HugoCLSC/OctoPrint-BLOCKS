@@ -4,7 +4,6 @@
  * Author: Hugo C. Lopes Santos Costa
  * License: AGPLv3
  *
- *
  */
 $(function() {
     function BlocksViewModel(parameters) {

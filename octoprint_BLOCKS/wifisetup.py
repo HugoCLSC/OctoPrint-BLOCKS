@@ -140,7 +140,6 @@ class Wifisetup(object):
             _level = 7
         elif signalLevel > 85 and signalLevel <= 100:
             _level = 8
-
         return _level
 
     @property
