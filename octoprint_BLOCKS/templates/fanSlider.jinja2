@@ -1,6 +1,0 @@
-<div class = "container-fluid" id ="fanSlider">
-  <h1> Fan </h1>
-  <input type = "range" class = "form-range" id = "fanRange" min = "0" max = "100" step = "1" data-bind="enable: control.isOperational(), value: fanControl">
-  <label for="fanRange" class = "form-label" data-bind ="text: fanText">{{_('0')}}</label>
-  <button  class=btn btn-block control-box" data-bind = "enable: control.isOperational() && !control.isPrinting(), click:  motorDisable "> Motors Off </button>
-</div>

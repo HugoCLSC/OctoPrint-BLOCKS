@@ -5,7 +5,6 @@
  * License: APGLv3
  */
 
-
 $(function() {
 
   function BLOCKS_WebCamViewModel(parameters) {
@@ -121,11 +120,7 @@ $(function() {
 
     self.fullScreenOperations = function(state){
       if(state === true){
-        // self.fullScreenStyles.ON.height = document.documentElement.clientHeight; // just change it to 100% with position fixed
-        // self.fullScreenStyles.ON.width = document.documentElement.clientWidth;
-
         $('#webcam_rotator.webcam_rotated').css(self.fullScreenStyles.ROTATOR_ON_PAD);
-        // $('#webcam_rotator.webcam_rotated').css("padding-bottom","unset !important");
         $('#webcam_rotator.webcam_rotated > .webcam_fixed_ratio').css(self.fullScreenStyles.ROTATOR_ON);
         $('#webcam_container').css(self.fullScreenStyles.ON);
       }else{
@@ -155,7 +150,6 @@ $(function() {
       "controlViewModel",
       "accessViewModel"],
     elements: [
-      "#webCam",
       "#fullscreenButton"
     ]
   });

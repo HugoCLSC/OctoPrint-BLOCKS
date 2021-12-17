@@ -14,8 +14,7 @@ $(function () {
         self.blocksNotifications = ko.observableArray([]);
 
         ko.onError = function(error) {
-
-            console.log("knockout error", error);
+            console.log("KnockoutJS error:", error);
         };
 
         self.onEventConnecting = function() {
@@ -26,20 +25,20 @@ $(function () {
           self.clearNotifications();
         };
         self.getTime = ko.pureComputed (function(){
-          // Just a normal function to get me the time
           var date = new Date();
           var hh = date.getHours();
           var mm = date.getMinutes();
           var sec = date.getSeconds();
-
           var time = hh + ':' + mm + ':' + sec;
           return gettext(time);
         });
+        
         // This function will automatically listen for any messages any plugin sends.
         self.onDataUpdaterPluginMessage = function (plugin, data) {
           try {
-            if ( plugin != "BLOCKS" )
+            if (data.type == "WifiSetUp"){
               return;
+            }
             if(data.type == "machine_info"){
                 console.log(data.message);
             }
@@ -52,12 +51,14 @@ $(function () {
               self._PopUpNotification(data);
             }
           } catch (exception) {
-            ko.onError(exception);
+            ko.onError("Error on notification received" + exception);
           }
         };
-        // This aint working the filter is not working. fuck
         // Filter my notifications i do not want copies while i get warnings
         self._filter = function(data){
+          if(data.message == Event.DISCONNECTED){
+            return;
+          }
           try {
             var flag = false;
             ko.utils.arrayForEach(self.blocksNotifications(), function(blocksNotification) {
@@ -72,7 +73,7 @@ $(function () {
             }
             return;
           }catch (e) {
-            ko.onError(e);
+            ko.onError("Error on filtering notifications" + e);
           }
         };
         // Lets me display a PopUp on the page about the notification
@@ -102,7 +103,7 @@ $(function () {
               console.log("Notifications Cleared");
             });
           } catch (exception) {
-            ko.onError(exception);
+            ko.onError("Clear notifications error" + exception);
           }
         };
   }
