@@ -2,112 +2,95 @@
 layout: plugin
 
 id: BLOCKS
-title: BLOCKSUI
-description: Theme for Blocks 3d printers
+title: Blocks
+description: Theme for Blocks 3D printers and extended functionalities.
 authors:
 - Hugo C. Lopes Santos Costa
 license: AGPLv3
 
-# TODO
-<!-- date: today's date in format YYYY-MM-DD, e.g. 2015-04-21 -->
-date: 2021-08-19
+date: 2021-12-17
 
-homepage: https://github.com/HugoCLSC/BLOCKSUI
-source: https://github.com/HugoCLSC/BLOCKSUI
-archive: https://github.com/HugoCLSC/BLOCKSUI/archive/master.zip
+homepage: https://github.com/HugoCLSC/OctoPrint-BLOCKS
+source: https://github.com/HugoCLSC/Octoprint-BLOCKS
+archive: https://github.com/HugoCLSC/Octoprint-BLOCKS/archive/master.zip
 
-# TODO
-# Set this to true if your plugin uses the dependency_links setup parameter to include
-# library versions not yet published on PyPi. SHOULD ONLY BE USED IF THERE IS NO OTHER OPTION!
-#follow_dependency_links: false
-
-# TODO
 tags:
-- a list
-- of tags
-- that apply
-- to your plugin
-- (take a look at the existing plugins for what makes sense here)
+- wifi
+- UI
+- Grid
+- theme
+- Blocks Printers
+- Notifications
 
-# TODO
 screenshots:
-- url: /assets/img/ScreenShot#1.PNG
-  alt: alt-text of a screenshot
+- url: /assets/img/plugins/BLOCKS/wifi_screenshot.jpg
+  alt: New wifi connection
+  caption: Wifi configuration
+- url: /assets/img/plugins/BLOCKS/ScreenShot1.PNG
+  alt: Light Disconnected
   caption: Light
-- url:  /assets/img/ScreenShot#2.PNG
-  alt: alt-text of another screenshot
+- url:  /assets/img/plugins/BLOCKS/ScreenShot2.PNG
+  alt: Dark Disconnected
   caption: Dark
-- url:  /assets/img/ScreenShot#3.PNG
-  alt:
+- url:  /assets/img/plugins/BLOCKS/ScreenShot3.PNG
+  alt:  Light Connected
   caption: Light connected
-- url:  /assets/img/ScreenShot#4.PNG
-  alt:
+- url:  /assets/img/plugins/BLOCKS/ScreenShot4.PNG
+  alt:  Dark Connected
   caption: Dark connected
-# TODO
-featuredimage: /assets/img/Blocks_Logo.png
 
-# TODO
-# You only need the following if your plugin requires specific OctoPrint versions or
-# specific operating systems to function - you can safely remove the whole
-# "compatibility" block if this is not the case.
+
+
 
 compatibility:
 
-  # List of compatible versions
-  #
-  # A single version number will be interpretated as a minimum version requirement,
-  # e.g. "1.3.1" will show the plugin as compatible to OctoPrint versions 1.3.1 and up.
-  # More sophisticated version requirements can be modelled too by using PEP440
-  # compatible version specifiers.
-  #
-  # You can also remove the whole "octoprint" block. Removing it will default to all
-  # OctoPrint versions being supported.
-
   octoprint:
-  - 1.6.1
-
-  # List of compatible operating systems
-  #
-  # Valid values:
-  #
-  # - windows
-  # - linux
-  # - macos
-  # - freebsd
-  #
-  # There are also two OS groups defined that get expanded on usage:
-  #
-  # - posix: linux, macos and freebsd
-  # - nix: linux and freebsd
-  #
-  # You can also remove the whole "os" block. Removing it will default to all
-  # operating systems being supported.
+  - 1.7.2
 
   os:
   - linux
-  - windows
-  - macos
-  - freebsd
-
-  # Compatible Python version
-  #
-  # Plugins should aim for compatibility for Python 2 and 3 for now, in which case the value should be ">=2.7,<4".
-  #
-  # Plugins that only wish to support Python 3 should set it to ">=3,<4".
-  #
-  # If your plugin only supports Python 2 (worst case, not recommended for newly developed plugins since Python 2
-  # is EOL), leave at ">=2.7,<3" - be aware that your plugin will not be allowed to register on the
-  # plugin repository if it only support Python 2.
 
   python: ">=2.7,<4"
 
+featuredimage: /assets/img/plugins/BLOCKS/Blocks_VECTORIZADOpreto.png
+
 ---
+## About
+- This plugin was made with the intention of offering a different experience to users with Blocks 3D printers.
+The plugin reorganizes the user interface in order to display all relevant information in a grid.
+Adding to this, users can also add new network connections with Octoprint!
 
-**TODO**:
-# Blocks Plugin
+- This functionality works best with the automatic creation of hotspots on a raspberry pi when no internet connection was made.
+Check out https://medium.com/@kennethjiang/painless-wi-fi-for-octoprint-4e6b68005400 for more information about that.
 
-<dd>This Plugin was made with the intention to offer a personalized interface to the users of the Blocks 3D Printers.
-The Plugin offers more notifications, a new theme and the ability to change between Light and Dark themes.
-</dd>
-The plugin is still in development.
-http://plugins.octoprint.org/plugin/BLOCKS/
+- If the 3D printer is from Blocks additional functionality is available.
+For example, if run with the Blocks R21 printer additional wifi reporting from octoprint to the printer is enabled.
+
+- The plugin is in constant development.
+
+## More
+### Known Issues
+- There are some compatibility issues with other plugins on the repository.
+An example of this are plugins that make use of the classic octoprint control tab and the consolidated tabs plugin
+
+### Get Help
+- Any issues or requests can be made on the main homepage located on the right.
+
+
+### Acknowledgments
+- I'd like to express my gratitude to the OctoPrint devs and the community.
+- I recommend joining the official discord channel for OctoPrint, help is always given to those who ask.
+
+
+- Used and studied the code from:
+
+ https://github.com/LazeMSS/OctoPrint-UICustomizer/
+ https://github.com/ManuelMcLure/OctoPrint-WiFiStatus/
+
+
+## Also See
+[![Blocks](/assets/img/plugins/BLOCKS/tinyBlocks.png)](https://www.blockstec.com/)
+[![Youtube](/assets/img/plugins/BLOCKS/youtube_icon.png)](https://www.youtube.com/c/BlocksTec)
+[![Instagram](/assets/img/plugins/BLOCKS/instagram_icon.png)](https://www.instagram.com/blockstec/)
+[![Twitter](/assets/img/plugins/BLOCKS/twitter_icon.png)](https://twitter.com/blockstec)
+[![Facebook](/assets/img/plugins/BLOCKS/facebook_icon.png)](https://www.facebook.com/blockstec)
