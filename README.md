@@ -9,8 +9,8 @@
 - You can message me for any information.
 
 ## Also See
-  [![Blocks](/OctoPrint-BLOCKS/extras/tinyBlocks.png)](https://www.blockstec.com/)
-  [![Youtube](/OctoPrint-BLOCKS/extras/youtube_icon.png)](https://www.youtube.com/c/BlocksTec)
-  [![Instagram](/OctoPrint-BLOCKS/extras/instagram_icon.png)](https://www.instagram.com/blockstec/)
-  [![Twitter](/OctoPrint-BLOCKS/extras/twitter_icon.png)](https://twitter.com/blockstec)
-  [![Facebook](/OctoPrint-BLOCKS/extras/facebook_icon.png)](https://www.facebook.com/blockstec)
+  [![Blocks](/extras/tinyBlocks.png)](https://www.blockstec.com/)
+  [![Youtube](/extras/youtube_icon.png)](https://www.youtube.com/c/BlocksTec)
+  [![Instagram](/extras/instagram_icon.png)](https://www.instagram.com/blockstec/)
+  [![Twitter](/extras/twitter_icon.png)](https://twitter.com/blockstec)
+  [![Facebook](/extras/facebook_icon.png)](https://www.facebook.com/blockstec)
