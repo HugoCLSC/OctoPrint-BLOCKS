@@ -1,0 +1,23 @@
+<div id="wifiInfoWindow" class="modal hide fade-in in" tabindex="-1">
+  <div class="modal-header" data-theme="dark">
+    Enter Password
+  </div>
+  <div class="modal-body" data-theme="dark">
+    <form class="form-horizontal">
+      <h3>Add New Connection</h3>
+      <div class="mb-3">
+        <label for="ssidInfo" class="form-label"> SSID </label>
+        <input id="ssidInfo" type="text" data-bind="text: ssid" >
+      </div>
+      <div class="mb-3">
+        <label for="pskInfo" class="form-label"> Password </label>
+        <input type="password" id="pskInfo" data-bind="textInput: attemptValue">
+        <label class="error" data-bind="visible: !pskValid()">Password must be 8 characters or more.</label>
+      </div>
+      <button  class="btn btn-primary" data-bind="click: setNewWifi(),visible: pskValid(), enable: pskValid() ">Confirm</button>
+    </form>
+  </div>
+  <div class="modal-footer" data-theme="dark">
+
+  </div>
+</div>

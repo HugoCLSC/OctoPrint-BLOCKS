@@ -231,14 +231,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="generic", template="webcambar.jinja2",
                  custom_bindings=True),
             # Wifi set up window template
-            dict(type="settings", name="Wifi Set Up", template="wifiWindow_settings.jinja2",
+            dict(type="generic", name="Wifi Set Up", template="wifiWindow_settings.jinja2",
                  custom_bindings=True),
             # No Wifi warning on the navbar template
             dict(type="navbar", template="wifiWarning_navbar.jinja2",
                  custom_bindings=True),
             # Template for my Control module section
             dict(type="generic", template="Blocks_controlViewmodel.jinja2",
-                 custom_bindings=True)
+                 custom_bindings=True),
+            dict(type="generic", template="wifiInfoWindow.jinja2", custom_bindings=True),
         ]
 
     # ~~ Softwareupdate hook

@@ -1,18 +1,6 @@
 <!-- Container box that has inputs for the wifi connection  -->
-<div class="container-fluid" id="wifiSetUpWindow">
-  <form class="form-horizontal">
-    <h3>Add New Connection</h3>
-    <div class="mb-3">
-      <label for="ssidInfo" class="form-label"> SSID </label>
-      <input id="ssidInfo" type="text" data-bind="textInput: ssid" >
-    </div>
-    <div class="mb-3">
-      <label for="pskInfo" class="form-label"> Password </label>
-      <input type="password" id="pskInfo" data-bind="textInput: attemptValue">
-      <label class="error" data-bind="visible: !pskValid()">Password must be 8 characters or more.</label>
-    </div>
-    <button  class="btn btn-primary" data-bind="click: setNewWifi(),visible: pskValid(), enable: pskValid() ">Confirm</button>
-  </form>
+<!-- <div class="container-fluid" id="wifiSetUpWindow">
+
   <div id="network_list">
     <h3>Available Networks</h3>
     <div data-bind="visible: $root.network_list().length > 0">
@@ -21,4 +9,31 @@
       </div>
     </div>
   </div>
+</div> -->
+
+
+<!-- - --------------------------------------------->
+
+<div id="wifiSetUpWindow" class="modal hide fade-in in" tabindex="-1">
+
+  <div class="modal-header" data-theme="dark">
+    <h3> Wifi </h3>
+  </div>
+<!-------------------------------------------------------------->
+  <div class="modal-body" data-theme="dark">
+    <div id="network_list">
+      <h3>Available Networks</h3>
+      <div data-bind="visible: $root.network_list().length > 0">
+        <div data-bind="foreach: network_list">
+          <li class="network_entry" data-bind="text: $data, click: $parent.ssidClick.bind($data)"></li>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-------------------------------------------------------------->
+  <div class="modal-footer" data-theme="dark">
+
+  </div>
+<!-------------------------------------------------------------->
+
 </div>

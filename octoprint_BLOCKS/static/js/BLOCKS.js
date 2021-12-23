@@ -57,6 +57,8 @@ $(function() {
           self.set_PrinterImg();
           // Try and auto connect to the printer when everything is ready.
           OctoPrint.connection.connect("autoconnect");
+
+          $("#wifiSetUpWindow").modal("hide");
         };
 
         //---------------------------------------------------------------------------
@@ -786,10 +788,39 @@ $(function() {
       };
 
       self.offline = ko.observable(!ONLINE);
+
+      self.wifiClick = ko.observable(false);
+
+      self.wifiClick.subscribe(function(val){
+        try {
+          if (val) {
+            $("#wifiSetUpWindow").modal("show");
+          }else if (!val){
+            $("#wifiSetUpWindow").modal("hide");
+          };
+        } catch (e) {
+          ko.onError(e);
+        };
+      });
+
+      self.ssidClick = ko.observable(undefined);
+      self.ssidClick.subscribe(function(val){
+        try {
+          if (val) {
+            $("#wifiInfoWindow").modal("show");
+
+            self.ssid = val;
+            $("#ssidInfo").attr("value", self.ssid);
+          }else {
+            $("#wifiInfoWindow").modal("hide");
+
+          }
+        } catch (e) {
+          ko.onError(e);
+        };
+      });
+
     };
-
-
-
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------
     //                            BlocksViewModel END
@@ -812,6 +843,7 @@ $(function() {
           "#LightDarkSwitchWrapper",
           "#wifiSetUpWindow",
           "#navbar_show_wifi_setup",
+          "#wifiInfoWindow"
         ]
     });
 });
