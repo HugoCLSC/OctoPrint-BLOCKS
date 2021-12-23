@@ -9,7 +9,7 @@ $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
 
-        self.debug = true;
+        self.debug = false;
 
         self.settings = parameters[0];
         self.connection = parameters[1];
@@ -783,8 +783,10 @@ $(function() {
       };
 
       self.offline = ko.observable(!ONLINE);
-
     };
+
+
+
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------
     //                            BlocksViewModel END

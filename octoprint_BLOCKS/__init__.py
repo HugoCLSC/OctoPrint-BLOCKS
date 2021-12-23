@@ -69,7 +69,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Sends a message to any message listeners
         self._plugin_manager.send_plugin_message(
             self._identifier, notification)
-        self._logger.info("Available networks fetched.")
+        self._logger.debug("Available networks fetched.")
 
     def setNewWifi(self, _data=None):
         """Set a new wifi connection on the pi
@@ -123,9 +123,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             # Means we really have internet connection. So either wifi or ethernet i guess
             if _interface is not None and _ssid is not None:
                 self._wifiSetUp.get_connection_stats(_stats= self.net_data)
-                self._logger.info("Wifi stats found!")
+                self._logger.debug("Wifi stats found!")
 
-                self._logger.info(self.net_data)
+                self._logger.debug(self.net_data)
                 """
                 Send the M550 W<value> to the printer
 
@@ -137,17 +137,17 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 if self._printer.is_operational():
                     self._printer.commands(
                         "M550 W{}".format(self.net_data["WifiLevel"]))
-                    self._logger.info("Wifi quality level sent.")
+                    self._logger.debug("Wifi quality level sent.")
             elif _ssid is None:
                 # Probably are on Ethernet
                 if self._printer.is_operational():
                     self._printer.commands("M550 W9")
-                    self._logger.info("Using ethernet.")
+                    self._logger.debug("Using ethernet.")
         else:
             if self._printer.is_operational():
                 # Only send the information to the printer if we are connected to it
                 # We don't have internet and probably are on hotspot if the functionality exists.
-                self._logger.info("No internet, but still operational")
+                self._logger.debug("No internet, but operational")
                 # Report that to the printer
                 self._printer.commands("M550 W4")
 
@@ -191,7 +191,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         machine = self._settings.get(["Machine_Type"])
         self._settings.set(["Machine_Type"], machine)
         self._settings.set(["themeType"], theme)
-        self._logger.info("theme = {}".format(theme))
+        self._logger.debug("theme = {}".format(theme))
 
     def on_settings_save(self, data):
         # save settings
@@ -269,8 +269,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
         try:
             if event == Events.STARTUP:
-                SERVER = socket.gethostbyname(socket.gethostname())  # Gets the ip address automatically
-                self._logger.info(SERVER)
+                # SERVER = socket.gethostbyname(socket.gethostname())  # Gets the ip address automatically
+                # self._logger.debug(SERVER)
                 notification ={
                     "type": "IPaddr",
                     "message": SERVER
@@ -322,7 +322,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
-            self._logger.info("Erro on event change notifications: {}".format(e))
+            self._logger.info("Error on event change notifications: {}".format(e))
 
     # ~~ ProgressPlugin mixin
 
@@ -342,7 +342,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._plugin_manager.send_plugin_message(
                 self._identifier, notification)
 
-        self._logger.info("Print Progress: {}".format(progress))
+        self._logger.debug("Print Progress: {}".format(progress))
 
     def sent_m600(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
         try:
@@ -389,7 +389,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             else:
                 return line
         except Exception as e:
-            self._logger.info("Detect Machine type and Filament Runout erro: {}".format(e))
+            self._logger.info("Detect Machine type and Filament Runout error: {}".format(e))
 
 
 __plugin_name__ = "Blocks"
