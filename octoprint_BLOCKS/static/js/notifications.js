@@ -17,12 +17,34 @@ $(function () {
             console.log("KnockoutJS error:", error);
         };
 
+        self.onStartupComplete = function() {
+          var msg = {
+            "action" : "popup",
+            "type": "autoconnect",
+            "message": "Attempting automatic connection to the printer.",
+            "hide":"false"
+          };
+          self._PopUpNotification(msg);
+        };
+
         self.onEventConnecting = function() {
           $('.blocks_notifications_entry').removeClass('fadeOutLeft').addClass('slide-right');
         };
         self.onEventDisconnecting = function(){
           $('.blocks_notifications_entry').addClass('fadeOutLeft').removeClass('slide-right');
           self.clearNotifications();
+        };
+        self.onEventError = function(error){
+          // Notifies the user if autoconnect wasn't Successfull.
+          if (error.reason == "autodetect" ){
+            var msg = {
+              "action" : "popup",
+              "type": "error",
+              "message": "Failed automatic connection to the printer.",
+              "hide":"false"
+            };
+            self._PopUpNotification(msg);
+          };
         };
         self.getTime = ko.pureComputed (function(){
           var date = new Date();
@@ -32,7 +54,7 @@ $(function () {
           var time = hh + ':' + mm + ':' + sec;
           return gettext(time);
         });
-        
+
         // This function will automatically listen for any messages any plugin sends.
         self.onDataUpdaterPluginMessage = function (plugin, data) {
           try {

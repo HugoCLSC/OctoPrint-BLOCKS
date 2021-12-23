@@ -9,7 +9,7 @@ $(function() {
     function BlocksViewModel(parameters) {
         var self = this;
 
-        self.debug = false;
+        self.debug = true;
 
         self.settings = parameters[0];
         self.connection = parameters[1];
@@ -48,14 +48,15 @@ $(function() {
             self.logToConsole(e);
           }
 
-          // Try and auto connect to the printer when everything is ready.
-          OctoPrint.connection.connect("autoconnect");
+
         };
         //---------------------------------------------------------------------------
         // Literally just changes the name on the top left corner, probably should change that
         self.onStartupComplete = function () {
-          $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
+          // $('#navbar > .navbar-inner > .container-fluid > .brand > span').text("BLOCKS");
           self.set_PrinterImg();
+          // Try and auto connect to the printer when everything is ready.
+          OctoPrint.connection.connect("autoconnect");
         };
 
         //---------------------------------------------------------------------------
@@ -90,6 +91,8 @@ $(function() {
           $('#PrinterImg > img').remove();
           self.logToConsole("Disconnect");
         };
+        //---------------------------------------------------------------------------
+
         //---------------------------------------------------------------------------
         self.fromCurrentData = function (data) {
           try {
