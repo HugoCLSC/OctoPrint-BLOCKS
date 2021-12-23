@@ -38,12 +38,11 @@ $(function () {
           // Notifies the user if autoconnect wasn't Successfull.
           if (error.reason == "autodetect" ){
             var msg = {
-              "action" : "popup",
               "type": "error",
               "message": "Failed automatic connection to the printer.",
-              "hide":"false"
             };
             self._PopUpNotification(msg);
+
           };
         };
         self.getTime = ko.pureComputed (function(){
