@@ -4,7 +4,11 @@ import io
 import re
 import shlex
 import subprocess
+import logging
 from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
+
+logging.basicConfig(filename="/home/pi/wifisetup.log", level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
 
 class Wifisetup(object):
@@ -14,6 +18,10 @@ class Wifisetup(object):
         self._ssid = None
         self._interfaces = []
         self._wifi = None
+        self._os_name = self.run_command(
+            'cat /etc/os-release | grep "NAME=" ').decode(encoding="UTF-8")
+        print("OS_NAME" + self._os_name)
+        self.logger = logging.getLogger(__name__)
 
     def set_wifi_info(self, _ssid=None, _psk=None):
         """Setter for the ssid and password variables.
@@ -45,8 +53,11 @@ class Wifisetup(object):
         """
         if _id is None:
             return None
-        _output = self.run_command("wpa_cli -i wlan0 select_network %s" % _id)
-        return _output.decode("UTF-8")
+        if "Raspbian" in self._os_name:
+            _output = self.run_command(
+                "wpa_cli -i wlan0 select_network %s" % _id)
+            _output = self.run_command("nmcli con ")
+            return _output.decode("UTF-8")
 
     def set_wifi_ssid_psk(self):
         """Adds a new network to the system and saves the new configuration.
@@ -57,18 +68,30 @@ class Wifisetup(object):
                 otherwise.
 
         """
-        _output = self.run_command("wpa_cli -i wlan0 add_network")
-        _network_id = _output.decode(encoding="UTF-8")
-        self.run_command(
-            "wpa_cli -i wlan0 set_network %s ssid \'\"%s\"\' " % (_network_id, self._ssid))
-        self.run_command(
-            "wpa_cli -i wlan0 set_network %s psk \'\"%s\"\' " % (_network_id, self._psk))
-        self.run_command("wpa_cli -i wlan0 enable_network %s" % (_network_id))
-        _pass = self.set_pass_encryp(
-            _id=_network_id, _ssid=self._ssid, _password=self._psk)
-        _returnSave = self.run_command("wpa_cli -i wlan0 save config")
+        if "Raspbian" in self._os_name:
+            _output = self.run_command("wpa_cli -i wlan0 add_network")
+            _network_id = _output.decode(encoding="UTF-8")
+            self.run_command(
+                'wpa_cli -i wlan0 set_network %s ssid "%s" ' % (_network_id, self._ssid))
+            self.run_command(
+                'wpa_cli -i wlan0 set_network %s psk "%s" ' % (_network_id, self._psk))
+            self.run_command(
+                "wpa_cli -i wlan0 enable_network %s" % (_network_id))
+            _pass = self.set_pass_encryp(
+                _id=_network_id, _ssid=self._ssid, _password=self._psk)
+            _returnSave = self.run_command("wpa_cli -i wlan0 save config")
 
-        return True if "OK" in _returnSave.decode(encoding="UTF-8") else False
+            return True if "OK" in _returnSave.decode(encoding="UTF-8") else False
+        elif "Debian" in self._os_name:
+            _output = self.run_command(
+                'nmcli dev wifi connect %s password "%s" ' % (self._ssid, self._psk)).decode(encoding="UTF-8")
+            if "\'wlan0\'successfully activated " in _output:
+                self.run_command("echo %s " % _output)
+                _output = self.run_command(
+                    "nmcli con up %s" % self._ssid
+                ).decode(encoding="UTF-8")
+
+            return True if "Connection successfully activated" in _output else False
 
     def set_pass_encryp(self, _id=None, _ssid=None, _password=None):
         """Runs shell command to get the encryption for a network password.
@@ -82,6 +105,9 @@ class Wifisetup(object):
             type: String, the encrypted password
 
         """
+        if "Raspbian" not in self._os_name:
+            return ""
+
         _regex = re.compile(r"psk=(...+)\n}$")
         _output = self.run_command("wpa_passphrase %s %s" % (_ssid, _password))
         _output_decoded = _output.decode(encoding="UTF-8").rstrip()
@@ -92,7 +118,7 @@ class Wifisetup(object):
 
     def list_existing_networks(self):
         """Get a list with all the already configured networks on the device.
-            (NOT WORKING)
+            # ! (NOT WORKING)
         Returns:
             type: List. A list with all configured networks.
 
@@ -142,10 +168,15 @@ class Wifisetup(object):
             _level = 8
         return _level
 
-    @property
     def interfaces(self):
+        # if "Raspbian" in self._os_name:
+        #     self._interfaces = []
+        #     self._interfaces.append(getWNICnames())
+        #     print(self._interfaces)
+        # elif "Debian" in self._os_name:
         self._interfaces = []
-        self._interfaces.append(getWNICnames())
+        self._interfaces.extend(getWNICnames())
+
         return self._interfaces
 
     def find_connection(self):
@@ -162,16 +193,22 @@ class Wifisetup(object):
 
         """
         self.interfaces()
+
         for _interface in self._interfaces:
             if _interface is not None:
                 try:
                     self._wifi = Wireless(_interface)
-                    _ssid = self._wifi.getEssid()
+                    if "Raspbian" in self._os_name:
+                        _ssid = self._wifi.getEssid()
+                    elif "Debian" in self._os_name:
+                        _ssid = self.run_command(
+                            "nmcli -t -f NAME connection show --active").decode(encoding="UTF-8").strip()
+
                     if _ssid:
                         # Means there is a _ssid available
                         # We can assume there is internet
                         return (_interface, _ssid)
-                except Exception:
+                except Exception as e:
                     pass
 
     def get_connection_stats(self, _stats=None):
@@ -187,11 +224,18 @@ class Wifisetup(object):
         if _stats["Interface"] is None:
             return None
 
-        _, quality, _, _ = self._wifi.getStatistics()
-        _stats["Quality"] = quality.quality
-        _stats["Signal"] = quality.siglevel
-        _stats["WifiLevel"] = self._wifi_strength_calc(
-            signalLevel=_stats["Quality"])
+        if "Raspbian" in self._os_name:
+            _, quality, _, _ = self._wifi.getStatistics()
+            _stats["Quality"] = quality.quality
+            _stats["Signal"] = quality.siglevel
+            _stats["WifiLevel"] = self._wifi_strength_calc(
+                signalLevel=_stats["Quality"])
+        elif "Debian" in self._os_name:
+            _wifiStrength = self.run_command(
+                "nmcli -f IN-USE,SIGNAL,SSID device wifi | awk \'/^\*/{if (NR!=1) {print $2}}\'").decode(encoding="UTF-8").strip()
+            _stats["WifiLevel"] = self._wifi_strength_calc(
+                signalLevel=int(_wifiStrength))
+
         return _stats
 
     def run_command(self, command):
@@ -205,12 +249,15 @@ class Wifisetup(object):
 
         """
         try:
-            cmd = shlex.split(command)
-            exec = cmd[0]
-            exec_options = cmd[1:]
-            output = subprocess.run(
-                ([exec] + exec_options), capture_output=True)
-            output_line = output.stdout
-            return output_line
+            # * Old way, it didn't let me use grep commands or use | on the command
+            # cmd = shlex.split(command,posix=False)
+            # exec = cmd[0]
+            # exec_options = cmd[1:]
+            # output = subprocess.run(
+            #     ([exec] + exec_options), capture_output=True)
+            p = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            output, e = p.communicate()
+            return output
         except subprocess.SubprocessError:
             pass

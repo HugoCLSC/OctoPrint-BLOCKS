@@ -5,12 +5,14 @@ from __future__ import absolute_import
 import os
 import socket
 import netifaces
-import octoprint.plugin
+import logging
 import octoprint.events
+import octoprint.plugin
 import octoprint.plugin.core
 from octoprint.events import Events
-from octoprint.util.comm import parse_firmware_line
 from octoprint.util import RepeatedTimer
+from octoprint.util.comm import parse_firmware_line
+
 from .wifisetup import Wifisetup
 
 
@@ -29,10 +31,13 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._interfaces = []
         self._printer_name = None
 
+    # def on_startup(self):
+
     # Executes before the startup
     def on_after_startup(self):
         self._logger.info("Blocks initializing...")
-        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first=True)#, condition = self._wifi_reporting_enabled)
+        # , condition = self._wifi_reporting_enabled)
+        self._wifi_update = RepeatedTimer(6.0, self.wifiStatus, run_first=True)
         self._wifi_networks_list = RepeatedTimer(
             7.0, self._available_networks, run_first=True)
 
@@ -66,6 +71,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             "hide": "true",
             "message": self._AP_result
         }
+
         # Sends a message to any message listeners
         self._plugin_manager.send_plugin_message(
             self._identifier, notification)
@@ -111,32 +117,36 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         """
             Controls the wifi status, sends a wifi signal strength integer to marlin.
         """
-        _interface = None
-        _ssid = None
-        _interface, __ssid = self._wifiSetUp.find_connection()
+        _info = None
+        _info = self._wifiSetUp.find_connection()
 
-        self.net_data = {
+        _interface = _info[0]
+        _ssid = _info[-1]
+
+        net_data = {
             "Interface": _interface,
             "Ssid": _ssid,
         }
+
         if self._connectivity_checker.online:
             # Means we really have internet connection. So either wifi or ethernet i guess
             if _interface is not None and _ssid is not None:
-                self._wifiSetUp.get_connection_stats(_stats= self.net_data)
+                self._wifiSetUp.get_connection_stats(_stats=net_data)
+
                 self._logger.debug("Wifi stats found!")
 
-                self._logger.debug(self.net_data)
+                self._logger.debug(net_data)
                 """
                 Send the M550 W<value> to the printer
 
                     value = 4 ---> there is no connection
-                    value =[5,8] ----> strenght of the signal
+                    value =[5,8] ----> strength of the signal
                     value = 9 ----> We are using ethernet/Hotspot
                 """
                 # At this stage we send the wifi level if the printer is connected
                 if self._printer.is_operational():
                     self._printer.commands(
-                        "M550 W{}".format(self.net_data["WifiLevel"]))
+                        "M550 W{}".format(net_data["WifiLevel"]))
                     self._logger.debug("Wifi quality level sent.")
             elif _ssid is None:
                 # Probably are on Ethernet
@@ -271,7 +281,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             if event == Events.STARTUP:
                 # SERVER = socket.gethostbyname(socket.gethostname())  # Gets the ip address automatically
                 # self._logger.debug(SERVER)
-                notification ={
+                notification = {
                     "type": "IPaddr",
                     "message": SERVER
                 }
@@ -322,7 +332,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
 
             self._logger.info("Notification : {}".format(event))
         except Exception as e:
-            self._logger.info("Error on event change notifications: {}".format(e))
+            self._logger.info(
+                "Error on event change notifications: {}".format(e))
 
     # ~~ ProgressPlugin mixin
 
@@ -389,10 +400,11 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             else:
                 return line
         except Exception as e:
-            self._logger.info("Detect Machine type and Filament Runout error: {}".format(e))
+            self._logger.info(
+                "Detect Machine type and Filament Runout error: {}".format(e))
 
 
-__plugin_name__ = "Blocks"
+__plugin_name__ = "BLOCKS"
 __plugin_pythoncompat__ = ">=3.3,<4"
 __plugin_license__ = "AGPLv3"
 
