@@ -62,7 +62,7 @@ $(function(){
       self.control.sendHomeCommand(["x","y","z"]);
     };
 
-    self.updateDistance =
+    // self.updateDistance =
   };
   OCTOPRINT_VIEWMODELS.push({
     construct : Blocks_controlViewModel,

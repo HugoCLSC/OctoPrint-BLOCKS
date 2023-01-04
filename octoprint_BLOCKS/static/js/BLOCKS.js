@@ -748,7 +748,7 @@ $(function() {
             };
 
             $.ajax({
-              url: API_BASEURL + "/plugin/BLOCKS",
+              url: API_BASEURL + "plugin/BLOCKS",
               type: "POST",
               dataType: "json",
               data: JSON.stringify({

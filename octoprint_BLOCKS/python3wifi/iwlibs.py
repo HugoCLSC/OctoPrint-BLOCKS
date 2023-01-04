@@ -33,10 +33,10 @@ import sys
 
 from . import flags as wififlags
 
-
 KILO = 10 ** 3
 MEGA = 10 ** 6
 GIGA = 10 ** 9
+
 
 
 def getNICnames():
@@ -1037,6 +1037,7 @@ class Iwstruct:
     def iw_get_ext(self, ifname, request, data=None):
         """ Read information from ifname. """
         buff = wififlags.IFNAMSIZE - len(ifname)
+
         ifreq = array.array("B", ifname.encode("utf-8") + b"\0" * buff)
         # put some additional data behind the interface name
         if data is not None:
@@ -1629,3 +1630,4 @@ class Iwscanresult:
         for custom in self.custom:
             print("Custom:", custom)
         print("")
+
