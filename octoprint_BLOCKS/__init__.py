@@ -404,7 +404,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 "Detect Machine type and Filament Runout error: {}".format(e))
 
 
-__plugin_name__ = "BLOCKS"
+__plugin_name__ = "Blocks"
 __plugin_pythoncompat__ = ">=3.3,<4"
 __plugin_license__ = "AGPLv3"
 
