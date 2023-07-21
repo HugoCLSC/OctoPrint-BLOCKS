@@ -691,8 +691,9 @@ span.add-on{
 	width: auto;
 	position: absolute;
 	bottom: 5%;
-	right: 5%;
+	right: 1%;
 	float: right;
+	z-index: 5;
 }
 
 #webcam_container .webcam_rotated {

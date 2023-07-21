@@ -1,5 +1,5 @@
-<div class="container-fluid" id="fullscreenButton">
-  <button class='btn' data-bind='visible: $root.webcamStatus, click: fullScreenButton'>
+<div class="" id="fullscreenButton" class="row-fluid">
+  <button class='btn' data-bind="visible: $root.webcamStatus && classicWebcam.webcamMjpgEnabled(), click: fullScreenButton" >
     <i class='fas fullscreen-icon'></i>
   </button>
 </div>

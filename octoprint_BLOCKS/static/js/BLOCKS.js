@@ -465,12 +465,11 @@ $(function () {
         };
         //---------------------------------------------------------------------------
         self.new_tabs = function () {
-            self.set_tabWebStream();
-            self.set_ControlWrapper();
             self.set_TemperatureWrapper();
+            self.set_ControlWrapper();
             self.set_tabbable();
         };
-
+        //---------------------------------------------------------------------------
         self.set_ControlWrapper = function () {
             try {
                 // Remove the tab-pane class because it's no longer a tab pane, it's a separate wrapper now
@@ -486,30 +485,9 @@ $(function () {
                 $("#control-jog-feedrate").appendTo($("#feed_rate_mod"));
                 $("#control-jog-extrusion").appendTo($("#control_extrusion"));
                 $("#control-jog-flowrate").appendTo($("#flow_rate_mod"));
-                $("#control").remove(); // Remove the old control from the ui
+                // $("#control").remove(); // Remove the old control from the ui
             } catch (e) {
                 self.logToConsole("Control wrapper set error" + e);
-            }
-        };
-        //---------------------------------------------------------------------------
-        self.set_tabWebStream = function (settingsPlugin) {
-            try {
-                // $("#webcam_hls_container").appendTo($("#tab_plugin_BLOCKS"));
-                // $("#webcam_container").addClass("container-fluid");
-                // $("#webcam_container").appendTo($("#tab_plugin_BLOCKS"));
-                // var element = $("#webcam_container");
-                // $("#webcam_container").appendTo($("#tab_plugin_BLOCKS"));
-                // $("#webcam_container").appendTo($("#tab_plugin_BLOCKS"));
-                $("#classicwebcam_container").appendTo($("#tab_plugin_octoprint_BLOCKS"));
-                // $("#classicwebcam_container").appendTo($("#webcam_container"));
-                // $("#classicwebcam_container").addClass("container-fluid");
-                console.log("IT's in the function");
-                var element = $("#classicwebcam_container");
-                var webcam = document.getElementById("classicwebcam_container");
-                console.log(webcam);
-                // $("#fullscreenButton").appendTo($("#webcam_container"));
-            } catch (e) {
-                self.logToConsole("Error on relocating webcam" + e);
             }
         };
         //---------------------------------------------------------------------------

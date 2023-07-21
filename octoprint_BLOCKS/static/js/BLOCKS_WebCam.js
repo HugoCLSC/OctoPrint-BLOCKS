@@ -5,6 +5,13 @@
  * License: APGLv3
  */
 
+/*TODO: No control view model ele não utiliza como dependencia o webcam view model do plugin.
+ *
+ *   Utilizam o  ko, nas templates para dar bind da template da webcam para o control viewmodel
+ *   Desta forma não utilizam como dependencia, mas depois na funcão vão buscar a data correspondente a
+ *   camera para poder utilizar as funcoes desta
+ */
+
 $(function () {
     function BLOCKS_WebCamViewModel(parameters) {
         var self = this;
@@ -13,56 +20,63 @@ $(function () {
         self.loginState = parameters[1];
         self.control = parameters[2];
         self.access = parameters[3];
-
+        self.classicWebcam = parameters[4];
         self.webcamStatus = ko.observable(false);
+
+        self.onStartupComplete = function () {
+            // Append the camera container from control in the new tab
+            $("#webcam_plugins_container ").appendTo(
+                $("#tab_plugin_octoprint_BLOCKS")
+            );
+
+            $("#fullscreenButton").appendTo($("#webcam_img_container"));
+            OctoPrint.coreui.viewmodels.controlViewModel.recreateIntersectionObservers();
+            // I can now safelly remove the old control element from the page
+            $("#control").remove();
+        };
 
         self.onTabChange = function (current, previous) {
             if (current == "#tab_plugin_octoprint_BLOCKS") {
-                clearTimeout(self.control.webcamDisableTimeout);
+                self.onActivateWebcamTabBlink(true);
                 self.webcamStatus(true);
-                $("#tab_plugin_octoprint_BLOCKS_link > a").attr("class", "blink");
-                $("#tab_plugin_octoprint_BLOCKS_link > a").css("color", "#f56161ed");
-                // Determine stream type and switch to corresponding webcam.
-                // Took from the controlViewModel.
-                var streamType = determineWebcamStreamType(
-                    self.settings.webcam_streamUrl()
+                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(
+                    true
                 );
-                if (streamType == "mjpg") {
-                    self.control._switchToMjpgWebcam();
-                } else if (streamType == "hls") {
-                    self.control._switchToHlsWebcam();
-                } else {
-                    throw "Unknown stream type " + streamType;
-                }
             } else {
+                self.onActivateWebcamTabBlink(false);
                 self.webcamStatus(false);
+                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(
+                    false
+                );
+            }
+
+            if (self.classicWebcam.webcamError()) {
+                console.log("There was an error on the webcam");
+            }
+        };
+
+        self.onActivateWebcamTabBlink = function (value) {
+            if (value) {
+                $("#tab_plugin_octoprint_BLOCKS_link > a").attr(
+                    "class",
+                    "blink"
+                );
+                $("#tab_plugin_octoprint_BLOCKS_link > a").css(
+                    "color",
+                    "#f56161ed"
+                );
+            } else {
                 $("#tab_plugin_octoprint_BLOCKS_link > a").attr("class", "");
                 $("#tab_plugin_octoprint_BLOCKS_link > a").css("color", "");
             }
         };
 
-        self.onBrowserTabVisibilityChange = function (status) {
-            if (status) {
-                clearTimeout(self.control.webcamDisableTimeout);
-                self.webcamStatus(true);
-                var streamType = determineWebcamStreamType(
-                    self.settings.webcam_streamUrl()
-                );
-                if (streamType == "mjpg") {
-                    self.control._switchToMjpgWebcam();
-                } else if (streamType == "hls") {
-                    self.control._switchToHlsWebcam();
-                } else {
-                    self.webcamStatus(false);
-                    throw "Unknown stream type " + streamType;
-                }
-            }
-        };
-
         self.fullScreenStyles = {
             ON: {
-                width: "100%",
-                height: "100%",
+                // width: "100%",
+                width: window.innerWidth,
+                // height: "100%",
+                height: window.innerHeight,
                 "z-index": "1070",
                 position: "fixed",
                 display: "block",
@@ -102,14 +116,27 @@ $(function () {
 
         self.fullScreenState = ko.observable(false);
         self.fullScreenButton = ko.observable(undefined);
+        self._webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
+        self._webcamFixedRatioStyle =
+            this._webcamFixedRatio.style.paddingBottom;
+
         self.fullScreenButton.subscribe(function (val) {
             try {
+                // var _webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
                 if (self.fullScreenState() === false) {
                     self.fullScreenOperations(true);
                     self.fullScreenState(true);
+                    // var _webcam = document.getElementsByClassName("webcam_fixed_ratio");
+                    self._webcamFixedRatio.style.cssText =
+                        "padding-bottom: 49.5%;";
+                    // .css("padding-bottom: 49%");
+                    // console.log(_webcam)
+                    console.log(_webcamFixedRatio);
                 } else if (self.fullScreenState() === true) {
                     self.fullScreenState(false);
                     self.fullScreenOperations(false);
+                    self._webcamFixedRatio.style.paddingBottom =
+                        self._webcamFixedRatioStyle;
                 }
             } catch (e) {
                 console.log(e);
@@ -124,7 +151,9 @@ $(function () {
                 $("#webcam_rotator.webcam_rotated > .webcam_fixed_ratio").css(
                     self.fullScreenStyles.ROTATOR_ON
                 );
-                $("#webcam_container").css(self.fullScreenStyles.ON);
+                $("#webcam_img_container").css(self.fullScreenStyles.ON);
+                // $("#webcam_plugins_container").css(self.fullScreenStyles.ON);
+                // $("#classicwebcam_container").css(self.fullScreenStyles.ON);
             } else {
                 $("#webcam_rotator.webcam_rotated").css(
                     self.fullScreenStyles.ROTATOR_OFF_PAD
@@ -132,7 +161,9 @@ $(function () {
                 $("#webcam_rotator.webcam_rotated > .webcam_fixed_ratio").css(
                     self.fullScreenStyles.ROTATOR_OFF
                 );
-                $("#webcam_container").css(self.fullScreenStyles.OFF);
+                $("#webcam_img_container").css(self.fullScreenStyles.OFF);
+                // $("#webcam_plugins_container").css(self.fullScreenStyles.OFF);
+                // $("#classicwebcam_container").css(self.fullScreenStyles.OFF);
             }
         };
         // This event listener serves for the full screen video player
@@ -143,9 +174,10 @@ $(function () {
                 (e.key === "Escape" || e.key === "Esc") &&
                 self.fullScreenState() === true
             ) {
-                console.log(e);
                 self.fullScreenState(false);
                 self.fullScreenOperations(false);
+                self._webcamFixedRatio.style.paddingBottom =
+                    self._webcamFixedRatioStyle;
             }
         });
     }
@@ -156,7 +188,9 @@ $(function () {
             "loginStateViewModel",
             "controlViewModel",
             "accessViewModel",
+            "classicWebcamViewModel",
         ],
         elements: ["#fullscreenButton"],
+        // elements: ["#classicwebcam_plugin_container"],
     });
 });

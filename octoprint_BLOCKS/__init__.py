@@ -146,7 +146,8 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                 # At this stage we send the wifi level if the printer is connected
                 if self._printer.is_operational():
                     self._printer.commands(
-                        "M550 W{}".format(net_data["WifiLevel"]))
+                        f'M550 W{net_data["WifiLevel"]}')
+                    # "M550 W{}".format(net_data["WifiLevel"]))
                     self._logger.debug("Wifi quality level sent.")
             elif _ssid is None:
                 # Probably are on Ethernet
@@ -230,14 +231,15 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="sidebar", template="blocks_connectionWrapper.jinja2",
                  custom_bindings=True),
             # My webcam link template
-            dict(type="tab", name="WebCam", custom_bindings=False),
+            # dict(type="tab", name="Webcam",template="webcam_tab.jinja2", custom_bindings=True),
+            dict(type="tab", name="Webcam", custom_bindings=True),
             # Custom Notifications template
             dict(type="sidebar", template="blocks_notifications_wrapper.jinja2",
                  custom_bindings=True),
             # Light Dark Theme Switch template
             dict(type="navbar", template="lightDarkSwitch.jinja2",
                  custom_bindings=True),
-            # Fullscreen button for webcam template
+            # # Fullscreen button for webcam template
             dict(type="generic", template="webcambar.jinja2",
                  custom_bindings=True),
             # Wifi set up window template
