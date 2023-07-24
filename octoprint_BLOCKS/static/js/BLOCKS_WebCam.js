@@ -52,6 +52,7 @@ $(function () {
 
             if (self.classicWebcam.webcamError()) {
                 console.log("There was an error on the webcam");
+                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(self.webcamStatus());
             }
         };
 
@@ -116,6 +117,7 @@ $(function () {
 
         self.fullScreenState = ko.observable(false);
         self.fullScreenButton = ko.observable(undefined);
+
         self._webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
         self._webcamFixedRatioStyle =
             this._webcamFixedRatio.style.paddingBottom;
@@ -126,17 +128,9 @@ $(function () {
                 if (self.fullScreenState() === false) {
                     self.fullScreenOperations(true);
                     self.fullScreenState(true);
-                    // var _webcam = document.getElementsByClassName("webcam_fixed_ratio");
-                    self._webcamFixedRatio.style.cssText =
-                        "padding-bottom: 49.5%;";
-                    // .css("padding-bottom: 49%");
-                    // console.log(_webcam)
-                    console.log(_webcamFixedRatio);
                 } else if (self.fullScreenState() === true) {
                     self.fullScreenState(false);
                     self.fullScreenOperations(false);
-                    self._webcamFixedRatio.style.paddingBottom =
-                        self._webcamFixedRatioStyle;
                 }
             } catch (e) {
                 console.log(e);
@@ -152,8 +146,7 @@ $(function () {
                     self.fullScreenStyles.ROTATOR_ON
                 );
                 $("#webcam_img_container").css(self.fullScreenStyles.ON);
-                // $("#webcam_plugins_container").css(self.fullScreenStyles.ON);
-                // $("#classicwebcam_container").css(self.fullScreenStyles.ON);
+                self._webcamFixedRatio.style.cssText = "padding-bottom: 49.5%;";
             } else {
                 $("#webcam_rotator.webcam_rotated").css(
                     self.fullScreenStyles.ROTATOR_OFF_PAD
@@ -162,8 +155,8 @@ $(function () {
                     self.fullScreenStyles.ROTATOR_OFF
                 );
                 $("#webcam_img_container").css(self.fullScreenStyles.OFF);
-                // $("#webcam_plugins_container").css(self.fullScreenStyles.OFF);
-                // $("#classicwebcam_container").css(self.fullScreenStyles.OFF);
+                self._webcamFixedRatio.style.paddingBottom =
+                    self._webcamFixedRatioStyle;
             }
         };
         // This event listener serves for the full screen video player
@@ -176,8 +169,6 @@ $(function () {
             ) {
                 self.fullScreenState(false);
                 self.fullScreenOperations(false);
-                self._webcamFixedRatio.style.paddingBottom =
-                    self._webcamFixedRatioStyle;
             }
         });
     }

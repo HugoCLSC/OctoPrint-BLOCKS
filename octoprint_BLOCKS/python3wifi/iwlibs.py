@@ -24,7 +24,7 @@ import struct
 import array
 import math
 import errno
-# import fcntl
+import fcntl
 import os
 import socket
 import time
