@@ -112,7 +112,6 @@ $(function () {
 
         self.fullScreenButton.subscribe(function (val) {
             try {
-                console.log("Pressed");
                 // var _webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
                 if (self.fullScreenState() === false) {
                     self.fullScreenOperations(true);
@@ -169,6 +168,7 @@ $(function () {
             "controlViewModel",
             "accessViewModel",
             "classicWebcamViewModel",
-        ]
+        ],
+        elements:['#fullscreenButton']
     });
 });
