@@ -23,52 +23,47 @@ $(function () {
         self.classicWebcam = parameters[4];
         self.webcamStatus = ko.observable(false);
 
-        self.onStartupComplete = function () {
-            // Append the camera container from control in the new tab
-            $("#webcam_plugins_container ").appendTo(
-                $("#tab_plugin_octoprint_BLOCKS")
-            );
+        self.fullScreenState = ko.observable(false);
+        self.fullScreenButton = ko.observable(undefined);
 
+        self._webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
+        self._webcamFixedRatioStyle =
+            this._webcamFixedRatio.style.paddingBottom;
+
+        self.onStartup = function () {
+            // Append the camera container from control in the new tab
+            $("#webcam_plugins_container ").appendTo($("#tab_plugin_BLOCKS"));
+        };
+
+        self.onStartupComplete = function () {
             $("#fullscreenButton").appendTo($("#webcam_img_container"));
-            OctoPrint.coreui.viewmodels.controlViewModel.recreateIntersectionObservers();
             // I can now safelly remove the old control element from the page
             $("#control").remove();
         };
 
         self.onTabChange = function (current, previous) {
-            if (current == "#tab_plugin_octoprint_BLOCKS") {
+            OctoPrint.coreui.viewmodels.controlViewModel.recreateIntersectionObservers();
+
+            if (current == "#tab_plugin_BLOCKS") {
                 self.onActivateWebcamTabBlink(true);
                 self.webcamStatus(true);
-                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(
-                    true
-                );
             } else {
                 self.onActivateWebcamTabBlink(false);
                 self.webcamStatus(false);
-                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(
-                    false
-                );
             }
 
             if (self.classicWebcam.webcamError()) {
                 console.log("There was an error on the webcam");
-                OctoPrint.coreui.viewmodels.controlViewModel.onBrowserTabVisibilityChange(self.webcamStatus());
             }
         };
 
         self.onActivateWebcamTabBlink = function (value) {
             if (value) {
-                $("#tab_plugin_octoprint_BLOCKS_link > a").attr(
-                    "class",
-                    "blink"
-                );
-                $("#tab_plugin_octoprint_BLOCKS_link > a").css(
-                    "color",
-                    "#f56161ed"
-                );
+                $("#tab_plugin_BLOCKS_link > a").attr("class", "blink");
+                $("#tab_plugin_BLOCKS_link > a").css("color", "#f56161ed");
             } else {
-                $("#tab_plugin_octoprint_BLOCKS_link > a").attr("class", "");
-                $("#tab_plugin_octoprint_BLOCKS_link > a").css("color", "");
+                $("#tab_plugin_BLOCKS_link > a").attr("class", "");
+                $("#tab_plugin_BLOCKS_link > a").css("color", "");
             }
         };
 
@@ -115,15 +110,9 @@ $(function () {
             },
         };
 
-        self.fullScreenState = ko.observable(false);
-        self.fullScreenButton = ko.observable(undefined);
-
-        self._webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
-        self._webcamFixedRatioStyle =
-            this._webcamFixedRatio.style.paddingBottom;
-
         self.fullScreenButton.subscribe(function (val) {
             try {
+                console.log("Pressed");
                 // var _webcamFixedRatio = document.querySelector(".webcam_fixed_ratio");
                 if (self.fullScreenState() === false) {
                     self.fullScreenOperations(true);
@@ -180,8 +169,6 @@ $(function () {
             "controlViewModel",
             "accessViewModel",
             "classicWebcamViewModel",
-        ],
-        elements: ["#fullscreenButton"],
-        // elements: ["#classicwebcam_plugin_container"],
+        ]
     });
 });
