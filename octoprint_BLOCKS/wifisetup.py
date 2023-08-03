@@ -5,7 +5,7 @@ import re
 import shlex
 import subprocess
 import logging
-# from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
+from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
 
 logging.basicConfig(filename="/home/pi/wifisetup.log", level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
