@@ -39,6 +39,12 @@ $(function () {
             $("#fullscreenButton").appendTo($("#webcam_img_container"));
             // I can now safelly remove the old control element from the page
             $("#control").remove();
+
+            // Remove keycontrol from the webcam, TO BE ADDED IN THE FUTURE!
+            $("#webcam_plugins_container .keycontrol_overlay").remove();
+            console.log(
+                "Removed keycontrol Element, Integration will be done in the near future"
+            );
         };
 
         self.onTabChange = function (current, previous) {
@@ -55,6 +61,16 @@ $(function () {
             if (self.classicWebcam.webcamError()) {
                 console.log("There was an error on the webcam");
             }
+            console.log(
+                "THE KEYCONTROL ACTIVE? " + this.control.keycontrolActive()
+            );
+            console.log(
+                "THE KEYCONTROL POSSIBLE? " + this.control.keycontrolPossible()
+            );
+            console.log(
+                "KEYCONTROL SHOWCONTROLS? " + this.control.showKeycontrols()
+            );
+            this.control.requestData();
         };
 
         self.onActivateWebcamTabBlink = function (value) {
@@ -169,6 +185,6 @@ $(function () {
             "accessViewModel",
             "classicWebcamViewModel",
         ],
-        elements:['#fullscreenButton']
+        elements: ["#fullscreenButton"],
     });
 });
