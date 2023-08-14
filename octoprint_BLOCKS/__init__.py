@@ -53,7 +53,6 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
     # ~~ Wifi
 
     def _wifi_reporting_enabled(self):
-        # TODO: Pick up this
         if self._printer_name == "":
             return True
         return False

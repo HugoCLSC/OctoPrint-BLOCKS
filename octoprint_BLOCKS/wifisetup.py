@@ -250,7 +250,6 @@ class Wifisetup(object):
         Arguments:
             String - The new hostname to be set to
         """
-        # TODO: In the future i can add validation for the hostname. But for now it does the trick
         if newHostname is None or not isinstance(newHostname, str):
             return
 
