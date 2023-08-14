@@ -2,13 +2,14 @@
 import os
 import io
 import re
+import socket
 import shlex
 import subprocess
 import logging
 from .python3wifi.iwlibs import Wireless, getWNICnames, getNICnames, Iwscan
 
-logging.basicConfig(filename="/home/pi/wifisetup.log", level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+# logging.basicConfig(filename="/home/pi/logs/wifisep.log", level=logging.DEBUG,
+#                     format='%(asctime)s %(levelname)s %(name)s %(message)s',)
 
 
 class Wifisetup(object):
@@ -20,7 +21,7 @@ class Wifisetup(object):
         self._wifi = None
         self._os_name = self.run_command(
             'cat /etc/os-release | grep "NAME=" ').decode(encoding="UTF-8")
-        print("OS_NAME" + self._os_name)
+        # print("OS_NAME" + self._os_name)
         self.logger = logging.getLogger(__name__)
 
     def set_wifi_info(self, _ssid=None, _psk=None):
@@ -237,6 +238,56 @@ class Wifisetup(object):
                 signalLevel=int(_wifiStrength))
 
         return _stats
+
+    HOSTS_FILE_PATH = "/etc/hosts"
+    HOSTNAME_FILE_PATH = "/etc/hostname"
+    HOST_LINE_PREFIX = '127.0.1.1 '
+
+    def hostnameChange(self, newHostname):
+        """
+        Changes the hostname in the /etc/hosts file and on the hostnamectl
+
+        Arguments:
+            String - The new hostname to be set to
+        """
+        # TODO: In the future i can add validation for the hostname. But for now it does the trick
+        if newHostname is None or not isinstance(newHostname, str):
+            return
+
+        # @ Change the hostname with hostnamectl first
+        try:
+            _response = self.run_command(
+                f"sudo hostnamectl set-hostname {newHostname.strip()}")
+            self.logger.info(
+                f"Hostname Change command, Response : {_response}")
+        except IOError as error:
+            self.logger.error(
+                f"Failed to update /etc/hostname, error: {error}")
+
+        # @ Change the hostname in the /etc/hosts file
+        _newFile = []
+        try:
+            with io.open(self.HOSTS_FILE_PATH, "r+", encoding="utf-8") as _fileHandle:
+                _lines = _fileHandle.readlines()
+                _newFile = [line.replace(line[10:], newHostname+"\n")
+                            if self.HOST_LINE_PREFIX in line else line for line in _lines]
+                _fileHandle.seek(0)
+                _fileHandle.write(
+                    ''.join(_newFile)
+                )
+        except IOError as error:
+            self.logger.error(
+                f"Failed to update /etc/hosts file, error: {error}")
+
+        self.run_command("sudo reboot")
+
+        return
+
+    def getMachineHostname(self):
+        try:
+            return socket.gethostname()
+        except subprocess.SubprocessError as error:
+            self.logger.error(f"Failed to run commad {error}")
 
     def run_command(self, command):
         """Runs a shell command.
