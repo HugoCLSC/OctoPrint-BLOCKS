@@ -30,6 +30,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._AP_result = []
         self._interfaces = []
         self._printer_name = None
+        self._printerSerialNumber = None
 
     # def on_startup(self):
 
@@ -44,10 +45,14 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         self._wifi_update.start()
         self._wifi_networks_list.start()
 
+        # self._serialNumberRequest = RepeatedTimer(
+        #     5.0, self.sendPrinterSerialNumberRequest, run_first=True)
+        # # Sends a M115 V to request the serial number
+
+        # self._serialNumberRequest.start()
     # ~~ Wifi
 
     def _wifi_reporting_enabled(self):
-        # TODO: Pick up this
         if self._printer_name == "":
             return True
         return False
@@ -200,7 +205,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         # Get the saved settings
         theme = self._settings.get(["themeType"])
         machine = self._settings.get(["Machine_Type"])
+        machine_serial = self._settings.get(["MachineSerial"])
         self._settings.set(["Machine_Type"], machine)
+        self._settings.set(["MachineSerial"], machine_serial)
         self._settings.set(["themeType"], theme)
         self._logger.debug("theme = {}".format(theme))
 
@@ -209,6 +216,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
         theme = self._settings.get(["themeType"])
         machine = self._settings.get(["Machine_Type"])
+        machine_serial = self._settings.get(["MachineSerial"])
 
         if 'themeType' in data and data['themeType']:
             self._settings.set(["themeType"], theme)
@@ -216,6 +224,9 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
         if 'Machine_Type' in data and data['Machine_Type']:
             self._settings.set(["Machine_Type"], machine)
             self._logger.info("Saving settings.")
+        if 'MachineSerial' in data and data['MachineSerial']:
+            self._settings.set(["MachineSerial"], machine_serial)
+            self._logger("Saving Settings.")
 
     # ~~ TemplatePlugin mixin
 
@@ -378,6 +389,7 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
             self._logger.info("Error on M600 send: {}".format(e))
 
     def detect_commands(self, comm, line, *args, **kwargs):
+        # Detects Commands that were passed to the printer
         try:
             if "MACHINE_TYPE" in line:
                 printer_data = parse_firmware_line(line)
@@ -401,9 +413,31 @@ class BlocksPlugin(octoprint.plugin.SettingsPlugin,
                     self._identifier, notification)
             else:
                 return line
+
+            if "Blocks Serial Number" in line:
+                self._logger.info("Received Printers Serial number")
+                printer_data = parse_firmware_line(line)
+                self._printerSerialNumber = printer_data["UUID"][93:]
+                if self._printerSerialNumber != self._wifiSetUp.getMachineHostname():
+                    self._wifiSetUp.hostnameChange(self._printerSerialNumber)
+                self._logger.info("The Serial NUmber:  " +
+                                  self._printerSerialNumber)
         except Exception as e:
+
             self._logger.info(
                 "Detect Machine type and Filament Runout error: {}".format(e))
+
+    def sendPrinterSerialNumberRequest(self):
+        # * Sends a M115 V, a marlin command to get the serial number out of the printer
+        if self._printerSerialNumber is not None:
+            # Returns if the printer serial number is already something
+            return
+        if self._printer.is_operational():
+            # Send The Serial number request to the printer
+            self._printer.commands(
+                "M115 V"
+            )
+            self._logger.info("Serial number request sent")
 
 
 __plugin_name__ = "Blocks"
