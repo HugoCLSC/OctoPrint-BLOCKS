@@ -310,4 +310,4 @@ class Wifisetup(object):
             output, e = p.communicate()
             return output
         except subprocess.SubprocessError:
-            pass
+            self.logger.error('Error running commas : %s', command)
